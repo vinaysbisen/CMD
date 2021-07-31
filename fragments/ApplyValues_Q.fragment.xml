@@ -1,0 +1,48 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_q_apply" entitySet="Ets_GUQ_Apply" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="1" key="Subcontractor_PSP" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="2" key="Asset_Location" visibleInAdvancedArea="true" filterType="single"/>
+					
+					<!--//*******START OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+					
+					<smartFilterBar:ControlConfiguration index="3" key="End_Customer" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="4" key="Software_Delivery_Contact" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="5" key="Delivery_Contact" visibleInAdvancedArea="true" filterType="single"/>
+					<!--//*******START OF SRE2523 VSINGH (CHANGED THE INDEX FOR THE ONE'S BELOW)*********//-->
+					<smartFilterBar:ControlConfiguration index="6" key="SMC" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+						displayBehaviour="descriptionOnly"/>
+					<!--//*******START OF SRE2523 VSINGH*********//-->
+				
+					<smartFilterBar:ControlConfiguration index="7" key="Clear_End_Customer" visibleInAdvancedArea="true" filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_q_Clr_End_Customer" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="8" key="Clear_Software_Delivery_Contact" visibleInAdvancedArea="true" filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_q_Clr_Software_Delivery_Contact" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="9" key="Clear_Delivery_Contact" visibleInAdvancedArea="true" filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_q_Clr_Delivery_Contact" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					
+					<!--//*******END OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+					
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_Q"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_Q"/>
+			<Button text="Close" press="AV_onClose_Q"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_cmr_dmr_apply" entitySet="Ets_GUC_Apply" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="3" key="Rejection_Code" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_CMR_DMR"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_CMR_DMR"/>
+			<Button text="Close" press="AV_onClose_CMR_DMR"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

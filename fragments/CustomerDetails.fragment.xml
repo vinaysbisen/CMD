@@ -1,0 +1,48 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Popover class="sapUiContentPadding zcontract_db_popover" showHeader="true">
+		<customHeader>
+			<Bar class="zcontract_db_popoverBar">
+				<contentLeft>
+					<Label text="{/title}" class="zcontract_db_popovertitle"></Label>
+				</contentLeft>
+			</Bar>
+		</customHeader>
+		<VBox>
+			
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Customer:" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Customer}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Contact Person:" visible="{path: '/Partner',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Partner}" visible="{path: '/Partner',  formatter: '._formatter.visible'}"/>
+			
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Name:" visible="{path: '/Name1',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Name1}" visible="{path: '/Name1',  formatter: '._formatter.visible'}"/>
+				
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Name2:" visible="{path: '/Name2',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Name2}" visible="{path: '/Name2',  formatter: '._formatter.visible'}"/>
+				
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Name3:" visible="{path: '/Name3',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Name3}" visible="{path: '/Name3',  formatter: '._formatter.visible'}"/>
+			
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Name4:" visible="{path: '/Name4',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Name4}" visible="{path: '/Name4',  formatter: '._formatter.visible'}"/>
+				
+				
+				<Label  width="125px" class="zcontract_db_partners_dialog_label" text="Address:" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Street}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/City}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				<!--<HBox visible="{path: '/Customer',  formatter: '._formatter.visible'}">-->
+					<Label class="zcontract_db_partners_dialog_label_value" text="{/Region}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+					<!--<Label class="zcontract_db_partners_dialog_label_value" text="{/PostalCode}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>-->
+				<!--</HBox>-->
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Country}" visible="{path: '/Customer',  formatter: '._formatter.visible'}"/>
+				
+				<Label width="125px" class="zcontract_db_partners_dialog_label"  text="Email:" visible="{path: '/Email',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Email}" visible="{path: '/Email',  formatter: '._formatter.visible'}"/>
+			
+				<Label width="125px" class="zcontract_db_partners_dialog_label" text="Telephone:" visible="{path: '/Phone',  formatter: '._formatter.visible'}"/>
+				<Label class="zcontract_db_partners_dialog_label_value" text="{/Phone}" visible="{path: '/Phone',  formatter: '._formatter.visible'}"/>
+			
+		</VBox>
+	</Popover>
+</core:FragmentDefinition>

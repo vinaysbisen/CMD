@@ -1,0 +1,164 @@
+.zcmd_right{
+	text-align: right!important;
+}
+.zc_contract_db_results_text_Title {
+    padding-left: 40px
+}
+
+.zcmd_job_conf_VBox {
+    padding: 10px 30px 10px 20px
+}
+
+.zcmd_job_conf_Txt1 {
+    padding-top: 14px
+}
+
+.zcmd_job_conf_Txt2 {
+    padding-top: 4px;
+    padding-bottom: 4px
+}
+
+.zcontract_db_lbl_uploadAttachment {
+    padding-right: 30px;
+    padding-top: 15px
+}
+
+.zcontract_db_dialog_1251_HBox1 {
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-right: 15px
+}
+
+.zcontract_db_dialog_1251_VBox1 {
+    padding-bottom: 10px;
+    padding-top: 5px
+}
+
+.zcontract_db_dialog_label {
+    padding-top: 5px;
+    padding-left: 35px;
+    padding-right: 15px
+}
+
+.zcontract_db_bold {
+    font-weight: bolder
+}
+
+.zcontract_db_wrap {
+    flex-wrap: wrap
+}
+
+.zcontract_db_partners_vBox {
+    width: 390px;
+    padding-right: 20px;
+    padding-bottom: 20px
+}
+
+.zcontract_db_partners_dialog_label {
+    width: 120px;
+    font-size: medium;
+    font-weight: 700;
+    padding-top: 12px
+}
+
+.zcontract_db_partners_dialog_label_value {
+    font-size: medium
+}
+
+.zcontract_db_partners_link {
+    font-size: 18px;
+    padding-bottom: 5px
+}
+
+.zcontract_db_display_general_info {
+    width: 270px;
+    padding-right: 20px
+}
+
+.zcontract_db_globalupdatelabel {
+    padding-top: 8px;
+    padding-right: 8px
+}
+
+.zcontract_db_globalupdatemargin {
+    padding-top: 8px;
+    padding-left: 48px
+}
+
+.zcontract_db_vm {
+    padding-left: 35px
+}
+
+.zcontract_db_dropdown {
+    min-width: .1px!important;
+    width: 60px
+}
+
+.zc_contract_db_results_col {
+    background: #e2e2e2
+}
+
+.zcontract_db_popoverlink {
+    font-size: 13px;
+    padding-bottom: 5px;
+    padding-left: 18px
+}
+
+.zcontract_db_popover {
+    min-width: 250px;
+    min-height: 170px
+}
+
+.zcontract_db_popoverBar {
+    height: 25px;
+    padding-top: 10px;
+    padding-bottom: 8px
+}
+
+.zcontract_db_popovertitle {
+    padding-left: 18px;
+    font-size: 1.25rem;
+    font-weight: 400
+}
+
+.zcontract_db_dialog_input {
+    padding-right: 35px
+}
+
+.zcontract_db_dialog_lbl {
+    padding-right: 20px;
+    padding-top: 8px
+}
+
+.zcontract_db_row {
+    background-color: #ddd
+}
+
+.zcontract_db_multiselect {
+    font-weight: bolder
+}
+
+.zcontract_db_leftpadding {
+    padding-left: 10px
+}
+
+.zcontract_db_bottompadding {
+    padding-bottom: 20px
+}
+
+.zcontract_db_separator {
+    padding-left: 30px
+}
+
+.zcontract_db_separator_gi {
+    padding-left: 40px
+}
+
+/*.zcontract_db_black {*/
+/*    color: #000*/
+/*}*/
+
+.zcontract_db_netvalue {
+    font-size: larger;
+    font-weight: bolder
+}

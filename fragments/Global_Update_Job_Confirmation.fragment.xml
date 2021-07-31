@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Background Job Confirmation?">
+		<content>
+			<VBox class="zcmd_job_conf_VBox" width="500px">
+				<Text text="{/msg}"></Text>
+				<Text class="zcmd_job_conf_Txt1" text="A Background Job Will Be Scheduled."/>
+				<Text class="zcmd_job_conf_Txt2" text="Update Log will be sent to Email ID provied below:"/>
+				<Input type="Email" value="{/email}" tooltip="{/email}" placeholder="Enter Email to Proceed" liveChange="onChangeEmail"></Input>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button id="id_btn_job_schedule" text="Schedule Job" press="onpressJobProceed"/>
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press="onpressJobCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

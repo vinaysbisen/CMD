@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Add To Holding Area"
+		class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+		<content>
+			<VBox class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+				<RadioButton groupName="type" id="idSalesDocRB" text="Add to Sales Document Holding Area"/>
+				<RadioButton groupName="type" id="idSharedRB" text="Add to Shared Holding Area"/>
+				<RadioButton groupName="type" id="idChanSpreadRB" text="Add to Channels Spreadsheet Holding Area"/>
+				<RadioButton groupName="type" id="idBothRB" text="Add to All Holding Areas"/>
+				<MessageStrip id="idMsgStrip1"
+					text="Some of the contracts already exist in a particular holding area and will not be added to the holding area again." type="Warning"
+					showIcon="true" showCloseButton="false" visible="false"
+					class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegins"></MessageStrip>
+				<MessageStrip id="idMsgStrip2" text="If option disabled, the selected contracts already exist in respective holding area."
+					type="Information" showIcon="true" showCloseButton="false" visible="false"
+					class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegins"></MessageStrip>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="Confirm" press="onAddToHAOKPress" type="Accept"/>
+			<Button text="Cancel" press="onAddToHAClosePress" type="Reject"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

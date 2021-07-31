@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<!--<smartFilterBar:SmartFilterBar id="id_fb_gu_ac_apply" entitySet="Ets_GUC_Apply" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="PSP" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="1" key="Subcontractor_PSP" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="2" key="Asset_Location" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="3" key="Rejection_Code" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+					<smartFilterBar:ControlConfiguration index="4" key="Third_Party_Info" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+					<smartFilterBar:ControlConfiguration index="5" key="Clear_Third_Party" visibleInAdvancedArea="true"
+						filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_ac_Clr_third_party" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>-->
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_ac_items_apply" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="PSP_Partner" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="1" key="Cancellation_Code" id="id_inp_amend_c_cancellation_code" visibleInAdvancedArea="true"
+							filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+						<smartFilterBar:ControlConfiguration index="2" key="Cancellation_Date" visibleInAdvancedArea="true">
+							<smartFilterBar:customControl>
+								<DatePicker id="id_inp_amend_c_f_cancellation_date" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange"/>
+							</smartFilterBar:customControl>
+						</smartFilterBar:ControlConfiguration>
+						<smartFilterBar:ControlConfiguration index="3" key="Receipt_Of_Cancellation" visibleInAdvancedArea="true">
+							<smartFilterBar:customControl>
+								<DatePicker id="id_inp_amend_c_f_receipt_of_cancellation" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange"/>
+							</smartFilterBar:customControl>
+						</smartFilterBar:ControlConfiguration>
+						<smartFilterBar:ControlConfiguration index="4" key="Rejection_Code_Items" visibleInAdvancedArea="true" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+					<smartFilterBar:ControlConfiguration index="5" key="SMC" visibleInAdvancedArea="true" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+					<smartFilterBar:ControlConfiguration index="6" key="Reason_For_Date_Change" visible="{path: 'visibilityModel>/Reason_For_Date_Change_Visible'}" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_I"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_I"/>
+			<Button text="Close" press="AV_onClose_I"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

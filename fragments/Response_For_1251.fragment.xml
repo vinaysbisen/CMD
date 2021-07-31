@@ -1,0 +1,28 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact" displayBlock="true">
+	<Dialog 
+	icon="sap-icon://alert"
+	title="Confirm">
+		<content>
+			<HBox>
+				<Text width="600px" wrapping="true"
+					text="Action Date is in the past. Please select a reponse, to proceed with Amendment:"  class="zcontract_db_dialog_1251_HBox1"/>
+			</HBox>
+			<VBox class="zcontract_db_dialog_1251_VBox1">
+				<RadioButtonGroup columns="1" class="sapUiSizeCompact">
+					<buttons>
+						<RadioButton id="id_1251_createCase" text="Trigger Case ID in SFDC"/>
+						<RadioButton id="id_1251_rejectQuote" text="Trigger Workflow and Reject Quotes"/>
+						<RadioButton id="id_1251_retainQuotes" text="Trigger Workflow and Retain Quotes"/>
+					</buttons>
+				</RadioButtonGroup>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="Proceed" press="onProceed_1251" type="Accept"/>
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press="onCancel_1251" type="Reject"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

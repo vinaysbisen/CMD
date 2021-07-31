@@ -1,0 +1,445 @@
+{
+    "resources": [
+        {
+            "name": "Component-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "Component-preload.js",
+            "merged": true
+        },
+        {
+            "name": "Component.js"
+        },
+        {
+            "name": "controller/AmendContract-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/AmendContract.controller.js"
+        },
+        {
+            "name": "controller/App-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/App.controller.js"
+        },
+        {
+            "name": "controller/ContractDisplay-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/ContractDisplay.controller.js"
+        },
+        {
+            "name": "controller/GlobalUpdate-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/GlobalUpdate.controller.js"
+        },
+        {
+            "name": "controller/MoveEquipmentToFLOC-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/MoveEquipmentToFLOC.controller.js"
+        },
+        {
+            "name": "controller/QuoteDisplay-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/QuoteDisplay.controller.js"
+        },
+        {
+            "name": "controller/Results-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/Results.controller.js"
+        },
+        {
+            "name": "controller/Search-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "controller/Search.controller.js"
+        },
+        {
+            "name": "css/style-dbg.css",
+            "isDebug": true
+        },
+        {
+            "name": "css/style.css"
+        },
+        {
+            "name": "di.code-validation.core_issues.json"
+        },
+        {
+            "name": "fragments/ContractsList.fragment.xml"
+        },
+        {
+            "name": "fragments/CustomerDetails.fragment.xml"
+        },
+        {
+            "name": "fragments/GlobalUpdate.fragment.xml"
+        },
+        {
+            "name": "fragments/Global_Update_Job_Confirmation.fragment.xml"
+        },
+        {
+            "name": "fragments/ManageAttachments.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu_Contract.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu_Customer.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu_Equipment.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu_FunctionalLocation.fragment.xml"
+        },
+        {
+            "name": "fragments/Menu_Quote.fragment.xml"
+        },
+        {
+            "name": "fragments/PersonalizationDialog.fragment.xml"
+        },
+        {
+            "name": "fragments/Response_For_1251.fragment.xml"
+        },
+        {
+            "name": "fragments/UpdateLog.fragment.xml"
+        },
+        {
+            "name": "fragments/Upload_Attachment.fragment.xml"
+        },
+        {
+            "name": "fragments/importContractsExcel.fragment.xml"
+        },
+        {
+            "name": "fragments/importEquipmentsExcel.fragment.xml"
+        },
+        {
+            "name": "fragments/importError.fragment.xml"
+        },
+        {
+            "name": "fragments/importExcel.fragment.xml"
+        },
+        {
+            "name": "fragments/importExcel_AL_Quotes.fragment.xml"
+        },
+        {
+            "name": "fragments/importQuotesExcel.fragment.xml"
+        },
+        {
+            "name": "i18n/i18n.properties",
+            "raw": "i18n/i18n.properties"
+        },
+        {
+            "name": "index.html"
+        },
+        {
+            "name": "libs/SmartMultiInput-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "libs/SmartMultiInput.js"
+        },
+        {
+            "name": "libs/TreeJSONStructure-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "libs/TreeJSONStructure.js"
+        },
+        {
+            "name": "libs/base/Log-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "libs/base/Log.js"
+        },
+        {
+            "name": "libs/base/util/now-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "libs/base/util/now.js"
+        },
+        {
+            "name": "libs/formatter-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "libs/formatter.js"
+        },
+        {
+            "name": "localService/ZSA_GW_CONTRACT_DB_SRV/metadata.xml"
+        },
+        {
+            "name": "localService/metadata.xml"
+        },
+        {
+            "name": "manifest.json"
+        },
+        {
+            "name": "model/models-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "model/models.js"
+        },
+        {
+            "name": "neo-app.json"
+        },
+        {
+            "name": "serviceBinding-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "serviceBinding.js"
+        },
+        {
+            "name": "tmp/Component-preload.js",
+            "merged": true
+        },
+        {
+            "name": "tmp/Component.js"
+        },
+        {
+            "name": "tmp/controller/AmendContract.controller.js"
+        },
+        {
+            "name": "tmp/controller/App.controller.js"
+        },
+        {
+            "name": "tmp/controller/ContractDisplay.controller.js"
+        },
+        {
+            "name": "tmp/controller/GlobalUpdate.controller.js"
+        },
+        {
+            "name": "tmp/controller/MoveEquipmentToFLOC.controller.js"
+        },
+        {
+            "name": "tmp/controller/QuoteDisplay.controller.js"
+        },
+        {
+            "name": "tmp/controller/Results.controller.js"
+        },
+        {
+            "name": "tmp/controller/Search.controller.js"
+        },
+        {
+            "name": "tmp/css/style.css"
+        },
+        {
+            "name": "tmp/fragments/ContractsList.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/CustomerDetails.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/GlobalUpdate.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Global_Update_Job_Confirmation.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/ManageAttachments.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu_Contract.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu_Customer.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu_Equipment.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu_FunctionalLocation.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Menu_Quote.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/PersonalizationDialog.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Response_For_1251.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/UpdateLog.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/Upload_Attachment.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importContractsExcel.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importEquipmentsExcel.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importError.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importExcel.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importExcel_AL_Quotes.fragment.xml"
+        },
+        {
+            "name": "tmp/fragments/importQuotesExcel.fragment.xml"
+        },
+        {
+            "name": "tmp/i18n/i18n.properties",
+            "raw": "i18n/i18n.properties"
+        },
+        {
+            "name": "tmp/index.html"
+        },
+        {
+            "name": "tmp/libs/SmartMultiInput.js"
+        },
+        {
+            "name": "tmp/libs/TreeJSONStructure.js"
+        },
+        {
+            "name": "tmp/libs/base/Log.js"
+        },
+        {
+            "name": "tmp/libs/base/util/now.js"
+        },
+        {
+            "name": "tmp/libs/formatter.js"
+        },
+        {
+            "name": "tmp/localService/ZSA_GW_CONTRACT_DB_SRV/metadata.xml"
+        },
+        {
+            "name": "tmp/localService/metadata.xml"
+        },
+        {
+            "name": "tmp/manifest.json"
+        },
+        {
+            "name": "tmp/model/models.js"
+        },
+        {
+            "name": "tmp/serviceBinding.js"
+        },
+        {
+            "name": "tmp/view/AmendContract.view.xml"
+        },
+        {
+            "name": "tmp/view/App.view.xml"
+        },
+        {
+            "name": "tmp/view/ContractDisplay.view.xml"
+        },
+        {
+            "name": "tmp/view/GlobalUpdate.view.xml"
+        },
+        {
+            "name": "tmp/view/MoveEquipmentToFLOC.view.xml"
+        },
+        {
+            "name": "tmp/view/QuoteDisplay.view.xml"
+        },
+        {
+            "name": "tmp/view/Results.view.xml"
+        },
+        {
+            "name": "tmp/view/Search.view.xml"
+        },
+        {
+            "name": "tmp-dbg/Component.js"
+        },
+        {
+            "name": "tmp-dbg/controller/AmendContract.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/App.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/ContractDisplay.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/GlobalUpdate.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/MoveEquipmentToFLOC.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/QuoteDisplay.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/Results.controller.js"
+        },
+        {
+            "name": "tmp-dbg/controller/Search.controller.js"
+        },
+        {
+            "name": "tmp-dbg/css/style.css"
+        },
+        {
+            "name": "tmp-dbg/libs/SmartMultiInput.js"
+        },
+        {
+            "name": "tmp-dbg/libs/TreeJSONStructure.js"
+        },
+        {
+            "name": "tmp-dbg/libs/base/Log.js"
+        },
+        {
+            "name": "tmp-dbg/libs/base/util/now.js"
+        },
+        {
+            "name": "tmp-dbg/libs/formatter.js"
+        },
+        {
+            "name": "tmp-dbg/model/models.js"
+        },
+        {
+            "name": "tmp-dbg/serviceBinding.js"
+        },
+        {
+            "name": "view/AmendContract.view.xml"
+        },
+        {
+            "name": "view/App.view.xml"
+        },
+        {
+            "name": "view/ContractDisplay.view.xml"
+        },
+        {
+            "name": "view/GlobalUpdate.view.xml"
+        },
+        {
+            "name": "view/MoveEquipmentToFLOC.view.xml"
+        },
+        {
+            "name": "view/QuoteDisplay.view.xml"
+        },
+        {
+            "name": "view/Results.view.xml"
+        },
+        {
+            "name": "view/Search.view.xml"
+        }
+    ]
+}

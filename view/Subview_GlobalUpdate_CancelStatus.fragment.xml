@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="No results"
+		title="Status of Cancellation Request"
+		cancel="onCancelInvoiceClosePress"
+		search="onCancelInvoiceSearch"
+		items="{
+			path: 'cancelInvoice>/data'
+		}" >
+		<StandardListItem
+			title="{cancelInvoice>title}"
+			description="{cancelInvoice>desc}"
+			icon="{cancelInvoice>icon}"
+			iconDensityAware="false"
+			iconInset="false"
+			highlight="{cancelInvoice>highlight}"/>
+	</SelectDialog>
+</core:FragmentDefinition>

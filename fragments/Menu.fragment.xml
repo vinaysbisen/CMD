@@ -1,0 +1,60 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified">
+	<u:Menu placement="Top">
+		<!--<u:MenuItem
+				text="Amend Contract"
+				select="handleMenuItemPress"
+				icon="sap-icon://save">
+				<u:Menu>
+					<u:MenuItem
+						text="Cancel/Shortlife contracts"
+						enabled="true"/>
+					<u:MenuItem
+						text="Change coverage period on the document"
+						enabled="true"/>
+					<u:MenuItem
+						text="AMP Change"
+						enabled="true"/>
+					<u:MenuItem
+						text="Reject item or document"
+						enabled="true"/>
+					<u:MenuItem
+						text="Change group contract"
+						enabled="true"/>
+					<u:MenuItem
+						text="Change Serial Number"
+						enabled="true"/>
+					<u:MenuItem
+						text="Exclude IB items"
+						enabled="true"/>
+				</u:Menu>
+				</u:MenuItem>-->
+		<u:MenuItem text="Link to Hybris" select="handleMenuItemPress" icon="sap-icon://trend-up"/>
+		<u:MenuItem text="Move Equipment(s) to Functional Location" select="handleMenuItemPress" icon="sap-icon://journey-depart"
+			visible="{/change}"/>
+		<!--<u:MenuItem
+				text="Equipment(s) Move/ Updates"
+				select="handleMenuItemPress" 
+				icon="sap-icon://journey-depart"/>-->
+		<u:MenuItem text="Generate/ Email Cust Docs" select="handleMenuItemPress" icon="sap-icon://expense-report"/>
+		<!--//*******START OF SRF106D_4 Sprint 1.7 September Release CHANGES BY ARJUN*********//-->
+		<u:MenuItem text="Semi-Automation" icon="sap-icon://multi-select">
+			<u:Menu>
+				<u:MenuItem text="Add to Holding Area" select="handleMenuItemPress"/>
+				<u:MenuItem text="View Holding Area" select="handleMenuItemPress"/>
+				<u:MenuItem text="Sales Document Upload" select="handleMenuItemPress"/>
+				<u:MenuItem text="Channels Spreadsheet Upload" select="handleMenuItemPress"/>
+			</u:Menu>
+		</u:MenuItem>
+		<!--//*******END OF SRF106D_4 Sprint 1.7 September Release CHANGES BY ARJUN*********//-->
+		<u:MenuItem text="Create Group Contract" select="handleMenuItemPress" icon="sap-icon://expense-report" visible="{/change}"/>
+		<u:MenuItem text="Create Functional Location" select="handleMenuItemPress" icon="sap-icon://functional-location" visible="{/change}"/>
+		<!--Added as part of SRR071D enhancements- 13/09/2019-->
+		<u:MenuItem text="Credit Memo Request" select="handleMenuItemPress" icon="sap-icon://my-sales-order" visible="{/change}"/>
+		<u:MenuItem text="Standalone Credit" select="handleMenuItemPress" icon="sap-icon://expense-report" visible="{/change}"/>
+		<u:MenuItem text="Debit Memo Request" select="handleMenuItemPress" icon="sap-icon://my-sales-order" visible="{/change}"/>
+		<!--BOC INC0241217 vsingh39 Commenting below code as we dont need this option as per incident 	DEVK9A0D0B-->
+		<!--<u:MenuItem text="Swap Equipments" select="handleMenuItemPress" icon="sap-icon://journey-depart" visible="{/change}"/>-->
+		<!--EOC INC0241217 vsingh39 Commenting below code as we dont need this option as per incident 	DEVK9A0D0B-->
+		<!--</u:MenuItem>-->
+	</u:Menu>
+</core:FragmentDefinition>

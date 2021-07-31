@@ -1,0 +1,52 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.MoveEquipmentToFLOC" xmlns="sap.m"
+	xmlns:layout="sap.ui.layout" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Page showHeader="true" title="Move Equipment To Functional Location" showFooter="true" showNavButton="false">
+		<content>
+			<Panel expandable="true" expanded="true" width="auto">
+				<headerToolbar>
+					<Toolbar>
+						<Title text="Select Equipments To Move"/>
+						<ToolbarSpacer/>
+						<Button id="id_move_e_list" icon="sap-icon://list" text="Show Selected Equipments (0)" press="onPressShowSelectedEquipments" enabled="false"/>
+					</Toolbar>
+				</headerToolbar>
+				<content>
+					<smartFilterBar:SmartFilterBar id="id_fb_move_equip" entitySet="Ets_Move_Equipment" liveMode="false" showGoOnFB="false"
+						filterChange="onSelectEquipments">
+						<smartFilterBar:controlConfiguration>
+							<smartFilterBar:ControlConfiguration label="{i18n>moveEq2FLOC.EQUNR}" index="0" key="EQUNR" id="id_inp_move_equip_equnr" visibleInAdvancedArea="true"/>
+							<smartFilterBar:ControlConfiguration label="{i18n>moveEq2FLOC.Import}" index="1" key="Import" visibleInAdvancedArea="true">
+								<smartFilterBar:customControl>
+									<Button icon="sap-icon://download" text="Import" press="onEquipmentsImport"/>
+								</smartFilterBar:customControl>
+							</smartFilterBar:ControlConfiguration>
+						</smartFilterBar:controlConfiguration>
+					</smartFilterBar:SmartFilterBar>
+				</content>
+			</Panel>
+			<Panel expandable="true" expanded="true" width="auto">
+				<headerToolbar>
+					<Toolbar>
+						<Title text="Select Target Functional Location"/>
+					</Toolbar>
+				</headerToolbar>
+				<content>
+					<smartFilterBar:SmartFilterBar id="id_fb_move_equip_floc" entitySet="Ets_Move_Equipment" liveMode="false" showGoOnFB="false">
+						<smartFilterBar:controlConfiguration>
+							<smartFilterBar:ControlConfiguration label="{i18n>moveEq2FLOC.TPLNR}" index="0" key="TPLNR" id="id_inp_move_equip_tplnr" visibleInAdvancedArea="true" filterType="single" />
+						</smartFilterBar:controlConfiguration>
+					</smartFilterBar:SmartFilterBar>
+				</content>
+			</Panel>
+		</content>
+		<footer>
+			<OverflowToolbar width="100%" height="46px" design="Auto" enabled="true" visible="true">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button id="id_zcontract_db_move_equipment" type="Accept" press="onPressMoveEquipment" text="Move" iconFirst="true" width="auto"
+						enabled="true" visible="true" iconDensityAware="false"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

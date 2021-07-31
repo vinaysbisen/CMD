@@ -1,0 +1,51 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<!--zcontract_db_popover title sapUiContentPadding  title="Contract"-->
+	<Popover class="sapUiContentPadding zcontract_db_popover" placement="Right" showHeader="true">
+		<customHeader>
+			<Bar class="zcontract_db_popoverBar">
+				<contentLeft>
+					<Label text="{/title}" class="zcontract_db_popovertitle"></Label>
+				</contentLeft>
+			</Bar>
+		</customHeader>
+		<!--<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					id="email"
+					text="Email"
+					press="handleEmailPress" />
+			</Toolbar>
+		</footer>-->
+		<VBox>
+			<HBox>
+				<core:Icon src="sap-icon://display"/>
+				<Link class="zcontract_db_popoverlink" text="Display Quote" press="onCrossAppNavigate"/>
+			</HBox>
+			<HBox>
+				<core:Icon src="sap-icon://display"/>
+				<Link class="zcontract_db_popoverlink" text="Display Quote (VA23)" press="onCrossAppNavigate"/>
+			</HBox>
+			<HBox visible="{/change}">
+				<core:Icon src="sap-icon://attachment"/>
+				<Link class="zcontract_db_popoverlink" text="Manage Attachments" press="onCrossAppNavigate"/>
+			</HBox>
+			<HBox>
+				<core:Icon src="sap-icon://print"/>
+				<Link class="zcontract_db_popoverlink" text="Generate/ Email Cust Doc" press="onCrossAppNavigate"/>
+			</HBox>
+			<HBox visible="{/change}">
+				<core:Icon src="sap-icon://create"/>
+				<Link class="zcontract_db_popoverlink" text="Create Group Contract" press="onCrossAppNavigate"/>
+			</HBox>
+			<!--<HBox>
+				<core:Icon src="sap-icon://print"/>
+				<Link class="zcontract_db_popoverlink" text="Generate Cust Doc" press="onCrossAppNavigate"/>
+			</HBox>
+			<HBox>
+				<core:Icon src="sap-icon://email"/>
+				<Link class="zcontract_db_popoverlink" text="Email Cust Doc" press="onCrossAppNavigate"/>
+			</HBox>-->
+		</VBox>
+	</Popover>
+</core:FragmentDefinition>

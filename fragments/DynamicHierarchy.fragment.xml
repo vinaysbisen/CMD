@@ -1,0 +1,157 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:f="sap.ui.layout.form" class="sapUiSizeCompact" displayBlock="true"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="id_cmd_dynamicHier_dialog" title="Select Hierarchy Level(s)" class="sapUiSizeCompact" showHeader="true" afterClose="afterClose">
+		<content>
+			<Table id="id_cmd_dynamicHier">
+				<columns>
+					<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+						<header>
+							<Text text="Hierarchy" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+						</header>
+						<footer/>
+					</Column>
+					<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+						<header>
+							<!--<Text text="Select Position" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+							<Text text="Visibility" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+						</header>
+						<footer/>
+					</Column>
+					<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+						<header>
+							<!--<Text text="Select Position" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+							<Text text="" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+						</header>
+						<footer/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="Sold To" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<!--<RangeSlider showAdvancedTooltip="true" min="1" max="10" range="5,20" enableTickmarks="true" class="sapUiSmallMarginBottom">-->
+							<!--	<ResponsiveScale tickmarksBetweenLabels="2"/>-->
+							<!--</RangeSlider>-->
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch state="true" customTextOn=" " customTextOff=" ">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="RTM FL" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch state="true" customTextOn=" " customTextOff=" ">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="MLFL" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch state="true" customTextOn=" " customTextOff=" ">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem type="Active" id="id_columnLLFL">
+						<cells>
+							<Text text="LLFL" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch id="id_col_llfl" state="true" customTextOn=" " customTextOff=" ">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem type="Active" id="id_columnContract">
+						<cells>
+							<Text text="(Contract / Quote)" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<!--<Button id="id_moveup" tooltip="Move Up" icon="sap-icon://arrow-top" press="onMoveUp"/>-->
+							<!--<Button id="id_movedown" tooltip="Move Down" icon="sap-icon://arrow-bottom" press="onMoveDown" visible="false"/>-->
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch id="id_col_cq" state="true" customTextOn=" " customTextOff=" " visible="false">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+							<Link id="id_moveup" tooltip="Move Up" text="Move Up" press="onMoveUp"></Link>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="Equipment" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+							<VBox>
+								<!--<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+								<Switch state="true" customTextOn=" " customTextOff=" ">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</VBox>
+						</cells>
+					</ColumnListItem>
+					<!--<ColumnListItem type="Active">-->
+					<!--	<cells>-->
+					<!--		<Text text="Group Contract" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+					<!--		<VBox>-->
+					<!--			<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+					<!--		</VBox>-->
+					<!--	</cells>-->
+					<!--</ColumnListItem>-->
+					<!--<ColumnListItem type="Active">-->
+					<!--	<cells>-->
+					<!--		<Text text="NBQ" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+					<!--		<VBox>-->
+					<!--			<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+					<!--		</VBox>-->
+					<!--	</cells>-->
+					<!--</ColumnListItem>-->
+					<!--<ColumnListItem type="Active">-->
+					<!--	<cells>-->
+					<!--		<Text text="RNQ" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+					<!--		<VBox>-->
+					<!--			<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+					<!--		</VBox>-->
+					<!--	</cells>-->
+					<!--</ColumnListItem>-->
+					<!--<ColumnListItem type="Active">-->
+					<!--	<cells>-->
+					<!--		<Text text="Reseller" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>-->
+					<!--		<VBox>-->
+					<!--			<StepInput value="0" min="0" max="10" width="100px" step="1" valueState="Success" textAlign="Center" change="onChange"/>-->
+					<!--		</VBox>-->
+					<!--	</cells>-->
+					<!--</ColumnListItem>-->
+				</items>
+			</Table>
+		</content>
+		<beginButton>
+			<Button text="OK" press="onConfirm"/>
+		</beginButton>
+		<endButton>
+			<Button text="OK" press="onConfirm"/>
+			<Button text="Close" press="handleClose"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,85 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact" displayBlock="true">
+	<Dialog
+      title="Global Update">
+		<content>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="PO#"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Cancellation Codes:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Cancellation Date:"/>
+			<DatePicker width="214px" displayFormat="MM-dd-yyyy" valueFormat="yyyyMMdd"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Receipt Of Cancellation:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Rejection Codes:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Sales Document Status:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Action Code:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Action Date:"/>
+			<DatePicker width="214px" displayFormat="MM-dd-yyyy" valueFormat="yyyyMMdd"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="SMC:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Master Contract ID Update (Group Contract):"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="PO Acceptance Date:"/>
+			<DatePicker width="214px" displayFormat="MM-dd-yyyy" valueFormat="yyyyMMdd"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Payment Terms:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Billing Block:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Delivery Block:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Billing Rule:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Partner Function Change:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Header Text Update:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		<HBox>
+			<Label width="300px" class="zcontract_db_dialog_label" text="Header Text Add:"/>
+			<Input class="zcontract_db_dialog_input" width="250px"  showValueHelp="false"/>
+		</HBox>
+		
+			
+		</content>
+		<endButton>
+			<Button text="Close" press="onGlobalUpdateClose"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

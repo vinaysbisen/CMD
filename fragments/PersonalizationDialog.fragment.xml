@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<P13nDialog ok="onConfirm" cancel="handleClose" initialVisiblePanelType="columns"  class="sapUiSizeCompact">
+		<panels>
+			<P13nColumnsPanel title="Column Settings" visible="true"
+				 changeColumnsItems="onChangeColumnsItem" type="columns"
+				items="{
+                    path: 'settings>/ColumnCollection'
+                }">
+				<items>
+					<P13nItem columnKey="{settings>columnKey}" text="{settings>text}"
+						visible="{settings>visible}" />
+				</items>
+			</P13nColumnsPanel>
+			<!--<P13nSortPanel title="Sort" visible="false" type="sort" containerQuery="true" layoutMode="Desktop"
+				items="{
+                    path: 'settings>/ColumnCollection'
+                }"
+				sortItems="{
+                    path: 'settings>/SortItems'
+                }">
+				<P13nItem columnKey="{settings>columnKey}" text="{settings>text}" />
+				<sortItems>
+					<P13nSortItem columnKey="{settings>columnKey}"
+						operation="{settings>operation}" />
+				</sortItems>
+			</P13nSortPanel>
+			<P13nFilterPanel title="Filter" visible="false" type="filter"
+				containerQuery="true" layoutMode="Desktop"
+				items="{
+                    path: 'settings>/ColumnCollection'
+                }" filterItems="{
+                    path: 'settings>/FilterItems'
+                }">
+				<P13nItem columnKey="{settings>columnKey}" text="{settings>text}" />
+				<filterItems>
+					<P13nFilterItem columnKey="{settings>columnKey}" operation="{settings>operation}"
+						value1="{settings>value1}" value2="{settings>value2}"/>
+				</filterItems>
+			</P13nFilterPanel>-->
+		</panels>
+	</P13nDialog>
+</core:FragmentDefinition>

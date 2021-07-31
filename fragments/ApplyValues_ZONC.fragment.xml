@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_zonc_apply" entitySet="Ets_GUC_Apply" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="Asset_Location" visibleInAdvancedArea="true" filterType="single"/>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_ZONC"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_ZONC"/>
+			<Button text="Close" press="AV_onClose_ZONC"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

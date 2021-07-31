@@ -1,0 +1,30 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable" controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.SwapEquipments"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page showHeader="false">
+		<content>
+			<smartFilterBar:SmartFilterBar id="idsmartFilterBarEquip" entitySet="Ets_EquipmentSwapItem" liveMode="false" search="onPressGo">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="OLD_EQUNR" visibleInAdvancedArea="true"></smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+			<smartTable:SmartTable id="idSmartEquip" smartFilterId="idsmartFilterBarEquip"
+				initiallyVisibleFields="CONTRACT,POSNR,OLD_EQUNR,NEW_EQUNR" entitySet="Ets_EquipmentSwapItem" tableType="ResponsiveTable"
+				useVariantManagement="false" useExportToExcel="true" useTablePersonalisation="true" header="Equipment Details" showRowCount="true"
+				demandPopin="true" enableAutoBinding="true">
+						<Table id="idTableSwap" mode="MultiSelect">
+							<items>
+								<ColumnListItem></ColumnListItem>
+							</items>
+						</Table>
+				<smartTable:customToolbar>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button id="idSwapEquip" text="Swap Equiments" tooltip="Swap Equiments" icon="sap-icon://journey-depart" type="Accept"
+							press="onPressSwapEquipment"/>
+					</Toolbar>
+				</smartTable:customToolbar>
+			</smartTable:SmartTable>
+		</content>
+	</Page>
+</mvc:View>

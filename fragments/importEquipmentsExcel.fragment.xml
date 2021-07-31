@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:l="sap.ui.layout.form">
+	<Dialog contentWidth="auto" title="Import Equipments">
+		<content>
+			<HBox>
+				<HBox width="10px"></HBox>
+				<u:FileUploader id="idfileUploaderEquipments" 
+				width="100%" 
+				sameFilenameAllowed="false"
+				buttonText="" fileType="CSV" 
+				placeholder="Choose a CSV file"
+				style="Emphasized"></u:FileUploader>
+			</HBox>
+		</content>
+		<buttons>
+			<Button text="Upload" press="onUploadFragEquipments"></Button>
+			<Button text="Cancel" press="onCancelFragEquipments"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,27 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<!--zcontract_db_popover title sapUiContentPadding  title="Contract"-->
+	<Popover class="sapUiContentPadding zcontract_db_popover" placement="Right" initialFocus="email" showHeader="true">
+		<customHeader>
+			<Bar class="zcontract_db_popoverBar">
+				<contentLeft>
+					<Label text="{/title}" class="zcontract_db_popovertitle"></Label>
+				</contentLeft>
+			</Bar>
+		</customHeader>
+		<!--<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					id="email"
+					text="Email"
+					press="handleEmailPress" />
+			</Toolbar>
+		</footer>-->
+		<VBox>
+			<HBox>
+				<core:Icon src="sap-icon://display"/>
+				<Link class="zcontract_db_popoverlink" text="Display Customer" press="onCrossAppNavigate"/>
+			</HBox>
+		</VBox>
+	</Popover>
+</core:FragmentDefinition>

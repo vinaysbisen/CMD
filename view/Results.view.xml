@@ -1,0 +1,742 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:dnd="sap.ui.core.dnd" xmlns:m="sap.m" xmlns:variant="sap.ui.comp.variants"
+	controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.Results" xmlns:html="http://www.w3.org/1999/xhtml">
+	<m:Page showHeader="false">
+		<m:content>
+			<!--<TreeTable id="id_cntdb_tree1" ariaLabelledBy="title" selectionMode="MultiToggle" enableSelectAll="true"
+				enableCellFilter="true" collapseRecursive="true" visibleRowCountMode="Auto" rows="{path:'/', parameters: {arrayNames:['children']}}">-->
+			<TreeTable id="id_cntdb_tree1" ariaLabelledBy="title" selectionMode="MultiToggle" enableSelectAll="true" enableCellFilter="true"
+				collapseRecursive="true" visibleRowCountMode="Auto">
+				<extension>
+					<m:Toolbar>
+						<variant:VariantManagement variantItems="{/Ets_ColumnLayout}" select="onSelectVariant" save="onSaveAsVariant" enabled="true"
+							manage="onManageVariant" showExecuteOnSelection="false" showShare="false" id="Variants" class="zcontract_db_vm">
+							<variant:variantItems>
+								<variant:VariantItem text="{Name}" key="{Key}"/>
+							</variant:variantItems>
+						</variant:VariantManagement>
+						<m:ToolbarSpacer/>
+						<m:Button id="expand" text="Expand All" press="handlePressExpandAll"/>
+						<m:Button id="collapse" text="Collapse All" press="handlePressCollapseAll"/>
+						<m:ToolbarSeparator/>
+						<m:Label text="Expand Upto Level:"/>
+						<m:Select id="id_inp_expand_upto_level" forceSelection="true" selectedKey="3" change="onChangeExpandUptoLevel" width="80px"
+							class="zcontract_db_dropdown">
+							<m:items>
+								<core:Item key="0" text="0"/>
+								<core:Item key="1" text="1"/>
+								<core:Item key="2" text="2"/>
+								<core:Item key="3" text="3"/>
+								<core:Item key="10" text="Max"/>
+							</m:items>
+						</m:Select>
+						<m:ToolbarSeparator/>
+						<m:Button icon="sap-icon://excel-attachment" tooltip="Export to Excel" press="onExportToExcel"></m:Button>
+						<m:ToolbarSeparator/>
+						<m:Select id="id_inp_view_flag_results" forceSelection="true" selectedKey="1" change="onChangeHierarchy">
+							<m:items>
+								<core:Item key="1" text="Hierarchy 1 - [Sold To > RTM FL > MLFL > (Contract / Quote) > LLFL > Equipment]"/>
+								<core:Item key="2" text="Hierarchy 2 - [Sold To > RTM FL > MLFL > Group Contract > Contract > LLFL]"/>
+								<core:Item key="3" text="Hierarchy 3 - [RTM FL > MLFL > LLFL > (Contract / Quote)]"/>
+								<core:Item key="4" text="Hierarchy 4 - [Sold To > RTM FL > MLFL > Reseller > (Contract / Quote)]"/>
+								<core:Item key="5" text="Hierarchy 5 - [Sold To > RTM FL > MLFL > NBQ > Contract > (LLFL / RNQ)]"/>
+								<!--2483 1.7-->
+								<core:Item key="9" text="Hierarchy 7 - [Sold To > RTM FL > MLFL > Group Contract > Quote > LLFL]"/>
+								<!--2483 1.7-->
+							</m:items>
+						</m:Select>
+					</m:Toolbar>
+				</extension>
+				<!--<dragDropConfig>
+					<dnd:DragDropInfo sourceAggregation="rows" targetAggregation="rows" dragStart="onDragStart" drop="onDrop"/>
+				</dragDropConfig>-->
+				<columns>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="320px">
+						<m:Label text="Hierarchy"/>
+						<template>
+							<m:Button text="{data/Object}" type="Transparent" icon="{data/Icon}" tooltip="{data/Object_Type}" iconFirst="false"
+								press=".handleObjectIDPress"/>
+						</template>
+					</Column>
+					<!--Begin Of Insert Columns for Excel Download-->
+					<!--	<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="HLFL"/>
+						<template>
+							<m:Text text="{data/HLFL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="HLFL Description"/>
+						<template>
+							<m:Text text="{data/HLFL_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="RTM FL"/>
+						<template>
+							<m:Text text="{data/RTM_FL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="RTM FL Category"/>
+						<template>
+							<m:Text text="{data/RTM_FL_Category}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="RTM FL Description"/>
+						<template>
+							<m:Text text="{data/RTM_FL_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="AMP"/>
+						<template>
+							<m:Text text="{data/AMP}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="AMP Description"/>
+						<template>
+							<m:Text text="{data/AMP_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="MLFL1"/>
+						<template>
+							<m:Text text="{data/MLFL1}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="MLFL1 Description"/>
+						<template>
+							<m:Text text="{data/MLFL1_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="MLFL2"/>
+						<template>
+							<m:Text text="{data/MLFL2}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="MLFL2 Description"/>
+						<template>
+							<m:Text text="{data/MLFL2_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="LLFL"/>
+						<template>
+							<m:Text text="{data/LLFL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="130px" visible="false">
+						<m:Label text="LLFL Description"/>
+						<template>
+							<m:Text text="{data/LLFL_Desc}"/>
+						</template>
+					</Column>-->
+					<!--End Of Insert Columns for Excel Download-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract" width="130px"><m:Label text="Contract Number"/>
+						<template><m:Text text="{data/Contract}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Org" width="100px"><m:Label text="Sales Org"/>
+						<template><m:Text text="{data/Sales_Org}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/MLFL" width="390px"><m:Label text="MLFL (AMP ID)"/>
+						<template><m:Text text="{data/MLFL}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/MLFL_Description" width="390px"><m:Label text="MLFL Description"/>
+						<template><m:Text text="{data/MLFL_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_Start_Date" width="140px"><m:Label text="Contract Start Date"/>
+						<template><m:Text text="{data/Contract_Start_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_End_Date" width="140px"><m:Label text="Contract End Date"/>
+						<template><m:Text text="{data/Contract_End_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Document_Status" width="140px"><m:Label text="User Status"/>
+						<template><m:Text text="{data/Sales_Document_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Opportunity_ID" width="140px"><m:Label text="Opportunity ID"/>
+						<template><m:Text text="{data/Opportunity_ID}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Valid_To" width="100px"><m:Label text="Valid To"/>
+						<template><m:Text text="{data/Valid_To}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LLFL" width="390px"><m:Label text="LLFL"/>
+						<template><m:Text text="{data/LLFL}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LLFL_Desc" width="390px"><m:Label text="LLFL Description"/>
+						<template><m:Text text="{data/LLFL_Desc}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Legacy_Doc" width="390px"><m:Label text="Legacy Doc#"/>
+						<template><m:Text text="{data/Legacy_Doc}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/End_Customer" width="390px"><m:Label text="End Customer"/>
+						<template><m:Text text="{data/End_Customer}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/T2_Reseller" width="390px"><m:Label text="Channel / Reseller"/>
+						<template><m:Text text="{data/T2_Reseller}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Web_Status" width="390px"><m:Label text="Web Status"/>
+						<template><m:Text text="{data/Web_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Party" width="390px"><m:Label text="Sold-To"/>
+						<template><m:Text text="{data/Sold_To_Party}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Rep" width="390px"><m:Label text="Sales Rep"/>
+						<template><m:Text text="{data/Sales_Rep}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party" width="390px"><m:Label text="Entitled Party"/>
+						<template><m:Text text="{data/Entitled_Party}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Created_By" width="390px"><m:Label text="Created By"/>
+						<template><m:Text text="{data/Created_By}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Version_Description" width="390px"><m:Label text="Version Number"/>
+						<template><m:Text text="{data/Version_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Document_Type" width="390px"><m:Label text="Document Type"/>
+						<template><m:Text text="{data/Document_Type}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Hpe_Net_Value" width="390px"><m:Label text="HPE Net Value"/>
+						<template><m:Text text="{data/Hpe_Net_Value}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Quote" width="390px"><m:Label text="Quote"/>
+						<template><m:Text text="{data/Quote}"/></template>
+					</Column>
+					<!--BOC ER2955 VSINGH39 28 Apr 2021 DEVK9A0SNM change label to quote header start date also,-->
+					<!--Create a new column for quote item start/end date as part of ER-->
+					<!--text="Quote Start Date"-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/QuoteStartDate" width="390px"><m:Label text="Quote Header Start Date"/>
+						<template><m:Text text="{data/QuoteStartDate}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/QuoteEndDate" width="390px"><m:Label text="Quote Header End Date"/>
+						<template><m:Text text="{data/QuoteEndDate}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/QuoteStartDateItem" width="390px"><m:Label text="Quote Item Start Date"/>
+						<template><m:Text text="{data/QuoteStartDateItem}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/QuoteEndDateItem" width="390px"><m:Label text="Quote Item End Date"/>
+						<template><m:Text text="{data/QuoteEndDateItem}"/></template>
+					</Column>
+					<!--EOC ER2955 VSINGH39 28 Apr 2021 DEVK9A0SNM change label to quote header start/End date and add column for item date-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/CreationDate" width="390px"><m:Label text="Quote Creation Date"/>
+						<template><m:Text text="{data/CreationDate}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Quote_Amount" width="390px"><m:Label text="Quote Amount"/>
+						<template><m:Text text="{data/Quote_Amount}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Service_Level" width="390px"><m:Label text="Service Level/s"/>
+						<template><m:Text text="{data/Service_Level}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Group_Contract" width="390px"><m:Label text="Group Contract"/>
+						<template><m:Text text="{data/Group_Contract}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Deal_ID" width="390px"><m:Label text="Deal ID"/>
+						<template><m:Text text="{data/Deal_ID}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Deal_Discount_Percentage" width="390px"><m:Label text="Deal Discount %"/>
+						<template><m:Text text="{data/Deal_Discount_Percentage}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Deal_Discount_Value" width="390px"><m:Label text="Deal Discount Value"/>
+						<template><m:Text text="{data/Deal_Discount_Value}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Purchase_Agreement_ID" width="390px"><m:Label text="Purchase Agreement ID"/>
+						<template><m:Text text="{data/Purchase_Agreement_ID}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Route_To_Market" width="390px"><m:Label text="Route To Market"/>
+						<template><m:Text text="{data/Route_To_Market}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Billing_Cycle" width="390px"><m:Label text="Billing Cycle"/>
+						<template><m:Text text="{data/Billing_Cycle}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Usage_Indicator" width="390px"><m:Label text="Usage Indicator"/>
+						<template><m:Text text="{data/Usage_Indicator}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Attachment_Indicator" width="390px"><m:Label text="Attachment Indicator"/>
+						<template><m:Text text="{data/Attachment_Indicator}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Order_Number" width="390px"><m:Label text="Sales Order Number"/>
+						<template><m:Text text="{data/Sales_Order_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Federal_Indicator" width="390px"><m:Label text="Federal Indicator (US Only)"/>
+						<template><m:Text text="{data/Federal_Indicator}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/SLED_Indicator" width="390px"><m:Label text="SLED Indicator (US Only)"/>
+						<template><m:Text text="{data/SLED_Indicator}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/BRT" width="390px"><m:Label text="BRT"/>
+						<template><m:Text text="{data/BRT}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Name" width="390px"><m:Label text="Sold-To Name"/>
+						<template><m:Text text="{data/Sold_To_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Action_Date" width="390px"><m:Label text="Action Date"/>
+						<template><m:Text text="{data/Action_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Action_Code" width="390px"><m:Label text="Action Code"/>
+						<template><m:Text text="{data/Action_Code}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Reason_For_Cancellation" width="390px"><m:Label text="Reason For Cancellation"/>
+						<template><m:Text text="{data/Reason_For_Cancellation}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Billing_Block" width="390px"><m:Label text="Billing Block"/>
+						<template><m:Text text="{data/Billing_Block}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Payment_Term" width="390px"><m:Label text="Payment Term"/>
+						<template><m:Text text="{data/Payment_Term}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Metric_Code" width="390px"><m:Label text="Sales Metric Code"/>
+						<template><m:Text text="{data/Sales_Metric_Code}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_To_Party" width="390px"><m:Label text="Bill-To-Party"/>
+						<template><m:Text text="{data/Bill_To_Party}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_Admin_Contact" width="390px"><m:Label text="Contract Admin Contact (AC)"/>
+						<template><m:Text text="{data/Contract_Admin_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/GBS_Admin" width="390px"><m:Label text="Global Operations"/>
+						<template><m:Text text="{data/GBS_Admin}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Account_Ops_Lead" width="390px"><m:Label text="Account Ops Lead (TS)"/>
+						<template><m:Text text="{data/Account_Ops_Lead}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Country" width="390px"><m:Label text="Country"/>
+						<template><m:Text text="{data/Country}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Customer_PO_Number" width="390px"><m:Label text="Customer PO Number"/>
+						<template><m:Text text="{data/Customer_PO_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Reseller_PO_Number" width="390px"><m:Label text="Reseller PO Number"/>
+						<template><m:Text text="{data/Reseller_PO_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Number" width="390px"><m:Label text="Equipment Number"/>
+						<template><m:Text text="{data/Equipment_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Serial_Number" width="390px"><m:Label text="Serial Number"/>
+						<template><m:Text text="{data/Serial_Number}"/></template>
+					</Column>
+					<!--INC0154688 Techidentno DEVK9A01SM ++VS BOC-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/TechIdentNo" width="390px"><m:Label text="Technical Identity No"/>
+						<template><m:Text text="{data/TechIdentNo}"/></template>
+					</Column>
+					<!--INC0154688 Techidentno DEVK9A01SM ++VS EOC-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Asset_Location" width="390px"><m:Label text="Asset Location"/>
+						<template><m:Text text="{data/Asset_Location}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Warranty_Start_Date" width="390px"><m:Label text="Warranty Start Date"/>
+						<template><m:Text text="{data/Warranty_Start_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Warranty_End_Date" width="390px"><m:Label text="Warranty End Date"/>
+						<template><m:Text text="{data/Warranty_End_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Prefered_Service_Provider" width="390px"><m:Label text="PSP"/>
+						<template><m:Text text="{data/Prefered_Service_Provider}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Currency" width="390px"><m:Label text="Currency"/>
+						<template><m:Text text="{data/Currency}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Rejection_Status" width="390px"><m:Label text="Rejection Status"/>
+						<template><m:Text text="{data/Rejection_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Credit_Status" width="390px"><m:Label text="Credit Status"/>
+						<template><m:Text text="{data/Credit_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Overall_Blocked_Status" width="390px"><m:Label text="Overall Blocked Status"/>
+						<template><m:Text text="{data/Overall_Blocked_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Warranty_Id" width="390px"><m:Label text="Warranty Id"/>
+						<template><m:Text text="{data/Warranty_Id}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PO_End_Date" width="390px"><m:Label text="PO End Date"/>
+						<template><m:Text text="{data/PO_End_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/CSSA_Number" width="390px"><m:Label text="CSSA Number"/>
+						<template><m:Text text="{data/CSSA_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PO_Value" width="390px"><m:Label text="PO Value"/>
+						<template><m:Text text="{data/PO_Value}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Business_Area" width="390px"><m:Label text="Business Area"/>
+						<template><m:Text text="{data/Business_Area}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_Item" width="390px"><m:Label text="Item"/>
+						<template><m:Text text="{data/Contract_Item}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Material" width="390px"><m:Label text="Material"/>
+						<template><m:Text text="{data/Material}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Material_Description" width="390px"><m:Label text="Material Description"/>
+						<template><m:Text text="{data/Material_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Offer" width="390px"><m:Label text="Offer"/>
+						<template><m:Text text="{data/Offer}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Offer_Description" width="390px"><m:Label text="Offer Description"/>
+						<template><m:Text text="{data/Offer_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Package" width="390px"><m:Label text="Package"/>
+						<template><m:Text text="{data/Package}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Package_Description" width="390px"><m:Label text="Package Description"/>
+						<template><m:Text text="{data/Package_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/OAC_Log" width="390px"><m:Label text="OAC Log"/>
+						<template><m:Link text="{data/OAC_Log}" press="onPressOAC"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Created_By_Group" width="390px"><m:Label text="Created By Group"/>
+						<template><m:Text text="{data/Created_By_Group}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="390px"><m:Label text="Master Contract ID"/>
+						<template><m:Text text="{data/Master_Contract_ID}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="390px"><m:Label text="Commerciality Code"/>
+						<template><m:Text text="{data/Commerciality_Code}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Price_List_Type" width="390px"><m:Label text="Price List Type"/>
+						<template><m:Text text="{data/Price_List_Type}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Invoice_Spreadsheet_Flag" width="390px"><m:Label text="Invoice Spreadsheet Flag"/>
+						<template><m:Text text="{data/Invoice_Spreadsheet_Flag}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Third_Party_Info" width="390px"><m:Label text="Spares Planning Indicator"/>
+						<template><m:Text text="{data/Third_Party_Info}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_not_linked_to_Contract" width="390px"><m:Label text="Equipment Not Linked to a Contract"/>
+						<template><m:Text text="{data/Equipment_not_linked_to_Contract}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_not_linked_to_Quote" width="390px"><m:Label text="Equipment Not Linked to a Quote"/>
+						<template><m:Text text="{data/Equipment_not_linked_to_Quote}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PSP_SubContractor" width="390px"><m:Label text="PSP Subcontractor (YL)"/>
+						<template><m:Text text="{data/PSP_SubContractor}"/></template>
+					</Column>
+					<!--//*******START OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="390px"><m:Label text="GDI (Global Deals Identifier)"/>
+						<template><m:Text text="{data/GDI}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="390px"><m:Label text="LI (Local Invoicing Flag)"/>
+						<template><m:Text text="{data/Local_Invoicing}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" width="390px"><m:Label text="CI (Central Invoicing Flag)"/>
+						<template><m:Text text="{data/Central_Invoicing}"/></template>
+					</Column>
+					<!--//*******END OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LLFL_Status" width="390px"><m:Label text="LLFL Status"/>
+						<template><m:Text text="{data/LLFL_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Qty" width="390px"><m:Label text="Equipment Quantity"/>
+						<template><m:Text text="{data/Equipment_Qty}"/></template>
+					</Column>
+					<Column hAlign="Right" class="zc_contract_db_results_col" filterProperty="data/Missing_Billing_Amt" width="390px"><m:Label text="Missing Billing"/>
+						<template><m:Text text="{data/Missing_Billing_Amt}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/End_Customer_Name" width="390px"><m:Label text="End Customer Name"/>
+						<template><m:Text text="{data/End_Customer_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Channel_Reseller_Name" width="390px"><m:Label text="Channel / Reseller Name"/>
+						<template><m:Text text="{data/Channel_Reseller_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Rep_Name" width="390px"><m:Label text="Sales Rep Name"/>
+						<template><m:Text text="{data/Sales_Rep_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party_Name" width="390px"><m:Label text="Entitled Party Name"/>
+						<template><m:Text text="{data/Entitled_Party_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_To_Party_Name" width="390px"><m:Label text="Bill-To-Party Name"/>
+						<template><m:Text text="{data/Bill_To_Party_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_Admin_Contact_Name" width="390px"><m:Label text="Contract Admin Contact (AC) Name"/>
+						<template><m:Text text="{data/Contract_Admin_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Global_Operations_Name" width="390px"><m:Label text="Global Operations Name"/>
+						<template><m:Text text="{data/Global_Operations_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Account_Ops_Lead_Name" width="390px"><m:Label text="Account Ops Lead (TS) Name"/>
+						<template><m:Text text="{data/Account_Ops_Lead_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PSP_SubContractor_name1" width="390px"><m:Label text="PSP Subcontractor (YL) Name"/>
+						<template><m:Text text="{data/PSP_SubContractor_name1}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Asset_Location_Name" width="390px"><m:Label text="Asset Location Name"/>
+						<template><m:Text text="{data/Asset_Location_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PSP_Name" width="390px"><m:Label text="PSP Name"/>
+						<template><m:Text text="{data/PSP_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Payer" width="390px"><m:Label text="Payer"/>
+						<template><m:Text text="{data/Payer}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Payer_Name" width="390px"><m:Label text="Payer Name"/>
+						<template><m:Text text="{data/Payer_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/System_Manager_Contact" width="390px"><m:Label text="System Manager Contact"/>
+						<template><m:Text text="{data/System_Manager_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/System_Manager_Contact_Name" width="390px"><m:Label text="System Manager Contact Name"/>
+						<template><m:Text text="{data/System_Manager_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/SM_Backup_Contact" width="390px"><m:Label text="Systems Manager Backup Contact"/>
+						<template><m:Text text="{data/SM_Backup_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/SM_Backup_Contact_Name" width="390px"><m:Label text="Systems Manager Backup Contact Name"/>
+						<template><m:Text text="{data/SM_Backup_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Software_delivery_contact" width="390px"><m:Label text="Software delivery contact"/>
+						<template><m:Text text="{data/Software_delivery_contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Software_delivery_contact_Name" width="390px"><m:Label text="Software delivery contact Name"/>
+						<template><m:Text text="{data/Software_delivery_contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Invoicing_Contact" width="390px"><m:Label text="Invoicing Contact"/>
+						<template><m:Text text="{data/Invoicing_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Invoicing_Contact_Name" width="390px"><m:Label text="Invoicing Contact Name"/>
+						<template><m:Text text="{data/Invoicing_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Contact" width="390px"><m:Label text="Sold to Contact"/>
+						<template><m:Text text="{data/Sold_To_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Contact_Name" width="390px"><m:Label text="Sold to Contact Name"/>
+						<template><m:Text text="{data/Sold_To_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Reseller_Contact" width="390px"><m:Label text="Reseller Contact"/>
+						<template><m:Text text="{data/Reseller_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Reseller_Contact_Name" width="390px"><m:Label text="Reseller Contact Name"/>
+						<template><m:Text text="{data/Reseller_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party_Contact" width="390px"><m:Label text="Entitled Party Contact"/>
+						<template><m:Text text="{data/Entitled_Party_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party_Contact_Name" width="390px"><m:Label text="Entitled Party Contact Name"/>
+						<template><m:Text text="{data/Entitled_Party_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Delivery_Contact" width="390px"><m:Label text="Delivery Contact"/>
+						<template><m:Text text="{data/Delivery_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Delivery_Contact_Name" width="390px"><m:Label text="Delivery Contact Name"/>
+						<template><m:Text text="{data/Delivery_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Backup_Delivery_Contact" width="390px"><m:Label text="Backup Delivery Contact"/>
+						<template><m:Text text="{data/Backup_Delivery_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Backup_Delivery_Contact_Name" width="390px"><m:Label text="Backup Delivery Contact Name"/>
+						<template><m:Text text="{data/Backup_Delivery_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_to_Contact" width="390px"><m:Label text="Bill to Contact"/>
+						<template><m:Text text="{data/Bill_to_Contact}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_to_Contact_Name" width="390px"><m:Label text="Bill to Contact Name"/>
+						<template><m:Text text="{data/Bill_to_Contact_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Install_Base_Sales_Rep" width="390px"><m:Label text="Install Base Sales Rep"/>
+						<template><m:Text text="{data/Install_Base_Sales_Rep}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Install_Base_Sales_Rep_Name" width="390px"><m:Label text="Install Base Sales Rep Name"/>
+						<template><m:Text text="{data/Install_Base_Sales_Rep_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PSDM" width="390px"><m:Label text="Partner Service Delivery Manager"/>
+						<template><m:Text text="{data/PSDM}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PSDM_Name" width="390px"><m:Label text="Partner Service Delivery Manager Name"/>
+						<template><m:Text text="{data/PSDM_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Admin_Signer" width="390px"><m:Label text="Admin Signer"/>
+						<template><m:Text text="{data/Admin_Signer}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Admin_Signer_Name" width="390px"><m:Label text="Admin Signer Name"/>
+						<template><m:Text text="{data/Admin_Signer_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Admin_Supervisor" width="390px" visible="false"><m:Label text="" tooltip="Admin Supervisor" visible="false"/>
+						<!--INC0167021 9/30/2020 MSA1 Admin is descoped hence hiding it-->
+						<template><m:Text text="{data/Admin_Supervisor}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Admin_Supervisor_Name" width="390px" visible="false"><m:Label tooltip="Admin Supervisor Name" visible="false" text=""/>
+						<!--INC0167021 9/30/2020 MSA1 Admin is descoped hence hiding it-->
+						<template><m:Text text="{data/Admin_Supervisor_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Global_Deal_Specialist" width="390px"><m:Label text="Global Deal Specialist"/>
+						<template><m:Text text="{data/Global_Deal_Specialist}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Global_Deal_Specialist_Name" width="390px"><m:Label text="Global Deal Specialist Name"/>
+						<template><m:Text text="{data/Global_Deal_Specialist_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Distribution_Channel" width="390px"><m:Label text="Distribution Channel"/>
+						<template><m:Text text="{data/Distribution_Channel}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division" width="390px"><m:Label text="Division"/>
+						<template><m:Text text="{data/Division}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/InAdvance_Flag" width="390px"><m:Label text="InAdvance Flag"/>
+						<template><m:Text text="{data/InAdvance_Flag}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Rule_for_Det_Of_a_Deviating_Invoice_Dat" width="390px"><m:Label text="Rule for Det. Of a Deviating Invoice Date"/>
+						<template><m:Text text="{data/Rule_for_Det_Of_a_Deviating_Invoice_Dat}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Rule_for_Origin_Of_Next_Invoice_Date" width="390px"><m:Label text="Rule for Origin Of Next Invoice Date"/>
+						<template><m:Text text="{data/Rule_for_Origin_Of_Next_Invoice_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Alt_Tax_Classification" width="390px"><m:Label text="Alt Tax Classification"/>
+						<template><m:Text text="{data/Alt_Tax_Classification}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Profit_Center" width="390px"><m:Label text="Profit Center"/>
+						<template><m:Text text="{data/Profit_Center}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Document_Description" width="390px"><m:Label text="Sales Document Description"/>
+						<template><m:Text text="{data/Sales_Document_Description}"/></template>
+					</Column>
+					<!--BOA R1.7 DVNK9A1RWR ++VS-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Superior_Equipment" width="390px"><m:Label text="Superior Equipment"/>
+						<template><m:Text text="{data/Superior_Equipment}"/></template>
+					</Column>
+					<!--Global Deal Specialist Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Global_Deal_Specialist_Email" width="390px"><m:Label text="Global Deal Specialist Email"/>
+						<template><m:Text text="{data/Global_Deal_Specialist_Email}"/></template>
+					</Column>
+					<!--Admin_Supervisor_Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Admin_Supervisor_Email" width="390px" visible="false"><m:Label text="" tooltip="Admin Supervisor Email" visible="false"/>
+						<!--INC0167021 9/30/2020 MSA1 Admin is descoped hence hiding it-->
+						<template><m:Text text="{data/Admin_Supervisor_Email}"/></template>
+					</Column>
+					<!--Install_Base_Sales_Rep_Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Install_Base_Sales_Rep_Email" width="390px"><m:Label text="Install Base Sales Rep Email"/>
+						<template><m:Text text="{data/Install_Base_Sales_Rep_Email}"/></template>
+					</Column>
+					<!--Account_Ops_Lead_Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Account_Ops_Lead_Email" width="390px"><m:Label text="Account Ops Lead (TS) Email"/>
+						<template><m:Text text="{data/Account_Ops_Lead_Email}"/></template>
+					</Column>
+					<!--Contract_Admin_Contact_Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Contract_Admin_Contact_Email" width="390px"><m:Label text="Contract Admin Contact Email"/>
+						<template><m:Text text="{data/Contract_Admin_Contact_Email}"/></template>
+					</Column>
+					<!--Sales_Rep_Email-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Rep_Email" width="390px"><m:Label text="Sales Rep Email"/>
+						<template><m:Text text="{data/Sales_Rep_Email}"/></template>
+					</Column>
+					<!--EOA R1.7 DVNK9A1RWR ++VS -->
+					<!--Start of SRE2523 VSINGH -->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Delivery_Block" width="390px"><m:Label text="Delivery Block"/>
+						<template><m:Text text="{data/Delivery_Block}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Status_without_statusno" width="390px"><m:Label text="Renewal Status"/>
+						<template><m:Text text="{data/Status_without_statusno}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Invoicing_Contact_Email" width="390px"><m:Label text="Email ID for Bill to Contact (ZF)"/>
+						<template><m:Text text="{data/Invoicing_Contact_Email}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_To_contact_Email" width="390px"><m:Label text="Email ID for Invoice Contact (IC)"/>
+						<template><m:Text text="{data/Bill_To_contact_Email}"/></template>
+					</Column>
+					<!--End of SRE2523 -->
+					<!--SOC szanzaney SRE2524-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Agent_Number" width="390px"><m:Label text="Z4 Agent Number"/>
+						<template><m:Text text="{data/Agent_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Agent_Number_Name" width="390px"><m:Label text="Z4 Agent Name"/>
+						<template><m:Text text="{data/Agent_Number_Name}"/></template>
+					</Column>
+					<!--	<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Agent_Number" width="390px"><m:Label text="Z4 Agent Number"/>
+						<template><m:Text text="{data/Agent_Number}"/></template>
+					</Column>-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/General_Manager" width="390px"><m:Label text="General Manager"/>
+						<template><m:Text text="{data/General_Manager}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/General_Manager_Name" width="390px"><m:Label text="General Manager Name"/>
+						<template><m:Text text="{data/General_Manager_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Chief_Accountant" width="390px"><m:Label text="Chief Accountant"/>
+						<template><m:Text text="{data/Chief_Accountant}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Chief_Accountant_Name" width="390px"><m:Label text="Chief Accountant Name"/>
+						<template><m:Text text="{data/Chief_Accountant_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Service_Rendered_Date" width="390px"><m:Label text="Service Rendered Date"/>
+						<template><m:Text text="{data/Service_Rendered_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/SupplyTypeCode" width="390px"><m:Label text="Supply Type Code"/>
+						<template><m:Text text="{data/SupplyTypeCode}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/ListPrice" width="390px"><m:Label text="List Price"/>
+						<template><m:Text text="{data/ListPrice}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/ExternalID" width="390px"><m:Label text="External ID"/>
+						<template><m:Text text="{data/ExternalID}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_From" width="390px"><m:Label text="Bill From"/>
+						<template><m:Text text="{data/Bill_From}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Bill_From_Name" width="390px"><m:Label text="Bill From Name"/>
+						<template><m:Text text="{data/Bill_From_Name}"/></template>
+					</Column>
+					<!--EOC szanzaney SRE2524-->
+					<!--SOC szanzaney SRE2487_2-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Business_Place" width="390px"><m:Label text="Business Place"/>
+						<template><m:Text text="{data/Business_Place}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Business_Place_Name" width="390px"><m:Label text="Business Place Name"/>
+						<template><m:Text text="{data/Business_Place_Name}"/></template>
+					</Column>
+					<!--EOC szanzaney SRE2487_2-->
+					<!--SOC szanzaney CCB488-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Linked_SO" width="390px"
+						visible="{VisibilityModel>/Visibility/Linked_SO}"><m:Label text="Linked SO"/>
+						<template><m:Text text="{data/Linked_SO}"/></template>
+					</Column>
+					<!--EOC szanzaney CCB488-->
+					<!--SOC szanzaney CR143712 and CR143970-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PIBillRule" width="390px"><m:Label text="Billing Cycle for Adv PI"/>
+						<template><m:Text text="{data/PIBillRule}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PaymentDue" width="390px"><m:Label text="Payment due in Days of Adv PI"/>
+						<template><m:Text text="{data/PaymentDue}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PaymentCurrency" width="390px"><m:Label text="Payment Currency"/>
+						<template><m:Text text="{data/PaymentCurrency}"/></template>
+					</Column>
+					<!--EOC szanzaney CR143712 and CR143970-->
+					<!--BOC Cpmpetitive quuote requirement-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Virtual_AMP" width="390px"><m:Label text="Virtual AMP"/>
+						<template><m:Text text="{data/Virtual_AMP}"/></template>
+					</Column>
+					<!--EOC Cpmpetitive quuote requirement-->
+					<!--BOC SRI3197 Defect 124973 VS-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Agreement_Id" width="390px"><m:Label text="Agreement Id"/>
+						<template><m:Text text="{data/Agreement_Id}"/></template>
+					</Column>
+					<!--EOC SRI3197 Defect 124973 VS-->
+					<!--BOC for ER 1294 INC0168697 08 April 2021 ++VSINGH39 DEVK9A0O6C-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Office" width="390px"><m:Label text="Sales Office"/>
+						<template><m:Text text="{data/Sales_Office}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/SalesOffice_Eq" width="390px"><m:Label text="Sales Office (Equipment)"/>
+						<template><m:Text text="{data/SalesOffice_Eq}"/></template>
+					</Column>
+					<!--EOC for ER 1294 INC0168697 08 April 2021 ++VSINGH39 DEVK9A0O6C-->
+				</columns>
+			</TreeTable>
+		</m:content>
+		<m:footer>
+			<m:Bar>
+				<m:contentLeft>
+					<m:Button id="id_btn_results_global_update" text="Global Update" type="Accept" press="onPressGlobalUpdate" visible="false"/>
+				</m:contentLeft>
+				<m:contentMiddle>
+					<m:Button text="Optimize Column Widths" icon="sap-icon://resize-horizontal" type="Accept" press="onPressResizeHorizontal"/>
+					<m:Button id="personalize" text="Column Settings" icon="sap-icon://action-settings" type="Accept" press="handlePressPersonalize"/>
+				</m:contentMiddle>
+				<m:contentRight>
+					<!--BOC LR1 Enhancement by Aniket-->
+					<!--<m:Button id="idMoveEtoF" text="Move Equipment(s)" visible="{viewData>/moveEtoF}" press="onPressMoveEquipment"
+						icon="sap-icon://journey-depart"/>-->
+					<!--EOC LR1 Enhancement by Aniket-->
+					<m:Button id="openMenu" text="Actions Menu" press="handlePressOpenMenu" icon="sap-icon://action"/>
+				</m:contentRight>
+			</m:Bar>
+		</m:footer>
+	</m:Page>
+</mvc:View>

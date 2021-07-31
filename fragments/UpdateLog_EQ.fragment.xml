@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Update Log">
+		<content>
+			<ui:Table id="id_cmd_updateLog_EQ" showNoData="true" selectionMode="None" rows="{path: '/'}">
+				<ui:columns>
+					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" >
+						<Text wrapping="true" text="Equipment"/>
+						<ui:template>
+							<Text wrapping="true" text="{VBELN}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="60px" autoResizable="true">
+						<Text wrapping="true" text="Type"/>
+						<ui:template>
+							<core:Icon src="{path: 'Message_Type', formatter: '.formatter.formatIcon'}" color="{path: 'Message_Type', formatter: '.formatter.formatIconColor'}" />
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="600px" autoResizable="true">
+						<Text wrapping="true" text="Message"/>
+						<ui:template>
+							<Text wrapping="true" text="{Message_Text}"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+		</content>
+		<beginButton>
+			<Button text="Export Log" press="onExportUpdateLog_EQ"/>
+		</beginButton>
+		<endButton>
+			<Button text="Close" press="onUpdateLogClose_EQ"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

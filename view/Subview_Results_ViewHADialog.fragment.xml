@@ -1,0 +1,157 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form">
+	<Dialog title="View Holding Area" verticalScrolling="false">
+		<subHeader>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<SegmentedButton id="idSegBut" selectedKey="SD" selectionChange="onSelectionChangeHoldingArea">
+					<items>
+						<SegmentedButtonItem key="SD" text="Sales Document Holding Area"/>
+						<SegmentedButtonItem key="CS" text="Channels Spreadsheet Holding Area"/>
+						<SegmentedButtonItem key="SH" text="Shared Holding Area"/>
+					</items>
+				</SegmentedButton>
+				<ToolbarSpacer/>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<Toolbar visible="{holdingAreaModel>/tableSalesDocVisible}">
+				<Title text="Holding Area for Sales Document Upload"/>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://delete" text="Delete selected records" enabled="{holdingAreaModel>/enableButtonsSD}" press="onSDDeletePress"/>
+				<Button icon="sap-icon://download" text="Download template" enabled="{holdingAreaModel>/enableButtonsSD_DW}" press="onSDDownloadPress"/>
+			</Toolbar>
+			<Toolbar visible="{holdingAreaModel>/tableChanSpreadVisible}">
+				<Title text="Holding Area for Channels Speadsheet Upload"/>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://delete" text="Delete selected records" enabled="{holdingAreaModel>/enableButtonsCS}" press="onCSDeletePress"/>
+				<Button icon="sap-icon://download" text="Download template" enabled="{holdingAreaModel>/enableButtonsCS_DW}" press="onCSDownloadPress"/>
+			</Toolbar>
+			<Toolbar visible="{holdingAreaModel>/tableSharedVisible}">
+				<!--//*******START OF SRF106D_4 Sprint 2.1 Hypercare Release CHANGES BY ARJUN*********//-->
+				<!--<Title text="Shared Holding Area"/>-->
+				<Select id="idSharedHADropDown" items="{holdingAreaModel>/rbData}" change="onChangeSharedHoldingArea" enabled="true">
+					<items>
+						<core:Item text="{holdingAreaModel>HOLDING_AREA}" key="{holdingAreaModel>HOLDING_AREA_ID}"/>
+					</items>
+				</Select>
+				<!--//*******END OF SRF106D_4 Sprint 2.1 Hypercare Release CHANGES BY ARJUN*********//-->
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://delete" text="Delete selected records" enabled="{holdingAreaModel>/enableButtonsSH}" press="onSHDeletePress"/>
+				<Button icon="sap-icon://download" text="Download template" enabled="{holdingAreaModel>/enableButtonsSH_DW}" press="onSHDownloadPress"/>
+			</Toolbar>
+			<ui:Table id="idTableSalesDoc" visible="{holdingAreaModel>/tableSalesDocVisible}" selectionMode="MultiToggle"
+				visibleRowCount="10" rows="{holdingAreaModel>/tableDataSalesDoc}" rowSelectionChange="onRowSelectionChangeSalesDoc"
+				class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+				<ui:columns>
+					<ui:Column hAlign="Begin">
+						<Label text="Document Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Document}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="AMP ID" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Amp}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerNo}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Name" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerName}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Status" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{= ${holdingAreaModel>Status} === 'X' ? 'Downloaded' : '' }"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+			<ui:Table id="idTableChanSpread" visible="{holdingAreaModel>/tableChanSpreadVisible}"
+				selectionMode="MultiToggle" visibleRowCount="10" rows="{holdingAreaModel>/tableDataChanSpread}"
+				rowSelectionChange="onRowSelectionChangeChanSpread"
+				class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+				<ui:columns>
+					<ui:Column hAlign="Begin">
+						<Label text="Document Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Document}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="AMP ID" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Amp}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerNo}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Name" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerName}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Status" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{= ${holdingAreaModel>Status} === 'X' ? 'Downloaded' : '' }"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+			<ui:Table id="idTableShared" visible="{holdingAreaModel>/tableSharedVisible}" selectionMode="MultiToggle"
+				visibleRowCount="10" rows="{holdingAreaModel>/tableDataShared}" rowSelectionChange="onRowSelectionChangeShared"
+				class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+				<ui:columns>
+					<ui:Column hAlign="Begin">
+						<Label text="Document Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Document}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="AMP ID" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>Amp}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Number" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerNo}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Customer Name" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>CustomerName}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="Status" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{= ${holdingAreaModel>Status} === 'X' ? 'Downloaded' : '' }"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+		</content>
+		<buttons>
+			<!--<Button text="Apply" press="onViewHAOKPress" type="Accept"/>-->
+			<Button text="Close" press="onViewHAClosePress" type="Reject"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

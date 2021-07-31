@@ -1,0 +1,263 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:dnd="sap.ui.core.dnd" xmlns:m="sap.m" xmlns:variant="sap.ui.comp.variants"
+	controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.EquipmentReport_Results" xmlns:html="http://www.w3.org/1999/xhtml">
+	<m:Page showHeader="false">
+		<m:content>
+			<!--<TreeTable id="id_ers_cntdb_tree1" ariaLabelledBy="title" selectionMode="MultiToggle" enableSelectAll="true"
+				enableCellFilter="true" collapseRecursive="true" visibleRowCountMode="Auto" rows="{path:'/', parameters: {arrayNames:['children']}}">-->
+			<TreeTable id="id_ers_cntdb_tree1" ariaLabelledBy="title" selectionMode="MultiToggle" enableSelectAll="true" enableCellFilter="true"
+				collapseRecursive="true" visibleRowCountMode="Auto">
+				<extension>
+					<m:Toolbar>
+						<variant:VariantManagement variantItems="{/Ets_ColumnLayout}" select="onSelectVariant" save="onSaveAsVariant" enabled="true"
+							manage="onManageVariant" showExecuteOnSelection="false" showShare="false" id="id_ers_Variants" class="zcontract_db_vm">
+							<variant:variantItems>
+								<variant:VariantItem text="{Name}" key="{Key}"/>
+							</variant:variantItems>
+						</variant:VariantManagement>
+						<m:ToolbarSpacer/>
+						<m:Button id="id_ers_expand" text="Expand All" press="handlePressExpandAll"/>
+						<m:Button id="id_ers_collapse" text="Collapse All" press="handlePressCollapseAll"/>
+						<m:ToolbarSeparator/>
+						<m:Label text="Expand Upto Level:"/>
+						<m:Select id="id_ers_inp_expand_upto_level" forceSelection="true" selectedKey="3" change="onChangeExpandUptoLevel" width="80px"
+							class="zcontract_db_dropdown">
+							<m:items>
+								<core:Item key="0" text="0"/>
+								<core:Item key="1" text="1"/>
+								<core:Item key="2" text="2"/>
+								<core:Item key="3" text="3"/>
+								<core:Item key="10" text="Max"/>
+							</m:items>
+						</m:Select>
+						<m:ToolbarSeparator/>
+						<m:Button icon="sap-icon://excel-attachment" tooltip="Export to Excel" press="onExportToExcel"></m:Button>
+						<m:ToolbarSeparator/>
+						<m:Select id="id_ers_inp_view_flag_results" forceSelection="true" selectedKey="1" change="onChangeHierarchy">
+							<m:items>
+								<core:Item key="7" text="Hierarchy 1 - [HLFL > RTM FL > MLFL > LLFL > Equipment]"/>
+								<core:Item key="8" text="Hierarchy 2 - Dynamic"/>
+							</m:items>
+						</m:Select>
+					</m:Toolbar>
+				</extension>
+				<dragDropConfig>
+					<dnd:DragDropInfo sourceAggregation="rows" targetAggregation="rows" dragStart="onDragStart" drop="onDrop"/>
+				</dragDropConfig>
+				<columns>
+					<Column hAlign="Center" class="zc_contract_db_results_col"  width="320px">
+						<m:Label text="Hierarchy"/>
+						<template>
+							<m:Button text="{data/Object}" type="Transparent" icon="{data/Icon}" tooltip="{data/Object_Type}" iconFirst="false"
+								press=".handleObjectIDPress"/>
+						</template>
+					</Column>
+					<!--Begin Of Insert Columns for Excel Download-->
+					<!--	<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="HLFL"/>
+						<template>
+							<m:Text text="{data/HLFL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="HLFL Description"/>
+						<template>
+							<m:Text text="{data/HLFL_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="RTM FL"/>
+						<template>
+							<m:Text text="{data/RTM_FL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="RTM FL Category"/>
+						<template>
+							<m:Text text="{data/RTM_FL_Category}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="RTM FL Description"/>
+						<template>
+							<m:Text text="{data/RTM_FL_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="AMP"/>
+						<template>
+							<m:Text text="{data/AMP}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="AMP Description"/>
+						<template>
+							<m:Text text="{data/AMP_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="MLFL1"/>
+						<template>
+							<m:Text text="{data/MLFL1}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="MLFL1 Description"/>
+						<template>
+							<m:Text text="{data/MLFL1_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="MLFL2"/>
+						<template>
+							<m:Text text="{data/MLFL2}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="MLFL2 Description"/>
+						<template>
+							<m:Text text="{data/MLFL2_Desc}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="LLFL"/>
+						<template>
+							<m:Text text="{data/LLFL}"/>
+						</template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Division"  width="130px" visible="false">
+						<m:Label text="LLFL Description"/>
+						<template>
+							<m:Text text="{data/LLFL_Desc}"/>
+						</template>
+					</Column>-->
+					<!--End Of Insert Columns for Excel Download-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/MLFL"  width="390px"><m:Label text="MLFL1 (AMP ID)"/>
+						<template><m:Text text="{data/MLFL}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/MLFL_Description"  width="390px"><m:Label text="MLFL1 Description"/>
+						<template><m:Text text="{data/MLFL_Description}"/></template>
+					</Column>
+					<!-- BOI 2483 1.7-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Superior_Equipment"  width="390px"><m:Label text="Superior_Equipment"/>
+						<template><m:Text text="{data/Superior_Equipment}"/></template>
+					</Column>		
+					<!--EOI2483 1.7-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LLFL"  width="390px"><m:Label text="LLFL"/>
+						<template><m:Text text="{data/LLFL}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LLFL_Desc"  width="390px"><m:Label text="LLFL Description"/>
+						<template><m:Text text="{data/LLFL_Desc}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sales_Order_Number"  width="390px"><m:Label text="Sales Order"/>
+						<template><m:Text text="{data/Sales_Order_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/End_Customer"  width="390px"><m:Label text="End Customer (LLFL)"/>
+						<template><m:Text text="{data/End_Customer}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/End_Customer_Name"  width="390px"><m:Label text="End Customer Name (LLFL)"/>
+						<template><m:Text text="{data/End_Customer_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/T2_Reseller"  width="390px"><m:Label text="Channel / Reseller (LLFL)"/>
+						<template><m:Text text="{data/T2_Reseller}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Channel_Reseller_Name"  width="390px"><m:Label text="Channel / Reseller Name (LLFL)"/>
+						<template><m:Text text="{data/Channel_Reseller_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Party"  width="390px"><m:Label text="Sold-To (Equipment)"/>
+						<template><m:Text text="{data/Sold_To_Party}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Name"  width="390px"><m:Label text="Sold-To Name (Equipment)"/>
+						<template><m:Text text="{data/Sold_To_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Party"  width="390px"><m:Label text="Sold-To(LLFL)"/>
+						<template><m:Text text="{data/Sold_to_LLFL}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Sold_To_Name"  width="390px"><m:Label text="Sold-To Name(LLFL)"/>
+						<template><m:Text text="{data/Sold_to_LLFL_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Number"  width="390px"><m:Label text="Equipment Number"/>
+						<template><m:Text text="{data/Equipment_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Qty"  width="390px"><m:Label text="Equipment Quantity"/>
+						<template><m:Text text="{data/Equipment_Qty}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Material"  width="390px"><m:Label text="Material"/>
+						<template><m:Text text="{data/Material}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Material_Description"  width="390px"><m:Label text="Material Description"/>
+						<template><m:Text text="{data/Material_Description}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Serial_Number"  width="390px"><m:Label text="Serial Number"/>
+						<template><m:Text text="{data/Serial_Number}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Asset_Location"  width="390px"><m:Label text="Asset Location(Equipment)"/>
+						<template><m:Text text="{data/Asset_Location}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Asset_Location_Name"  width="390px"><m:Label text="Asset Location Name(Equipment)"/>
+						<template><m:Text text="{data/Asset_Location_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Asset_Location_Address"  width="390px"><m:Label text="Asset Location Address(Equipment)"/>
+						<template><m:Text text="{data/Asset_Location_Address}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Warranty_Start_Date"  width="390px"><m:Label text="Warranty Start Date"/>
+						<template><m:Text text="{data/Warranty_Start_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Warranty_End_Date"  width="390px"><m:Label text="Warranty End Date"/>
+						<template><m:Text text="{data/Warranty_End_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_not_linked_to_Contract"  width="390px"><m:Label text="Equipment Linked to a Contract"/>
+						<template><m:Text text="{data/Equipment_not_linked_to_Contract}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_not_linked_to_Quote"  width="390px"><m:Label text="Equipment Linked to a Quote"/>
+						<template><m:Text text="{data/Equipment_not_linked_to_Quote}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party"  width="390px"><m:Label text="Entitled Party"/>
+						<template><m:Text text="{data/Entitled_Party}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Entitled_Party_Name"  width="390px"><m:Label text="Entitled Party Name"/>
+						<template><m:Text text="{data/Entitled_Party_Name}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/LID_Code"  width="390px"><m:Label text="LID Code (Sw. Ref.)"/>
+						<template><m:Text text="{data/LID_Code}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/PAC_Code"  width="390px"><m:Label text="PAC Code (Ext. Ref.)"/>
+						<template><m:Text text="{data/PAC_Code}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Exclusion_Date"  width="390px"><m:Label text="Exclusion Date"/>
+						<template><m:Text text="{data/Exclusion_Date}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Status"  width="390px"><m:Label text="Equipment Status"/>
+						<template><m:Text text="{data/Equipment_Status}"/></template>
+					</Column>
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/Equipment_Type"  width="390px"><m:Label text="Object Type (SW / HW / JW)"/>
+						<template><m:Text text="{data/Equipment_Type}"/></template>
+					</Column>
+					<!--INC0154688 Techidentno DEVK9A01SM ++VS BOC-->
+					<Column hAlign="Center" class="zc_contract_db_results_col" filterProperty="data/TechIdentNo"  width="390px"><m:Label text="Technical Identity No"/>
+						<template><m:Text text="{data/TechIdentNo}"/></template>
+					</Column>
+					<!--INC0154688 Techidentno DEVK9A01SM ++VS EOC-->
+				</columns>
+			</TreeTable>
+		</m:content>
+		<m:footer>
+			<m:Bar>
+				<m:contentLeft>
+					<m:Button id="id_ers_btn_results_global_update" text="Global Update" type="Accept" press="onPressGlobalUpdate" visible="false"/>
+				</m:contentLeft>
+				<m:contentMiddle>
+					<m:Button text="Optimize Column Widths" icon="sap-icon://resize-horizontal" type="Accept" press="onPressResizeHorizontal"/>
+					<m:Button id="id_ers_personalize" text="Column Settings" icon="sap-icon://action-settings" type="Accept" press="handlePressPersonalize"/>
+				</m:contentMiddle>
+				<m:contentRight>
+					<!--BOC LR1 Enhancement by Aniket-->
+					<m:Button id="id_ers_MoveEtoF" text="Move Equipment(s)" visible="{viewData>/moveEtoF}" press="onPressMoveEquipment"
+						icon="sap-icon://journey-depart"/>
+					<!--EOC LR1 Enhancement by Aniket-->
+					<m:Button id="id_ers_openMenu" text="Actions Menu" press="handlePressOpenMenu" icon="sap-icon://action"/>
+				</m:contentRight>
+			</m:Bar>
+		</m:footer>
+	</m:Page>
+</mvc:View>

@@ -1,0 +1,59 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Select Shared Holding Area">
+		<content>
+			<!--<l:VerticalLayout class="sapUiContentPadding" id="idRadioButtonsLayout"></l:VerticalLayout>-->
+			<ui:Table id="idTableSharedAreasList" visible="true" selectionMode="None" visibleRowCount="{holdingAreaModel>/numberOfSharedAreas}"
+				rows="{holdingAreaModel>/rbData}"
+				class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin">
+				<ui:columns>
+					<ui:Column hAlign="Begin">
+						<Label text="Shared Holding Area" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Text text="{holdingAreaModel>HOLDING_AREA}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column hAlign="Begin">
+						<Label text="" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Button type="Accept" text="Add" icon="sap-icon://add" press="onAddToSharedOKPress"/>
+						</ui:template>
+					</ui:Column>
+					<!--soc szanzaney INC0289066 15/04 - auth object check - hide delete button and enable only for ADMIN -->
+					<ui:Column hAlign="Begin">
+						<Label text="" design="Bold" wrapping="true"/>
+						<ui:template>
+							<Button type="Reject" text="Delete" icon="sap-icon://delete" press="onDeletefromSharedPress" visible="{UI>/Visibility/Delete}"/>
+						</ui:template>
+					</ui:Column>
+					<!--soc szanzaney INC0289066 15/04 - auth object check - hide delete button and enable only for ADMIN -->
+				</ui:columns>
+			</ui:Table>
+		<!--soc szanzaney INC0289066 15/04 - auth object check - hide create button and enable only for ADMIN -->
+			<f:SimpleForm id="idCreateHAForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+				class="sapUiSizeCompact sapUiNoContentPadding sapUiNoMarginTop sapUiNoMarginEnd sapUiNoMarginBottom sapUiNoMarginBegin" minWidth="1024"  visible="{UI>/Visibility/CreateForm}">
+			<!--eoc szanzaney INC0289066 15/04 - auth object check - hide create button and enable only for ADMIN-->
+				<Label text="New Shared Holding Area" design="Bold"/>
+				<HBox>
+					<Input id="idInputForNew" width="15rem" enabled="true"/>
+					<ToolbarSpacer width="0.5rem"/>
+					<Button text="Create" press="onCreateSharedPress" type="Accept"/>
+				</HBox>
+			</f:SimpleForm>
+			<!--<VBox>-->
+			<!--	<HBox>-->
+			<!--		<ToolbarSpacer width="1rem"/>-->
+			<!--		<RadioButton id="idRBSharedTypeNew" text="Create New Shared Holding Area" select="onSelectInputForNew"/>-->
+			<!--	</HBox>-->
+			<!--	<HBox>-->
+			<!--		<ToolbarSpacer width="2rem"/>-->
+			<!--		<Input id="idInputForNew" width="15rem" enabled="false"/>-->
+			<!--	</HBox>-->
+			<!--</VBox>-->
+		</content>
+		<buttons>
+			<!--	<Button text="Confirm" press="onAddToSharedOKPress" type="Accept"/>-->
+			<Button text="Cancel" press="onAddToSharedClosePress" type="Reject"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

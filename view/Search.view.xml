@@ -1,0 +1,258 @@
+<mvc:View controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.Search" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	displayBlock="true" xmlns="sap.m">
+	<!--<Page title="{i18n>title}" >-->
+	<Page showHeader="false">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_main_selection" initialized="onIntializeBar" entitySet="Ets_Search" liveMode="false"
+				showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Contract_Number}" index="0" key="Contract_Number" id="id_inp_contract_number"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Sales_Order_Number}" index="1" key="Sales_Order_Number"
+						id="id_inp_sales_order_number" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.RTM_FL}" index="2" key="RTM_FL" id="id_inp_rtm_fl" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.AMP_ID}" index="3" key="AMP_ID" id="id_inp_amp_id" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Low_Level_Functional_Location}" index="4" key="Low_Level_Functional_Location"
+						id="id_inp_llfl" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Contract_Admin}" index="5" key="Contract_Admin" id="id_inp_contract_admin"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Sold_To}" index="6" key="Sold_To" id="id_inp_sold_to" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Tier_2_Reseller}" index="7" key="Tier_2_Reseller" id="id_inp_reseller"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Master_Contract}" index="8" key="Master_Contract" id="id_inp_master_contract"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.Serial_Number}" index="9" key="Serial_Number" id="id_inp_serial_number1"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>search.PAC_Code}" index="10" key="PAC_Code" id="id_inp_pac_code1"
+						visibleInAdvancedArea="true"/>
+					<!--BOC for ER-1292(INC0168468) 08 April 2021 ++VSINGH39 -->
+					<smartFilterBar:ControlConfiguration label="{i18n>search.End_Customer_ID}" index="11" key="End_Customer_ID" id="id_inp_end_customer_id" visibleInAdvancedArea="true"/>
+					<!--EOC for ER-1292(INC0168468)  08 April 2021 ++VSINGH39 -->
+					<smartFilterBar:ControlConfiguration label="{i18n>search.View_Flag}" index="12" key="View_Flag" visibleInAdvancedArea="true">
+						<smartFilterBar:customControl>
+							<Select id="id_inp_view_flag" forceSelection="true" selectedKey="3">
+								<items>
+									<core:Item key="1" text="Hierarchy 1 - [Sold To > RTM FL > MLFL > (Contract / Quote) > LLFL > Equipment]"/>
+									<core:Item key="2" text="Hierarchy 2 - [Sold To > RTM FL > MLFL > Group Contract > Contract > LLFL]"/>
+									<core:Item key="3" text="Hierarchy 3 - [RTM FL > MLFL > LLFL > (Contract / Quote)]"/>
+									<core:Item key="4" text="Hierarchy 4 - [Sold To > RTM FL > MLFL > Reseller > (Contract / Quote)]"/>
+									<core:Item key="5" text="Hierarchy 5 - [Sold To > RTM FL > MLFL > NBQ > Contract > (LLFL / RNQ)]"/>
+									<core:Item key="6" text="Hierarchy 6 - Dynamic"/>
+									<core:Item key="9" text="Hierarchy 7 - [Sold To > RTM FL > MLFL > Group Contract > Quote > LLFL]"/>
+								</items>
+							</Select>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+			<IconTabBar id="idIconTabBarNoIcons" expanded="true" class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter text="Global Data">
+						<smartFilterBar:SmartFilterBar id="id_fb_global_data" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Sales_Organization}" index="0" key="Sales_Organization" id="id_inp_sales_org"
+									visibleInAdvancedArea="true"/>
+								<!--<smartFilterBar:ControlConfiguration index="1" key="Country" id="id_inp_country" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Country}" index="1" key="Country" id="id_inp_country" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Region}" index="2" key="Region" id="id_inp_region" visibleInAdvancedArea="true"
+									controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Created_Date}" index="3" key="Created_Date" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<DateRangeSelection id="id_inp_created_date" delimiter="-" displayFormat="dd.MM.yyyy" change="handleChange"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Created_By}" index="4" key="Created_By" id="id_inp_created_by"
+									visibleInAdvancedArea="true"/>
+								<!--BOC for ER 1294 INC0168697 08 April 2021 ++VSINGH39 DEVK9A0O6C-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.salesOffice}" index="5" key="SalesOffice" id="id_inp_salesOffice"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<!--EOC for ER 1294 INC0168697 08 April 2021 ++VSINGH39-->
+								<!--<smartFilterBar:ControlConfiguration label="{i18n>search.Created_By}" index="4" key="Created_By" id="id_inp_created_by"
+									visibleInAdvancedArea="true"/>-->
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="Contract Data">
+						<smartFilterBar:SmartFilterBar id="id_fb_contract_data" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Contract_Start_Date}" index="0" key="Contract_Start_Date"
+									visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<DateRangeSelection id="id_inp_contract_start_date" delimiter="-" displayFormat="dd.MM.yyyy" change="handleChange"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Contract_End_Date}" index="1" key="Contract_End_Date" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<DateRangeSelection id="id_inp_contract_end_date" delimiter="-" displayFormat="dd.MM.yyyy" change="handleChange"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Action_Date}" index="2" key="Action_Date" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<DateRangeSelection id="id_inp_action_date" delimiter="-" displayFormat="dd.MM.yyyy" change="handleChange"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Action_Code}" index="3" key="Action_Code" id="id_inp_action_code"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<!--<smartFilterBar:ControlConfiguration index="4" key="MYAPO" id="id_inp_myAPO" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Usage_Indicator_C}" index="4" key="Usage_Indicator_C" visibleInAdvancedArea="true"
+									controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<!--<smartFilterBar:ControlConfiguration index="5" key="Usage_Indicator_Q" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Quote_Status}" index="5" key="Quote_Status" id="id_inp_quote_status"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Term}" index="6" key="Term" id="id_inp_term" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Valid_To}" index="7" key="Valid_To" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<DateRangeSelection id="id_inp_valid_to" delimiter="-" displayFormat="dd.MM.yyyy" change="handleChange"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Contract_Status}" index="8" key="Contract_Status" id="id_inp_contract_status"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Document_Type}" index="9" key="Document_Type" controlType="dropDownList"
+									displayBehaviour="descriptionOnly" id="id_inp_document_type" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Quote}" index="10" key="Quote" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.ExternalId}" index="11" key="ExternalId" id="id_ext_no"
+									visibleInAdvancedArea="true"/>
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="Partners">
+						<smartFilterBar:SmartFilterBar id="id_fb_partners" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Entitled_Party}" index="0" key="Entitled_Party" id="id_inp_entitled_party"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Payer}" index="1" key="Payer" id="id_inp_payer" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Bill_To}" index="2" key="Bill_To" id="id_inp_bill_to" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.PSP}" index="3" key="PSP" id="id_inp_psp" visibleInAdvancedArea="true"/>
+								<!--Moving this Filter to header as per request ER-1292(INC0168468) ++VSINGH39-->
+								<!--<smartFilterBar:ControlConfiguration label="{i18n>search.End_Customer_ID}" index="4" key="End_Customer_ID" id="id_inp_end_customer_id" visibleInAdvancedArea="true"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Asset_Location}" index="5" key="Asset_Location" id="id_inp_asset_location"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.System_Manager}" index="6" key="System_Manager" id="id_inp_system_manager"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Sold_To_Contact}" index="7" key="Sold_To_Contact" id="id_inp_sold_to_contact"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.HPE_Sales_Rep_Contact}" index="8" key="HPE_Sales_Rep_Contact"
+									id="id_inp_hpe_sales_rep_contact" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.IB_Sales_Rep}" index="9" key="IB_Sales_Rep" id="id_inp_ib_sales_rep"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.AOL_Account_Operational_Leads}" index="10" key="AOL_Account_Operational_Leads"
+									id="id_inp_aol" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Delivery_Contact}" index="11" key="Delivery_Contact" id="id_inp_delivery_contact"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Software_Delivery_Contact}" index="12" key="Software_Delivery_Contact"
+									id="id_inp_software_delivery_contact" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Invocing_Contact}" index="13" key="Invocing_Contact" id="id_inp_invoicing_contact"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.PSP_Contact}" index="14" key="PSP_Contact" id="id_inp_psp_contact"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.GBS_Admin}" index="15" key="GBS_Admin" id="id_inp_gbs_admin"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.SubContractor_PSP}" index="16" key="SubContractor_PSP" id="id_inp_psp_subcntrct"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Global_Deals_Specialist}" index="17" key="Global_Deals_Specialist" id="id_inp_gds"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.AgentNumber}" index="18" key="AgentNumber" id="id_agt_no"
+									visibleInAdvancedArea="true"/>
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="Additional Data">
+						<smartFilterBar:SmartFilterBar id="id_fb_additional_data" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Opportunity_ID}" index="0" key="Opportunity_ID" id="id_inp_opportunity_id"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Customer_PO_Number}" index="1" key="Customer_PO_Number"
+									id="id_inp_customer_po_number" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Customer_Ready}" index="2" key="Customer_Ready" id="id_inp_customer_ready"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<!--Web Status-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Route_to_Market}" index="3" key="Route_to_Market" id="id_inp_route_to_market"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.OEM_ODP}" index="4" key="OEM_ODP" id="id_inp_oem_odp" visibleInAdvancedArea="true"
+									controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+								<!--BRT-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Legacy_Document_Number}" index="5" key="Legacy_Document_Number"
+									id="id_inp_legacy_document_number" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Deal_ID}" index="6" key="Deal_ID" id="id_inp_deal_id" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Purchase_Agreement_ID}" index="7" key="Purchase_Agreement_ID"
+									id="id_inp_purchase_agreement_id" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Reseller_Po}" index="8" key="Reseller_Po" id="id_inp_reseller_PO"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.MV_Products_Only}" index="9" key="MV_Products_Only" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_inp_mv_products_only"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.GIDI}" index="10" key="GIDI" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Invoice_Methodology}" index="11" key="Invoice_Methodology"
+									visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="IB Parameters">
+						<smartFilterBar:SmartFilterBar id="id_fb_ib_parameters" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Serial_Number}" index="0" key="Serial_Number" id="id_inp_serial_number"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Equipment_Number}" index="1" key="Equipment_Number" id="id_inp_equipment_number"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.PAC_Code}" index="2" key="PAC_Code" id="id_inp_pac_code"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Material_Number}" index="3" key="Material_Number" id="id_inp_material_number"
+									visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.LID_Code}" index="4" key="LID_Code" id="id_inp_lid_code"
+									visibleInAdvancedArea="true"/>
+								<!--INC0154688 Techidentno DEVK9A01SM ++VS BOC-->
+								<smartFilterBar:ControlConfiguration label="Tech Id no" index="5" key="TechIdentNo" id="id_inp_techidentNo" visibleInAdvancedArea="true"/>
+								<!--INC0154688 Techidentno DEVK9A01SM ++VS EOC-->
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="Additional Filters">
+						<smartFilterBar:SmartFilterBar id="id_fb_additional_filters" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Show_Expired_Contracts}" index="0" key="Show_Expired_Contracts"
+									visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_inp_show_expired_contracts"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Exclude_Fully_Rejected}" index="1" key="Exclude_Fully_Rejected"
+									visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="true" id="id_inp_exclude_fully_rejected"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Exclude_fully_referenced}" index="2" key="Exclude_fully_referenced"
+									visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_inp_exclude_fully_referenced"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<!--<smartFilterBar:ControlConfiguration index="3" key="Business_Area" id="id_inp_business_area" visibleInAdvancedArea="true"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>search.Profit_Center}" index="3" key="Profit_Center" id="id_inp_profit_center"
+									visibleInAdvancedArea="true"/>
+								<!--SOC szanzaney CCB488-->
+						<smartFilterBar:ControlConfiguration label="{i18n>search.Include_Linked_SO}" index="4" key="IncludeLinkedSO" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_inp_include_linked_so"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<!--EOC szanzaney CCB488-->
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+		<footer>
+			<Toolbar>
+				<Button id="id_btn_search_global_update" text="Global Update" type="Accept" press="onPressGlobalUpdate" visible="false"/>
+				<Button id="id_btn_search_eqp_rpt" text="Equipment Report" type="Accept" press="onPressEquipmentReport" visible="true"/>
+				<ToolbarSpacer/>
+				<Button text="Execute" type="Accept" press="onPressExecute"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

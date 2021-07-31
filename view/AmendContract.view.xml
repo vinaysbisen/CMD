@@ -1,0 +1,559 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.AmendContract" xmlns="sap.m"
+	xmlns:ui="sap.ui.table" xmlns:layout="sap.ui.layout" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<Page id="id_amend_page" showHeader="true" title="Amend Contract" showFooter="true" showNavButton="true" navButtonPress="onBack">
+		<content>
+			<Panel expandable="true" expanded="true" headerText="Update Header" width="auto">
+				<smartFilterBar:SmartFilterBar id="id_fb_amend_contracts_header" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+					<smartFilterBar:controlConfiguration>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Cancellation_Code}" index="0" key="Cancellation_Code"
+							id="id_inp_amend_c_cancellation_code" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+							displayBehaviour="descriptionOnly"/>
+						<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Receipt_Of_Cancellation}" index="1" key="Receipt_Of_Cancellation"
+							visibleInAdvancedArea="true">
+							<smartFilterBar:customControl>
+								<DatePicker id="id_inp_amend_c_receipt_of_cancellation" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange"/>
+							</smartFilterBar:customControl>
+						</smartFilterBar:ControlConfiguration>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Cancellation_Date}" index="2" key="Cancellation_Date"
+							visibleInAdvancedArea="true">
+							<smartFilterBar:customControl>
+								<DatePicker id="id_inp_amend_c_cancellation_date" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange"/>
+							</smartFilterBar:customControl>
+						</smartFilterBar:ControlConfiguration>
+						<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+						<!--<smartFilterBar:ControlConfiguration index="4" key="Rejection_Code" id="id_inp_amend_c_rejection_code" visibleInAdvancedArea="true"
+							filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Group_Contract}" index="5" key="Group_Contract"
+							id="id_inp_amend_c_group_contract" visibleInAdvancedArea="true" filterType="single"/>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Coverage_Period}" index="6" key="Coverage_Period"
+							visibleInAdvancedArea="{path: 'visibilityModel>/Coverage_Editable'}">
+							<smartFilterBar:customControl>
+								<DateRangeSelection id="id_inp_amend_c_coverage_period" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange"
+									delimiter="-"/>
+							</smartFilterBar:customControl>
+						</smartFilterBar:ControlConfiguration>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Web_Enabled}" index="7" key="Web_Enabled" id="id_inp_amend_c_web_enabled"
+							filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Billing_Cycle}" index="8" key="Billing_Cycle"
+							id="id_inp_amend_c_billing_cycle" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+							displayBehaviour="descriptionOnly"/>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.AltTaxClassification}" index="9" key="AltTaxClassification"
+							id="id_inp_amend_c_altTaxClassification" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+							displayBehaviour="descriptionOnly"/>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Reason_For_Date_Change}" index="10" key="Reason_For_Date_Change"
+							visibleInAdvancedArea="{path: 'visibilityModel>/Reason_For_Date_Change_Visible'}" filterType="single" controlType="dropDownList"
+							displayBehaviour="descriptionOnly"/>
+						<!--SOC szanzaney SRE2524-->
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Billing_Cycle_Adv_PI}" index="11" key="PIBillRule"
+							visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+						<smartFilterBar:ControlConfiguration label="{i18n>amendContract.Payment_due_Adv_PI}" index="12" key="PaymentDue" filterType="single"
+							visibleInAdvancedArea="true"/>
+						<!--SOC szanzaney SRE2524-->
+						<!--Web Status-->
+					</smartFilterBar:controlConfiguration>
+				</smartFilterBar:SmartFilterBar>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Update Billing Date(s) - Header" width="auto">
+				<ui:Table id="id_zcontract_db_tbl_amend_billing_header" alternateRowColors="true" showNoData="true" selectionMode="None"
+					fixedColumnCount="2" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/Billing_Header}">
+					<ui:columns>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Settlement">
+							<Text wrapping="true" text="Settlement From"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>Settlement}" editable="false"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="To">
+							<Text wrapping="true" text="Settlement To"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>To}" editable="false"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="To">
+							<Text wrapping="true" text="Billing Date"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChangeBillingDate_H" value="{viewData>NewBillingDate}"
+									editable="{viewData>BillingDateEditable}"/>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+				</ui:Table>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Update Billing Date(s) - Item" width="auto">
+				<ui:Table id="id_zcontract_db_tbl_amend_billing_items" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+					showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/Billing_Items}">
+					<ui:columns>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Item">
+							<Text wrapping="true" text="Item"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Item}" class="zcontract_db_bold"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Settlement">
+							<Text wrapping="true" text="Settlement From"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>Settlement}" editable="false"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="To">
+							<Text wrapping="true" text="Settlement To"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>To}" editable="false"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="To">
+							<Text wrapping="true" text="Billing Date"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChangeBillingDate_I" value="{viewData>NewBillingDate}"
+									editable="{viewData>BillingDateEditable}"/>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+				</ui:Table>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Update Item(s) - Cancellation / Rejection Reason / SMC" width="auto">
+				<!--<VBox>
+					<HBox>
+						<HBox width="30px"></HBox>
+						<ComboBox id="id_amend_c_rej_reason_for_all" width="350px" showSecondaryValues="true"
+							items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }">
+							<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>
+						</ComboBox>
+						<HBox width="10px"></HBox>
+						<Button text="Apply Rejection Reason To All" press="onPressApplyToAll_Rejection_Code"></Button>
+					</HBox>
+					<HBox>
+						<HBox width="30px"></HBox>
+						<ComboBox id="id_amend_c_smc_for_all" width="350px" showSecondaryValues="true"
+							items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }">
+							<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>
+						</ComboBox>
+						<HBox width="10px"></HBox>
+						<Button text="Apply SMC To All" press="onPressApplyToAll_SMC"></Button>
+					</HBox>
+				</VBox>-->
+				<ui:Table id="id_zcontract_db_tbl_amend_reject_items" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle"
+					enableSelectAll="true" fixedColumnCount="3" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}"
+					rows="{viewData>/Reject_Items}">
+					<ui:extension>
+						<Toolbar>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://resize-horizontal" type="Accept" text="Optimize Column Widths" press="onPressResizeHorizontal_Rej_Items"/>
+							<Button width='auto' text="Apply Values" icon="sap-icon://trend-up" type="Accept" press="handlePressApplyDialog_Rej_Items"/>
+						</Toolbar>
+					</ui:extension>
+					<ui:columns>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Item">
+							<Text wrapping="true" text="Item"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Item}" class="zcontract_db_bold"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Material">
+							<Text wrapping="true" text="Material"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Material}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Material_Desc">
+							<Text wrapping="true" text="Description"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Material_Desc}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="PSP">
+							<Text wrapping="true" text="ZS PSP partner"/>
+							<ui:template>
+								<Input value="{viewData>PSP}" editable="{viewData>PSP_Editable}" enabled="true"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Cancellation_Code">
+							<Text wrapping="true" text="Cancellation Code"/>
+							<ui:template>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>Cancellation_Code}"
+									items="{ path: 'viewData>/CancellationCodeList', templateShareable:false, sorter: { path: 'BEZEI' } }">
+									<core:ListItem key="{viewData>KUEGRU}" text="{viewData>BEZEI}"/>
+								</ComboBox>
+							</ui:template>
+						</ui:Column>
+						<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="NewLLFL">
+							<Text wrapping="true" text="Receipt Of Cancellation"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange" value="{viewData>Receipt_Of_Cancellation}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Cancellation_Date">
+							<Text wrapping="true" text="Cancellation Date"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange" value="{viewData>Cancellation_Date}"/>
+							</ui:template>
+						</ui:Column>
+						<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Reason_For_Date_Change" visible="{path: 'visibilityModel>/Reason_For_Date_Change_Visible'}">
+							<Text wrapping="true" text="Reason For Date Change"/>
+							<ui:template>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>CODE}"
+									items="{ path: 'viewData>/Reason_For_Date_ChangeList', templateShareable:false, sorter: { path: 'DESCRIPTION' } }">
+									<core:ListItem key="{viewData>CODE}" text="{viewData>DESCRIPTION}"/>
+								</ComboBox>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Rejection_Code">
+							<Text wrapping="true" text="Rejection Reason"/>
+							<ui:template>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>Rejection_Code}" editable="{viewData>Rejection_Editable}"
+									items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }">
+									<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>
+								</ComboBox>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="SMC">
+							<Text wrapping="true" text="SMC"/>
+							<ui:template>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>SMC}"
+									items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }">
+									<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>
+								</ComboBox>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+				</ui:Table>
+				<!--<items>
+						<ColumnListItem type="Active">
+							<cells>
+								<Input value="{viewData>Item}" editable="false" enabled="true" tooltip="{viewData>Item}"/>
+								<Input value="{viewData>Material}" editable="false" enabled="true" tooltip="{viewData>Material}"/>
+								<Input value="{viewData>Material_Desc}" editable="false" enabled="true" tooltip="{viewData>Material_Desc}"/>
+								<Input value="{viewData>PSP}" editable="{viewData>PSP_Editable}" enabled="true" tooltip="{viewData>PSP}"/>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>Cancellation_Code}"
+									items="{ path: 'viewData>/CancellationCodeList', templateShareable:false, sorter: { path: 'BEZEI' } }">
+									<core:ListItem key="{viewData>KUEGRU}" text="{viewData>BEZEI}"/>
+								</ComboBox>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange" value="{viewData>Cancellation_Date}"/>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChange" value="{viewData>Receipt_Of_Cancellation}"/>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>Rejection_Code}" editable="{viewData>Rejection_Editable}"
+									items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }">
+									<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>
+								</ComboBox>
+								<ComboBox showSecondaryValues="true" selectedKey="{viewData>SMC}"
+									items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }">
+									<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>
+								</ComboBox>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>-->
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Add SSN(s) - BILL_SCH_ADJ" width="auto">
+				<!--SRE 2483 BOC ++VS -->
+				<headerToolbar>
+					<Toolbar>
+						<Title text="Add SSN(s) - BILL_SCH_ADJ"/>
+						<ToolbarSpacer/>
+						<Button text="Default View" press="onPressDefaultView"/>
+						<Button text="Equal Billing" enabled="{= ${viewData>/Billing_Status} !== 'B'}" press="onPressEqualBilling" class="sapUiSmallMarginBeginEnd"/>
+						<Button text="Customer Requested Billing" press="onPressCustomerBilling"/>
+					</Toolbar>
+				</headerToolbar>
+				<!--table for Equal Billing-->
+				<ui:Table id="id_zcontract_db_tbl_equalBilling" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+					showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/eqalBillingItem}"
+					visible="{visibilityModel>/IsVisibleEqBilling}">
+					<ui:columns>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Start Date">
+							<Text wrapping="true" text="Start Date"/>
+							<ui:template>
+								<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="End Date">
+							<Text wrapping="true" text="End Date"/>
+							<ui:template>
+								<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Amount">
+							<Text wrapping="true" text="Item Net Value"/>
+							<ui:template>
+								<Input enabled="false" value="{viewData>AMOUNT}" change="onChange_SSN_AMT" class="zcmd_right"/>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+					<ui:footer>
+						<Toolbar>
+							<content>
+								<Text text="Total:" class="zcontract_db_bold"/>
+								<Text text="{viewData>/TOTAL_SSN}" class="zcontract_db_bold"/>
+								<ToolbarSpacer/>
+								<Button text="Add SSN(s)" press="onPress_BILL_SCH_userBilling" type="Accept"/>
+							</content>
+						</Toolbar>
+					</ui:footer>
+				</ui:Table>
+				<!--table for User Defined Billing-->
+				<ui:Table id="id_zcontract_db_tbl_UserDefBilling" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+					showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/custBillingItem}"
+					visible="{visibilityModel>/IsVisibleUserDefBilling}">
+					<ui:columns>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Start Date">
+							<Text wrapping="true" text="Start Date"/>
+							<ui:template>
+								<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="End Date">
+							<Text wrapping="true" text="End Date"/>
+							<ui:template>
+								<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="AMOUNT_CUST">
+							<Text wrapping="true" text="Billed Amount"/>
+							<ui:template>
+								<Input enabled="false" value="{viewData>AMOUNT_CUST}" change="onChange_SSN_AMT" class="zcmd_right"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="AMOUNT_USER">
+							<Text wrapping="true" text="Customer Requested Billing"/>
+							<ui:template>
+								<Input value="{viewData>AMOUNT_USER}" change="onChange_SSN_AMT_UserDef" class="zcmd_right" enabled="{= !(${viewData>IS_INVOICED})}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Amount" visible="false">
+							<Text wrapping="true" text="Customer Requested Billing"/>
+							<ui:template>
+								<Input type="Number" value="{viewData>AMOUNT}" change="onChange_SSN_AMT" class="zcmd_right"/>
+							</ui:template>
+						</ui:Column>
+						<!--<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true" filterProperty="">-->
+						<!--	<Text wrapping="true" text=""/>-->
+						<!--	<ui:template>-->
+						<!--		<HBox>-->
+						<!--			<Button icon="sap-icon://sys-add" type="Transparent" press="onPressAddSSN"></Button>-->
+						<!--			<Button icon="sap-icon://sys-minus" type="Transparent" press="onPressRemoveSSN" visible="{viewData>minus_visible}"></Button>-->
+						<!--		</HBox>-->
+						<!--	</ui:template>-->
+						<!--</ui:Column>-->
+					</ui:columns>
+					<ui:footer>
+						<Toolbar>
+							<content>
+								<Text text="Total:" class="zcontract_db_bold"/>
+								<Text text="{viewData>/TOTAL_SSN_UserDef}" class="zcontract_db_bold"/>
+								<ToolbarSpacer/>
+								<Button text="Add SSN(s)" press="onPressAdjBillingUserDef" type="Accept"/>
+							</content>
+						</Toolbar>
+					</ui:footer>
+				</ui:Table>
+				<!--SRE 2483 EOC ++VS -->
+				<ui:Table id="id_zcontract_db_tbl_amend_bil_sch_adj" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+					showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/Add_SSN}"
+					visible="{visibilityModel>/IsVisibleDefBilling}">
+					<ui:columns>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Start Date">
+							<Text wrapping="true" text="Start Date"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="End Date">
+							<Text wrapping="true" text="End Date"/>
+							<ui:template>
+								<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Amount">
+							<Text wrapping="true" text="Item Net Value"/>
+							<ui:template>
+								<Input type="Number" value="{viewData>AMOUNT}" change="onChange_SSN_AMT" class="zcmd_right"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true" filterProperty="">
+							<Text wrapping="true" text=""/>
+							<ui:template>
+								<HBox>
+									<Button icon="sap-icon://sys-add" type="Transparent" press="onPressAddSSN"></Button>
+									<Button icon="sap-icon://sys-minus" type="Transparent" press="onPressRemoveSSN" visible="{viewData>minus_visible}"></Button>
+								</HBox>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+					<ui:footer>
+						<Toolbar>
+							<content>
+								<Text text="Total:" class="zcontract_db_bold"/>
+								<Text text="{viewData>/TOTAL_SSN}" class="zcontract_db_bold"/>
+								<ToolbarSpacer/>
+								<Button text="Add SSN(s)" press="onPress_BILL_SCH_ADJ" type="Accept"/>
+							</content>
+						</Toolbar>
+					</ui:footer>
+				</ui:Table>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Update Equipment - Serial Number / LLFL / Exclusion Date / Swap Equipment"
+				width="auto">
+				<!--<VBox>
+					<HBox>
+						<HBox width="30px"></HBox>
+						<DatePicker id="id_amend_excl_date" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+						<HBox width="10px"></HBox>
+						<Button text="Apply Exclusion Date To All" press="onPressApplyToAll_Exclusion_Date"></Button>
+					</HBox>
+					<HBox>
+						<HBox width="30px"></HBox>
+						<DatePicker id="id_amend_valid_from" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+						<HBox width="10px"></HBox>
+						<Button text="Apply Valid From Date To Selected Item(s)" press="onPressApplyToSelected_Valid_From"></Button>
+						<HBox width="10px"></HBox>
+						<Button text="Apply Valid From Date To All" press="onPressApplyToAll_Valid_From"></Button>
+					</HBox>
+					<HBox>
+						<HBox width="30px"></HBox>
+						<Input id="id_amend_target_llfl" editable="true" enabled="true"/>
+						<HBox width="10px"></HBox>
+						<Button text="Apply LLFL Change To Selected Item(s)" press="onPressApplyToSelected_Target_LLFL"></Button>
+						<HBox width="10px"></HBox>
+						<Button text="Apply LLFL Change To All" press="onPressApplyToAll_Target_LLFL"></Button>
+					</HBox>
+				</VBox>-->
+				<ui:Table id="id_zcontract_db_tbl_amend_serial_numbers" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle"
+					enableSelectAll="true" fixedColumnCount="2" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}"
+					rows="{viewData>/Serial_Numbers}">
+					<ui:extension>
+						<Toolbar>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://resize-horizontal" type="Accept" text="Optimize Column Widths" press="onPressResizeHorizontal_Equip"/>
+							<Button width='auto' text="Apply Values" icon="sap-icon://trend-up" type="Accept" press="handlePressApplyDialog_Rej_Equip"/>
+						</Toolbar>
+					</ui:extension>
+					<ui:columns>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Equipment">
+							<Text wrapping="true" text="Equipment"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Equipment}" class="zcontract_db_bold"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Material">
+							<Text wrapping="true" text="Product"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Material}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Sernr">
+							<Text wrapping="true" text="Serial Number"/>
+							<ui:template>
+								<Input value="{viewData>Sernr}" editable="{viewData>Sernr_Editable}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Qty">
+							<Text wrapping="true" text="Quantity"/>
+							<ui:template>
+								<Text wrapping="true" text="{viewData>Qty}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Valid_From">
+							<Text wrapping="true" text="Valid From"/>
+							<ui:template>
+								<DatePicker value="{viewData>Valid_From}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChangeValidFrom" editable="false"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Swap_Equipment">
+							<Text wrapping="true" text="Swap Equipment"/>
+							<ui:template>
+								<!--<Input value="{viewData>Replaced_Equipment}" editable="{viewData>Replaced_Equipment_Editable}" valueHelpOnly="true"/>-->
+								<Input value="{viewData>Replaced_Equipment}" valueHelpOnly="true" valueHelpRequest="onValueHelpReplaceEqp" showValueHelp="true"/>
+								<!--<Input value="{viewData>Replaced_Equipment}"/>-->
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Target_Llfl">
+							<Text wrapping="true" text="LLFL"/>
+							<ui:template>
+								<Input value="{viewData>Target_Llfl}"/>
+							</ui:template>
+						</ui:Column>
+						<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+							filterProperty="Exclusion_Date">
+							<Text wrapping="true" text="Exclusion Date"/>
+							<ui:template>
+								<DatePicker value="{viewData>Exclusion_Date}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+							</ui:template>
+						</ui:Column>
+					</ui:columns>
+				</ui:Table>
+				<!--<Table id="id_zcontract_db_tbl_amend_serial_numbers" mode="MultiSelect" width="auto" noDataText="No data" showSeparators="All"
+					growing="true" growingThreshold="20" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{viewData>/Serial_Numbers}">
+					<columns>
+						
+						<Column width="10%">
+							<header>
+								<Text text="Qty" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+							</header>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Active">
+							<cells>
+								<Input value="{viewData>Material}" editable="false" enabled="true" tooltip="{viewData>Material}"/>
+								<Input value="{viewData>Equipment}" type="Number" maxLength="18" editable="false" enabled="true" tooltip="{viewData>Equipment}"/>
+								<DatePicker value="{viewData>Valid_From}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+								<Input value="{viewData>Functional_Location}" editable="false" enabled="true" tooltip="{viewData>Functional_Location}"/>
+								<Input value="{viewData>Target_Llfl}" editable="true" enabled="true" tooltip="{viewData>Target_Llfl}"/>
+								<Input value="{viewData>Qty}" editable="false" enabled="true" tooltip="{viewData>Qty}"/>
+								<Input value="{viewData>Sernr}" editable="{viewData>Sernr_Editable}" enabled="true" tooltip="{viewData>Sernr}"/>
+								<DatePicker value="{viewData>Exclusion_Date}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>-->
+			</Panel>
+		</content>
+		<footer>
+			<OverflowToolbar width="100%" height="46px" design="Auto" enabled="true" visible="true">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button id="id_zcontract_db_amend_update" type="Accept" press="onPressAmendContract" text="Amend Contract" iconFirst="true" width="auto"
+						enabled="true" visible="true" iconDensityAware="false"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

@@ -1,0 +1,7 @@
+<mvc:View xmlns:core="sap.ui.core" 
+		xmlns:mvc="sap.ui.core.mvc" 
+		xmlns="sap.m" 
+		controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.App"
+		xmlns:html="http://www.w3.org/1999/xhtml">
+	<App id="id_app_zcontract_db"/>
+</mvc:View>

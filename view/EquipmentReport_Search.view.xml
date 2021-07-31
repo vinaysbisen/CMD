@@ -1,0 +1,90 @@
+<mvc:View controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.EquipmentReport_Search" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	displayBlock="true" xmlns="sap.m">
+	<Page showHeader="false">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_ers_fb_main_selection" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Equipment_Number}" index="0" key="Equipment_Number" id="id_ers_inp_equipment_number" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Sales_Order_Number}" index="1" key="Sales_Order_Number" id="id_inp_sales_order_number" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.RTM_FL}" index="2" key="RTM_FL" id="id_ers_inp_rtm_fl" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.AMP_ID}" index="3" key="AMP_ID" id="id_ers_inp_amp_id" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Low_Level_Functional_Location}" index="4" key="Low_Level_Functional_Location" id="id_ers_inp_llfl" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Sold_To}" index="5" key="Sold_To" id="id_ers_inp_sold_to" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Tier_2_Reseller}" index="6" key="Tier_2_Reseller" id="id_ers_inp_reseller" visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Serial_Number}" index="7" key="Serial_Number" id="id_ers_inp_serial_number1" visibleInAdvancedArea="true"/>
+					<!--BOC for ER-1292(INC0168468) 08 April 2021 ++VSINGH39 moved end customer from partners tab to header-->
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.End_Customer_ID}" index="8" key="End_Customer_ID" id="id_ers_inp_end_customer_id" visibleInAdvancedArea="true"/>
+					<!--BOC for ER-1292(INC0168468) 08 April 2021 ++VSINGH39 -->
+					<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.View_Flag}" index="9" key="View_Flag" visibleInAdvancedArea="true">
+						<smartFilterBar:customControl>
+							<Select id="id_ers_inp_view_flag" forceSelection="true" selectedKey="7">
+								<items>
+									<core:Item key="7" text="Hierarchy 1 - [HLFL > RTM FL > MLFL > LLFL > Equipment]"/>
+									<core:Item key="8" text="Hierarchy 2 - Dynamic"/>
+								</items>
+							</Select>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+			<IconTabBar id="id_ersIconTabBarNoIcons" expanded="true" class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter text="Partners">
+						<smartFilterBar:SmartFilterBar id="id_ers_fb_partners" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Entitled_Party}" index="0" key="Entitled_Party" id="id_ers_inp_entitled_party" visibleInAdvancedArea="true"/>
+							<!--	<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.End_Customer_ID}" index="4" key="End_Customer_ID" id="id_ers_inp_end_customer_id" visibleInAdvancedArea="true"/>-->
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Asset_Location}" index="5" key="Asset_Location" id="id_ers_inp_asset_location" visibleInAdvancedArea="true"/>
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="IB Parameters">
+						<smartFilterBar:SmartFilterBar id="id_ers_fb_ib_parameters" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.PAC_Code}" index="0" key="PAC_Code" id="id_ers_inp_pac_code" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Material_Number}" index="1" key="Material_Number" id="id_ers_inp_material_number" visibleInAdvancedArea="true"/>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.LID_Code}" index="2" key="LID_Code" id="id_inp_lid_code" visibleInAdvancedArea="true"/>
+								<!--INC0154688 Techidentno DEVK9A01SM ++VS-->
+								<smartFilterBar:ControlConfiguration index="3" key="TechIdentNo" id="id_ers_techidentNo" visibleInAdvancedArea="true" label="Tech Id no"/>
+							    <!--INC0154688 Techidentno DEVK9A01SM ++VS-->
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+					</IconTabFilter>
+					<IconTabFilter text="Additional Filters">
+						<smartFilterBar:SmartFilterBar id="id_ers_fb_additional_filters" entitySet="Ets_Search" liveMode="false" showGoOnFB="false">
+							<smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.V_E_Linked_Contract}" index="0" key="V_E_Linked_Contract" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_ers_inp_v_e_linked_contract"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.V_E_Linked_Quote}" index="1" key="V_E_Linked_Quote" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_ers_inp_v_e_linked_quote"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<!--2483 1.7-->
+								<smartFilterBar:ControlConfiguration label="{i18n>eqReport.srch.Child_equip}" index="2" key="Child_equip" visibleInAdvancedArea="true">
+									<smartFilterBar:customControl>
+										<CheckBox text="" selected="false" id="id_get_child_eqp"/>
+									</smartFilterBar:customControl>
+								</smartFilterBar:ControlConfiguration>
+								<!--2483 1.7-->
+							</smartFilterBar:controlConfiguration>
+						</smartFilterBar:SmartFilterBar>
+						<!--<Text text="*These flags are applicable only if Sales Order Number is provided in Main Selection*"/>-->
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+		<footer>
+			<Toolbar>
+				<Button id="id_ers_btn_search_global_update" text="Global Update" type="Accept" press="onPressGlobalUpdate" visible="false"/>
+				<Button id="id_ers_btn_search_eqp_rpt" text="CMD Report" type="Accept" press="onPressCMDReport" visible="true"/>
+				<ToolbarSpacer/>
+				<Button text="Execute" type="Accept" press="onPressExecute"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

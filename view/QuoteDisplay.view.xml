@@ -1,0 +1,611 @@
+<core:View xmlns:ui="sap.ui.table" xmlns:core="sap.ui.core" xmlns="sap.uxap" xmlns:layout="sap.ui.layout" xmlns:m="sap.m"
+	controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.QuoteDisplay" height="100%"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="false" showTitleInHeaderContent="true" showEditHeaderButton="false"
+		editHeaderButtonPress="handleEditBtnPress">
+		<headerTitle>
+			<ObjectPageHeader objectTitle="{viewData>/Contract_Type}" isObjectTitleAlwaysVisible="false" isObjectSubtitleAlwaysVisible="false"></ObjectPageHeader>
+		</headerTitle>
+		<headerContent>
+			<layout:HorizontalLayout>
+				<layout:VerticalLayout>
+					<layout:HorizontalLayout>
+						<m:Label text="Sold-to Party: "/>
+						<m:Link class="zcontract_db_leftpadding" text="{viewData>/Sold_To}" press="onSoldToPress"/>
+					</layout:HorizontalLayout>
+				</layout:VerticalLayout>
+				<layout:VerticalLayout>
+					<layout:HorizontalLayout>
+						<m:Label class="zcontract_db_separator" text="Quote Status: "/>
+						<m:Label class="zcontract_db_leftpadding black" text="{viewData>/Contract_Status}"/>
+					</layout:HorizontalLayout>
+					<layout:HorizontalLayout>
+						<m:Label class="zcontract_db_separator" text="Rejection Status: "/>
+						<m:Label class="zcontract_db_leftpadding black" text="{viewData>/Rejection_Status}"/>
+					</layout:HorizontalLayout>
+				</layout:VerticalLayout>
+				<layout:VerticalLayout>
+					<layout:HorizontalLayout>
+						<m:Label class="zcontract_db_separator" text="Quote Start Date: "/>
+						<m:Label class="zcontract_db_leftpadding black" text="{viewData>/Valid_From_Date}"/>
+					</layout:HorizontalLayout>
+					<layout:HorizontalLayout>
+						<m:Label class="zcontract_db_separator" text="Quote End Date: "/>
+						<m:Label class="zcontract_db_leftpadding black" text="{viewData>/Valid_To_Date}"/>
+					</layout:HorizontalLayout>
+				</layout:VerticalLayout>
+				<layout:VerticalLayout>
+					<m:Label class="zcontract_db_separator" text="Net Value: "/>
+					<m:Label class="zcontract_db_separator zcontract_db_black zcontract_db_netvalue" text="{viewData>/Net_Value}"/>
+				</layout:VerticalLayout>
+			</layout:HorizontalLayout>
+		</headerContent>
+		<sections>
+			<ObjectPageSection id="id_q_general_information" title="General Information">
+				<subSections>
+					<ObjectPageSubSection id="id_q_general_information_SS1" title=" ">
+						<m:HBox class="zcontract_db_wrap">
+							<m:VBox class="zcontract_db_wrap zcontract_db_display_general_info">
+								<layout:VerticalLayout>
+									<m:Label text="Sales Org:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Sales_Org}"/>
+									<m:Label text="Document Date:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Document_Date}"/>
+									<m:Label text="Customer Reference:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Customer_Reference}"/>
+									<m:Label text="Customer Reference Date:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Customer_Reference_Date}"/>
+									<m:Label text="Version Description:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Version_Description}"/>
+									<m:Label text="Billing Cycle:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Billing_Cycle}"/>
+									<m:Label text="Action Date:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Action_Date}"/>
+									<m:Label text="Action Code:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Action_Code}"/>
+									<m:Label text="Reason For Cancellation:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Reason_For_Cancellation}"/>
+								</layout:VerticalLayout>
+							</m:VBox>
+							<m:VBox class="zcontract_db_wrap zcontract_db_display_general_info">
+								<layout:VerticalLayout>
+									<m:Label text="Quote Amount:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Quote_Amount}"/>
+									<m:Label text="Group Contract:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Master_Contract_ID}"/>
+									<m:Label text="Route To Market:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Route_To_Market}"/>
+									<m:Label text="Usage Indicator:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Usage Indicator}"/>
+									<m:Label text="Sales Order Number:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Sales_Order_Number}"/>
+									<m:Label text="Created By:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Created_By}"/>
+									<m:Label text="BRT:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/BRT}"/>
+									<m:Label text="Billing Block:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Billing_Block}"/>
+									<m:Label text="Payment Term:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Payment_Term}"/>
+								</layout:VerticalLayout>
+							</m:VBox>
+							<m:VBox class="zcontract_db_wrap zcontract_db_display_general_info">
+								<layout:VerticalLayout>
+									<m:Label text="Sold-To Country:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Country}"/>
+									<m:Label text="Opportunity ID:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Opportunity_ID}"/>
+									<m:Label text="Legacy Doc#"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Legacy_Doc}"/>
+									<!--<m:Label text="Customer Ready:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Customer_Ready}"/>-->
+									<m:Label text="HPE Net Value:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/HPE_Net_Value}"/>
+									<m:Label text="Service Level/s:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Service_Levels}"/>
+									<m:Label text="Deal ID:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Deal_ID}"/>
+									<m:Label text="Deal Discount %:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Deal_Discount_Percentage}"/>
+									<m:Label text="Deal Discount Value:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Deal_Discount_Value}"/>
+									<!--soc szanzaney 4/12 CR143712 and CR143970-->
+									<m:Label text="Billing Cycle for Adv PI:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/PIBillRule}"/>
+									<!--eoc szanzaney 4/12 CR143712 and CR143970-->
+								</layout:VerticalLayout>
+							</m:VBox>
+							<m:VBox class="zcontract_db_wrap zcontract_db_display_general_info">
+								<layout:VerticalLayout>
+									<m:Label text="Purchase Agreement ID:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Purchase_Agreement_ID}"/>
+									<m:Label text="Attachment Indicator:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Attachment_Indicator}"/>
+									<m:Label text="Web Status:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Web_Status}"/>
+									<m:Label text="Reseller PO Number:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Reseller_PO_Number}"/>
+									<m:Label text="Multi-Year Discount %:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/MultiYear_Discount_Percentage}"/>
+									<m:Label text="Multi-Year Value:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/MultiYear_Value}"/>
+									<m:Label text="Pre-payment Discount %:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Prepayment_Discount_Percentage}"/>
+									<m:Label text="Pre-payment Value:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/Prepayment_Value}"/>
+									<!--soc szanzaney 4/12 CR143712 and CR143970-->
+									<m:Label text="Payment due in Days of Adv PI:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/PaymentDue}"/>
+									<m:Label text="Payment Currency:"/>
+									<m:Text wrapping="true" class="zcontract_db_bottompadding" text="{viewData>/PaymentCurrency}"/>
+									<!--eoc szanzaney 4/12 CR143712 and CR143970-->
+								</layout:VerticalLayout>
+							</m:VBox>
+						</m:HBox>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<!--<ObjectPageSection id="id_q_items" title="Items" importance="Medium">-->
+			<!--	<subSections>-->
+			<!--		<ObjectPageSubSection id="id_q_items_SS1" title="Items">-->
+			<!--			<ui:Table id="id_q_zcontract_db_items" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2">-->
+			<!--				<ui:columns>-->
+			<!--					<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="50px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Item"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Item_Number}" class="zcontract_db_bold"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column class="zc_contract_db_results_col" width="170px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Material"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Material_Number}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column class="zc_contract_db_results_col" width="280px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Description"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Material_Description}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="SMC"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{SMC}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Quantity"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Quantity}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Item Category"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Item_Category}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Higher Level Item"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{High_Level_Item}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Start Date"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Start_Date}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="End Date"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{End_Date}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Discount"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Discount}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Net Value"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Net_Value}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Serial Number"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Serial_Number}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="170px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Functional Location"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Functional_Location}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Equipment"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Equipment}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Warranty Id"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Warranty_ID}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Division"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Division}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Profit Center"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Profit_Center}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Business Area"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Business_Area}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Material Grp 4"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Material_Group_4}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true">-->
+			<!--						<m:Text wrapping="true" text="Rejection Code"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{Rejection_Code}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--					<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"-->
+			<!--						filterProperty="EOSL_Date">-->
+			<!--						<m:Text wrapping="true" text="EOSL Date"/>-->
+			<!--						<ui:template>-->
+			<!--							<m:Text wrapping="true" text="{EOSL_Date}"/>-->
+			<!--						</ui:template>-->
+			<!--					</ui:Column>-->
+			<!--				</ui:columns>-->
+			<!--			</ui:Table>-->
+			<!--		</ObjectPageSubSection>-->
+			<!--	</subSections>-->
+			<!--</ObjectPageSection>-->
+			
+				<!--SRE2483 BOC VS-->
+			<ObjectPageSection id="id_items" title="Items" importance="Medium">
+				<subSections>
+					<ObjectPageSubSection id="id_q_items_SS1" title="Items">
+						 <smartTable:SmartTable
+                                    id="ST_q_quote_items"
+                                    beforeRebindTable="onBfrBindTblCrItm"
+                                    entitySet="Ets_ContractItem"
+                                    requestAtLeastFields="Item_Number,Material_Number"
+                                    initiallyVisibleFields="Item_Number,Material_Number"
+                                    tableType="Table"
+                                    useExportToExcel="false"
+                                    useVariantManagement="true"
+                                    useTablePersonalisation="true"
+                                    showRowCount="false"
+                                    enableAutoBinding="true"
+                                    demandPopin="true"
+                                    persistencyKey="SmartTableItemList">
+						 	<smartTable:customToolbar>
+			                            <m:OverflowToolbar design="Transparent">
+				                        <m:ToolbarSpacer/>
+				                        <m:OverflowToolbarButton text="" icon="sap-icon://resize-horizontal" type="Accept" tooltip="Optimize Column Widths" press="onPressResizeHorizontal"/>
+			                            </m:OverflowToolbar>
+		                            </smartTable:customToolbar>
+						<ui:Table  alternateRowColors="true" showNoData="true" selectionMode="None"
+						id="id_q_zcontract_db_items" fixedColumnCount="2" 
+						showColumnVisibilityMenu="true">
+						
+							<ui:columns>
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="50px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Item_Number"
+									customData:p13nData='\{"leadingProperty": "Item_Number", "columnKey": "Item_Number", "sortProperty": "Item_Number", "filterProperty":"Item_Number", "type": "string"\}'>
+									<m:Text wrapping="true" text="Item"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Item_Number}" class="zcontract_db_bold"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="170px" autoResizable="true" 
+								showFilterMenuEntry="true" filterProperty="Material_Number"
+								customData:p13nData='\{"leadingProperty": "Material_Number", "columnKey": "Material_Number", "sortProperty": "Material_Number", "filterProperty":"Material_Number", "type": "string"\}'>
+									<m:Text wrapping="true" text="Material"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Material_Number}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="280px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Material_Description"
+									customData:p13nData='\{"leadingProperty": "Material_Description", "columnKey": "Material_Description", "sortProperty": "Material_Description", "filterProperty":"Material_Description", "type": "string"\}'>
+									<m:Text wrapping="true" text="Description"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Material_Description}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true" filterProperty="SMC"
+								customData:p13nData='\{"leadingProperty": "SMC", "columnKey": "SMC", "sortProperty": "SMC", "filterProperty":"SMC", "type": "string"\}'>
+									<m:Text wrapping="true" text="SMC"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{SMC}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Quantity"
+									customData:p13nData='\{"leadingProperty": "Quantity", "columnKey": "Quantity", "sortProperty": "Quantity", "filterProperty":"Quantity", "type": "string"\}'>
+									<m:Text wrapping="true" text="Quantity"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Quantity}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Item_Category"
+									customData:p13nData='\{"leadingProperty": "Item_Category", "columnKey": "Item_Category", "sortProperty": "Item_Category", "filterProperty":"Item_Category", "type": "string"\}'>
+									<m:Text wrapping="true" text="Item Category"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Item_Category}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="High_Level_Item"
+									customData:p13nData='\{"leadingProperty": "High_Level_Item", "columnKey": "High_Level_Item", "sortProperty": "High_Level_Item", "filterProperty":"High_Level_Item", "type": "string"\}'>
+									<m:Text wrapping="true" text="Higher Level Item"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{High_Level_Item}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Start_Date"
+									customData:p13nData='\{"leadingProperty": "Start_Date", "columnKey": "Start_Date", "sortProperty": "Start_Date", "filterProperty":"Start_Date", "type": "string"\}'>
+									<m:Text wrapping="true" text="Start Date"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Start_Date}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="End_Date"
+									customData:p13nData='\{"leadingProperty": "End_Date", "columnKey": "End_Date", "sortProperty": "End_Date", "filterProperty":"End_Date", "type": "string"\}'>
+									<m:Text wrapping="true" text="End Date"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{End_Date}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Discount"
+									customData:p13nData='\{"leadingProperty": "Discount", "columnKey": "Discount", "sortProperty": "Discount", "filterProperty":"Discount", "type": "string"\}'>
+									<m:Text wrapping="true" text="Discount"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Discount}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Net_Value"
+									customData:p13nData='\{"leadingProperty": "Net_Value", "columnKey": "Net_Value", "sortProperty": "Net_Value", "filterProperty":"Net_Value", "type": "string"\}'>
+									<m:Text wrapping="true" text="Net Value"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Net_Value}"/>
+									</ui:template>
+								</ui:Column>
+								<!--Begin of LR1-->
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="240px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Calculated_Net_Value"
+									customData:p13nData='\{"leadingProperty": "Calculated_Net_Value", "columnKey": "Calculated_Net_Value", "sortProperty": "Calculated_Net_Value", "filterProperty":"Calculated_Net_Value", "type": "string"\}'>
+									<m:Text wrapping="true" text="Calculated Net Value"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Calculated_Net_Value}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Billing_Status"
+									customData:p13nData='\{"leadingProperty": "Billing_Status", "columnKey": "Billing_Status", "sortProperty": "Billing_Status", "filterProperty":"Billing_Status", "type": "string"\}'>
+									<m:Text wrapping="true" text="Billing Status"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Billing_Status}"/>
+									</ui:template>
+								</ui:Column>
+								<!--End of LR1-->
+								<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Serial_Number"
+									customData:p13nData='\{"leadingProperty": "Serial_Number", "columnKey": "Serial_Number", "sortProperty": "Serial_Number", "filterProperty":"Serial_Number", "type": "string"\}'>
+									<m:Text wrapping="true" text="Serial Number"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Serial_Number}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="170px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Fucntional_Location"
+									customData:p13nData='\{"leadingProperty": "Functional_Location", "columnKey": "Functional_Location", "sortProperty": "Functional_Location", "filterProperty":"Functional_Location", "type": "string"\}'>
+									<m:Text wrapping="true" text="Functional Location"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Functional_Location}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Equipment"
+									customData:p13nData='\{"leadingProperty": "Equipment", "columnKey": "Equipment", "sortProperty": "Equipment", "filterProperty":"Equipment", "type": "string"\}'>
+									<m:Text wrapping="true" text="Equipment"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Equipment}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Warranty_ID"
+									customData:p13nData='\{"leadingProperty": "Warranty_ID", "columnKey": "Warranty_ID", "sortProperty": "Warranty_ID", "filterProperty":"Warranty_ID", "type": "string"\}'>
+									<m:Text wrapping="true" text="Warranty Id"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Warranty_ID}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Division"
+									customData:p13nData='\{"leadingProperty": "Division", "columnKey": "Division", "sortProperty": "Division", "filterProperty":"Division", "type": "string"\}'>
+									<m:Text wrapping="true" text="Division"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Division}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Profit_Center"
+									customData:p13nData='\{"leadingProperty": "Profit_Center", "columnKey": "Profit_Center", "sortProperty": "Profit_Center", "filterProperty":"Profit_Center", "type": "string"\}'>
+									<m:Text wrapping="true" text="Profit Center"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Profit_Center}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Business_Area"
+									customData:p13nData='\{"leadingProperty": "Business_Area", "columnKey": "Business_Area", "sortProperty": "Business_Area", "filterProperty":"Business_Area", "type": "string"\}'>
+									<m:Text wrapping="true" text="Business Area"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Business_Area}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Material_Group_4"
+									customData:p13nData='\{"leadingProperty": "Material_Group_4", "columnKey": "Material_Group_4", "sortProperty": "Material_Group_4", "filterProperty":"Material_Group_4", "type": "string"\}'>
+									<m:Text wrapping="true" text="Material Grp 4"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Material_Group_4}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="Rejection_Code"
+									customData:p13nData='\{"leadingProperty": "Rejection_Code", "columnKey": "Rejection_Code", "sortProperty": "Rejection_Code", "filterProperty":"Rejection_Code", "type": "string"\}'>
+									<m:Text wrapping="true" text="Rejection Code"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Rejection_Code}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column hAlign="Center" class="zc_contract_db_results_col" width="120px" autoResizable="true" showFilterMenuEntry="true"
+									filterProperty="EOSL_Date"
+									customData:p13nData='\{"leadingProperty": "EOSL_Date", "columnKey": "EOSL_Date", "sortProperty": "EOSL_Date", "filterProperty":"EOSL_Date", "type": "string"\}'>
+									<m:Text wrapping="true" text="EOSL Date"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{EOSL_Date}"/>
+									</ui:template>
+								</ui:Column>
+				
+								
+								
+							</ui:columns>
+						</ui:Table>
+					</smartTable:SmartTable>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<!--EOC VS-->
+			
+			<ObjectPageSection id="id_q_business_partners" title="Business Partners" importance="Medium">
+				<subSections>
+					<ObjectPageSubSection id="id_q_business_partners_SS1" title="Business Partners">
+						<m:HBox id="id_q_zcontract_db_partners_hbox" class="zcontract_db_wrap"></m:HBox>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection id="id_q_related_sales_orders" title="Related Sales Documents" importance="Medium">
+				<subSections>
+					<ObjectPageSubSection id="id_q_related_sales_orders_SS1" title="Related Sales Documents">
+						<!--<ui:TreeTable id="id_q_zcontract_db_relatedSO" ariaLabelledBy="title" selectionMode="None" enableSelectAll="true" enableCellFilter="true"
+							collapseRecursive="true" rows="{path:'/', parameters: {arrayNames:['children']}}">-->
+						<ui:TreeTable id="id_q_zcontract_db_relatedSO" ariaLabelledBy="title" selectionMode="None" enableSelectAll="true" enableCellFilter="true"
+							collapseRecursive="true">
+							<ui:columns>
+								<ui:Column class="zc_contract_db_results_col" width="170px" autoResizable="true">
+									<m:Text wrapping="true" text="Document"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/Document}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+									<m:Text wrapping="true" text="Document Type"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/Sales_Document_Type}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="150px" autoResizable="true">
+									<m:Text wrapping="true" text="Document Date"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/Document_Date}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="300px" autoResizable="true">
+									<m:Text wrapping="true" text="Document Status"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/User_Status}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="150px" autoResizable="true" hAlign="Right">
+									<m:Text wrapping="true" text="Net Value"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/Net_Value}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="auto" autoResizable="true" hAlign="Right">
+									<m:Text wrapping="true" text="Currency"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{data/Currency}"/>
+									</ui:template>
+								</ui:Column>
+							</ui:columns>
+						</ui:TreeTable>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title="Attachments" importance="Medium">
+				<subSections>
+					<ObjectPageSubSection id="id_q_attachments_SS1" title="Attachments">
+						<ui:Table id="id_q_zcontract_db_attachments" showNoData="true" selectionMode="None">
+							<ui:columns>
+								<ui:Column class="zc_contract_db_results_col" width="400px" autoResizable="true">
+									<m:Text class="zc_contract_db_results_text_Title" wrapping="true" text="Attachment"/>
+									<ui:template>
+										<m:Button text="{Title}" type="Transparent" icon="sap-icon://documents" tooltip="{Title}" iconFirst="true" press=".onPressAttachment"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+									<m:Text wrapping="true" text="Category"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{CATEGORY}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+									<m:Text wrapping="true" text="Created By"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Created_By}"/>
+									</ui:template>
+								</ui:Column>
+								<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+									<m:Text wrapping="true" text="Created On"/>
+									<ui:template>
+										<m:Text wrapping="true" text="{Created_On}"/>
+									</ui:template>
+								</ui:Column>
+							</ui:columns>
+						</ui:Table>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+		<footer>
+			<m:OverflowToolbar>
+				<m:ToolbarSpacer/>
+				<m:Button type="Accept" text="Accept"/>
+				<m:Button type="Reject" text="Reject"/>
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
+</core:View>

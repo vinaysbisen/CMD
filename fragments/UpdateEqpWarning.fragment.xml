@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	
+	<Dialog title="Message" class=" sapUiNoContentPadding sapUiSizeCompact" verticalScrolling="true" type="Standard">
+		<content>
+			<Text wrapping="true" text="Updating LLFL will break linkage to superior equipment. 
+			Do you wish to proceed?"/> 
+		</content>
+		<beginButton>
+			<Button text="Yes" press="onProceed"/>
+		</beginButton>
+		<endButton>
+			<Button text="No" press="onCancel"/>
+		</endButton>
+	</Dialog>	
+</core:FragmentDefinition>

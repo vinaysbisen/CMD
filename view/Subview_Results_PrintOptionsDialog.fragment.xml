@@ -1,0 +1,49 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Partner Function Inconsistencies exist!" resizable="true" draggable="true">
+		<content>
+			<HBox alignItems="End" justifyContent="Center" class="sapUiResponsiveMargin">
+				<RadioButton groupName="printType" id="idTog" text="Print Together" selected="true" select="onPress"/>
+				<RadioButton groupName="printType" id="idSep" text="Print Separately" select="onPress"/>
+			</HBox>
+			<!--<Panel id="idPanelOverride" headerText="Select values to use for override in case of printing together:" width="auto"-->
+			<!--	class="sapUiResponsiveMargin" accessibleRole="Region">-->
+			<f:SimpleForm title="Select values to use for override in case of printing together:" editable="true" layout="ResponsiveGridLayout">
+				<Label text="Sales Rep" design="Bold"/>
+				<Select id="idSalesRep" items="{viewData>/Sales_Rep}" enabled="{viewData>/idSalesRepEnabled}">
+					<items>
+						<core:Item text="{viewData>Sales_Rep}" key="{viewData>Sales_Rep_key}"/>
+					</items>
+				</Select>
+				<Label text="Contract Admin Contact (AC)" design="Bold"/>
+				<Select id="idContractAdminContact" items="{viewData>/Contract_Admin}" enabled="{viewData>/idContractAdminContactEnabled}">
+					<items>
+						<core:Item text="{viewData>Contract_Admin}" key="{viewData>Contract_Admin_key}"/>
+					</items>
+				</Select>
+				<Label text="Account Ops Lead (TS)" design="Bold"/>
+				<Select id="idAccountOpsLead" items="{viewData>/AOL}" enabled="{viewData>/idAccountOpsLeadEnabled}">
+					<items>
+						<core:Item text="{viewData>AOL}" key="{viewData>AOL_key}"/>
+					</items>
+				</Select>
+				<Label text="Bill to Contact" design="Bold"/>
+				<Select id="idBillToContact" items="{viewData>/Bill_To_Contact}" enabled="{viewData>/idBillToContactEnabled}">
+					<items>
+						<core:Item text="{viewData>Bill_To_Contact}" key="{viewData>Bill_To_Contact_key}"/>
+					</items>
+				</Select>
+			</f:SimpleForm>
+				<Label text="{i18n>AdminSigner}" design="Bold" visible="{viewData>/idAdminSignerVisible}"/>
+				<Select id="idAdminSigner" items="{viewData>/Admin_Signer}" enabled="{viewData>/idAdminSignerEnabled}" visible="{viewData>/idAdminSignerVisible}">
+					<items>
+						<core:Item text="{viewData>Admin_Signer}" key="{viewData>Admin_Signer_key}"/>
+					</items>
+				</Select>
+			<!--</Panel>-->
+		</content>
+		<buttons>
+			<Button text="Confirm" press="onOKPress" type="Accept"/>
+			<Button text="Cancel" press="onClosePress" type="Reject"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

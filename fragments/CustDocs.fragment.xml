@@ -1,0 +1,148 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Select Document(s) to Proceed">
+		<content>
+			<ui:Table id="id_custdoc_table_llfl" showNoData="true" rows="{path: '/'}">
+				<ui:columns>
+					<ui:Column class="zc_contract_db_results_col" width="120px" autoResizable="true">
+						<Text wrapping="true" text="Document"/>
+						<ui:template>
+							<Text wrapping="true" text="{Object}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="150px" autoResizable="true">
+						<Text wrapping="true" text="Doc. Type"/>
+						<ui:template>
+							<Text wrapping="true" text="{Object_Type}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+						<Text wrapping="true" text="AMP"/>
+						<ui:template>
+							<Text wrapping="true" text="{AMP}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+						<Text wrapping="true" text="LLFL"/>
+						<ui:template>
+							<Text wrapping="true" text="{LLFL}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sold To Party"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sold_To_Party}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sold To Contact"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sold_To_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Bill To Party"/>
+						<ui:template>
+							<Text wrapping="true" text="{Bill_To_Party}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Bill To Contact"/>
+						<ui:template>
+							<Text wrapping="true" text="{Bill_To_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Contract Admin"/>
+						<ui:template>
+							<Text wrapping="true" text="{Contract_Admin_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="AOL"/>
+						<ui:template>
+							<Text wrapping="true" text="{Account_Ops_Lead}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sales Rep"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sales_Rep}"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+			<ui:Table id="id_custdoc_table_amp" showNoData="true" rows="{path: '/'}">
+				<ui:columns>
+					<ui:Column class="zc_contract_db_results_col" width="120px" autoResizable="true">
+						<Text wrapping="true" text="Document"/>
+						<ui:template>
+							<Text wrapping="true" text="{Object}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="150px" autoResizable="true">
+						<Text wrapping="true" text="Doc. Type"/>
+						<ui:template>
+							<Text wrapping="true" text="{Object_Type}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="200px" autoResizable="true">
+						<Text wrapping="true" text="AMP"/>
+						<ui:template>
+							<Text wrapping="true" text="{AMP}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sold To Party"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sold_To_Party}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sold To Contact"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sold_To_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Bill To Party"/>
+						<ui:template>
+							<Text wrapping="true" text="{Bill_To_Party}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Bill To Contact"/>
+						<ui:template>
+							<Text wrapping="true" text="{Bill_To_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Contract Admin"/>
+						<ui:template>
+							<Text wrapping="true" text="{Contract_Admin_Contact}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="AOL"/>
+						<ui:template>
+							<Text wrapping="true" text="{Account_Ops_Lead}"/>
+						</ui:template>
+					</ui:Column>
+					<ui:Column class="zc_contract_db_results_col" width="180px" autoResizable="true">
+						<Text wrapping="true" text="Sales Rep"/>
+						<ui:template>
+							<Text wrapping="true" text="{Sales_Rep}"/>
+						</ui:template>
+					</ui:Column>
+				</ui:columns>
+			</ui:Table>
+		</content>
+		<beginButton>
+			<Button text="Proceed" press="onPressProceed_Cust_Doc"/>
+		</beginButton>
+		<endButton>
+			<Button text="Close" press="onClose_Cust_Doc"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,2265 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.controller.GlobalUpdate" xmlns="sap.m"
+	xmlns:ui="sap.ui.table" xmlns:layout="sap.ui.layout" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<Page showHeader="true" title="Global Update" showFooter="true" showNavButton="true" navButtonPress="onBack">
+		<content>
+			<IconTabBar id="id_GU_IconTabBar" expandable="false" expanded="true" applyContentPadding="false" backgroundDesign="Solid" upperCase="false"
+				visible="false" selectedKey="Ok" select="handleIconTabBarSelect">
+				<items>
+					<IconTabFilter id="id_gu_tb1" key="Tab_Contracts" text="Contracts" count="" design="Vertical" showAll="false" textDirection="Inherit"
+						enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Contracts For Update"/>
+										<ToolbarSpacer/>
+										<Button id="id_gu_c_list" icon="sap-icon://list" text="Show Selected Contracts (0)" press="onPressShowSelectedContracts"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_contracts_main" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false"
+										filterChange="onSelectContracts">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Contract_Number}" index="0" key="Contract_Number" id="id_inp_gu_contract_number"
+												visibleInAdvancedArea="true"/>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Import}" index="1" key="Import" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<Button icon="sap-icon://download" text="Import" press="onContractsImport"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Fields" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_contracts_header" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PO}" index="0" key="PO" visibleInAdvancedArea="true" filterType="single"
+											hasValueHelpDialog="false">
+											<!--BOC INC0281308 ++VSINGH -->
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_c_po" maxLength="35"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC INC0281308 restricting length to 35 char as per incident ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cancellation_Code}" index="1" key="Cancellation_Code"
+											id="id_inp_gu_c_cancellation_code" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+											displayBehaviour="descriptionOnly"/>
+										<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Receipt_Of_Cancellation}" index="2" key="Receipt_Of_Cancellation"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_c_receipt_of_cancellation" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cancellation_Date}" index="3" key="Cancellation_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_c_cancellation_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--SOC szanzaney SRE2524 CR144667 - swap the placement of cancellation date and receipt of cancellation-->
+										<!--<smartFilterBar:ControlConfiguration index="4" key="Rejection_Code" id="id_inp_gu_c_rejection_code" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+										<!--<smartFilterBar:ControlConfiguration index="5" key="Action_Code" id="id_inp_gu_c_action_code" visibleInAdvancedArea="true"
+											filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Action_Code}" index="5" key="Action_Code" id="id_inp_gu_c_action_code"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Action_Date}" index="6" key="Action_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<!--BOC for INC0302094 14 April 2021 ++VSINGH39 Putting property min date-->
+												<!--change="handleChange" this method changed to handleChangeActionDate-->
+												<DatePicker id="id_inp_gu_c_action_date" minDate="{dateModel>/presentDate}" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy"
+													change="handleChangeActionDate"/>
+												<!--EOC for INC0302094 14 April 2021 ++VSINGH39 Putting property min date-->
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Clear_Action_Data}" index="7" key="Clear_Action_Data" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_c_clear_action_data"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.SMC}" index="8" key="SMC" id="id_inp_gu_c_smc" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Group_Contract}" index="9" key="Group_Contract" id="id_inp_gu_c_group_contract"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PO_Acceptance_Date}" index="10" key="PO_Acceptance_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_c_po_acceptance_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration index="11" key="Payment_Terms" id="id_inp_gu_c_payment_terms" visibleInAdvancedArea="true"-->
+										<!--	filterType="single"/> Diasabled as part of LR1 Section 4.12.15-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Billing_Block}" index="12" key="Billing_Block" id="id_inp_gu_c_billing_block"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Delivery_Block}" index="13" key="Delivery_Block" id="id_inp_gu_c_delivery_block"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Remove_Billing_Block}" index="14" key="Remove_Billing_Block"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_c_remove_billing_block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Remove_Delivery_Block}" index="15" key="Remove_Delivery_Block"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_c_remove_delivery_block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Billing_Cycle}" index="16" key="Billing_Cycle" id="id_inp_gu_c_billing_cycle"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<!--Removed Billing plan type as part of 111161-->
+										<!--<smartFilterBar:ControlConfiguration index="17" key="Billing_Plan_Type" id="id_inp_gu_c_billing_plan_type" visibleInAdvancedArea="true"
+											filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Contract_Status}" index="18" key="Contract_Status" id="id_inp_gu_c_contract_status"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Usage_Indicator}" index="19" key="Usage_Indicator" id="id_inp_gu_c_usage_indicator"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Renewal_Status}" index="20" key="Renewal_Status" id="id_inp_gu_c_renewal_status"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Web_Enabled}" index="21" key="Web_Enabled" id="id_inp_gu_c_web_enabled"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Header_Text}" index="22" key="Header_Text" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<TextArea id="id_inp_gu_c_header_text" value="" growing="true" growingMaxLines="4"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--BOC INC0309257 DEVK9A0SM7  26 Apr 2021 ++VSINGH -->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.CSSA_Number}" index="23" key="CSSA_Number" filterType="single"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_c_cssa_no" maxLength="10"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC INC0309257 DEVK9A0SM7  26 Apr 2021  restricting length to 15 char as per incident ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Purchase_Agrmnt_ID}" index="24" key="Purchase_Agrmnt_ID" id="id_inp_gu_c_purchase_agr"
+											filterType="single" visibleInAdvancedArea="true" visible="false"/>
+										<!--INC0205207 11/25 MSA1 Hide purchase agreement-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PO_End_Date}" index="25" key="PO_End_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_c_po_end_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Reseller_PO}" index="26" key="Reseller_PO" id="id_inp_gu_c_reseller_po"
+											filterType="single" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp2}" index="27" key="Cust_Grp2" id="id_inp_gu_c_cust_grp2" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp3}" index="28" key="Cust_Grp3" id="id_inp_gu_c_cust_grp3" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp4}" index="29" key="Cust_Grp4" id="id_inp_gu_c_cust_grp4" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Third_Party_Info}" index="30" key="Third_Party_Info" id="id_inp_gu_c_third_party"
+											filterType="single" visibleInAdvancedArea="false"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Attachment_Flag}" index="31" key="Attachment_Flag" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_c_attachment_flag" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Invoice_Flag}" index="32" key="Invoice_Flag" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_c_invoice_flag" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Web_Ivc_Upld}" index="33" key="Web_Ivc_Upld" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_c_web_ivc_upld" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Sales_Doc_Description}" index="34" key="Sales_Doc_Description"
+											visibleInAdvancedArea="true" filterType="single" hasValueHelpDialog="false"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Rejection_Code_Items}" index="35" key="Rejection_Code_Items"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<!--BOC SRI3197 ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU>chanel_Agrmnt_ID}" index="37" key="chanel_Agrmnt_ID" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_c_chanel_Agrmnt_ID" maxLength="20"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC SRI3197 ++VSINGH-->
+										<!--Web Status-->
+										<!--2522 SVERMA BOC-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Net_Value_Upgrade_Perc}" index="36" key="Net_Value_Upgrade_Perc"
+											visibleInAdvancedArea="true" filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_c_Net_Value_Upgrade_Perc"/>
+												<!--liveChange="handleChangeNumeric"-->
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--2522 SVERMA EOC-->
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PIBillRule}" index="37" key="PIBillRule" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PaymentDue}" index="38" key="PaymentDue" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.ExternalId}" index="39" key="ExternalId" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PaymentCurrency}" index="40" key="PaymentCurrency" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.AltTaxClassification}" index="41" key="AltTaxClassification" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.SupplyCode}" index="42" key="SupplyCode" filterType="single" controlType="dropDownList"
+											displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2524-->
+										<!--SOC szanzaney SRE2487_2-->
+										<!--	<smartFilterBar:ControlConfiguration label="{i18n>GU.BusinessPlace}" index="43" key="Business_Place" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>-->
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Partner Functions" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_contracts_partners" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration index="0" key="Ship_To" id="id_inp_gu_c_ship_to" visibleInAdvancedArea="true" filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Bill_To}" index="0" key="Bill_To" id="id_inp_gu_c_bill_to" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Payer}" index="1" key="Payer" id="id_inp_gu_c_payer" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.T2_Reseller}" index="2" key="T2_Reseller" id="id_inp_gu_c_t2_reseller"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.End_Customer}" index="3" key="End_Customer" id="id_inp_gu_c_end_customer"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Entitled_Party}" index="4" key="Entitled_Party" id="id_inp_gu_c_entitled_party"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Asset_Location}" index="5" key="Asset_Location" id="id_inp_gu_c_asset_location"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<!--<smartFilterBar:ControlConfiguration index="6" key="PSP_Partner" id="id_inp_gu__c_psp_partner" visibleInAdvancedArea="true"
+											filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Systems_Manager_Contact}" index="7" key="Systems_Manager_Contact"
+											id="id_inp_gu_c_sys_manger_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Systems_Manager_Backup_Contact}" index="8" key="Systems_Manager_Backup_Contact"
+											id="id_inp_gu_c_sys_manager_backup_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Software_Delivery_Contact}" index="9" key="Software_Delivery_Contact"
+											id="id_inp_gu_c_software_delivery_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Invoicing_Contact}" index="10" key="Invoicing_Contact"
+											id="id_inp_gu_c_invoicing_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Sold_To_Contact}" index="11" key="Sold_To_Contact" id="id_inp_gu_c_sold_to_contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Reseller_Contact}" index="12" key="Reseller_Contact" id="id_inp_gu_c_reseller_contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Entitled_Party_Contact}" index="13" key="Entitled_Party_Contact"
+											id="id_inp_gu_c_entitled_party_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Delivery_Contact}" index="14" key="Delivery_Contact" id="id_inp_gu_c_delivery_contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Backup_Delivery_Contact}" index="15" key="Backup_Delivery_Contact"
+											id="id_inp_gu_c_backup_delivery_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<!--BOI AKADAM29AUG2019+ Defect 80636-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Bill_To_Contact}" index="16" key="Bill_To_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Contract_Admin_Contact}" index="17" key="Contract_Admin_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Global_Operations}" index="18" key="Global_Operations" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.AOL_Contact}" index="19" key="AOL_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Install_Base_Sales_Rep}" index="20" key="Install_Base_Sales_Rep"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.HPE_Sales_Rep_Contact}" index="21" key="HPE_Sales_Rep_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<!--<smartFilterBar:ControlConfiguration index="22" key="Partner_Service_Delivery_Manager" visibleInAdvancedArea="true" filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Global_Deals_Specialist}" index="23" key="Global_Deals_Specialist"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Response_Center_R1}" index="24" key="Response_Center_R1" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Response_Center_R2}" index="25" key="Response_Center_R2" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Response_Center_R3}" index="26" key="Response_Center_R3" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Admin_Signer}" index="27" key="Admin_Signer" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<!--<smartFilterBar:ControlConfiguration index="28" key="Sold_To" visibleInAdvancedArea="true" filterType="single"/>-->
+										<!--<smartFilterBar:ControlConfiguration index="28" key="Subcontractor_Psp" visibleInAdvancedArea="true" filterType="single"/>-->
+										<!--<smartFilterBar:ControlConfiguration index="29" key="Admin_Supervisor" visibleInAdvancedArea="true" filterType="single"/>-->
+										<!--EOI AKADAM29AUG2019+ Defect 80636-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Partner_Service_Delivery_Manager}" index="30" key="Partner_Service_Delivery_Manager"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.General_Manager}" index="31" key="General_Manager" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Chief_Accountant}" index="32" key="Chief_Accountant" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Agent_Number}" index="33" key="Agent_Number" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2487_2-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.BusinessPlace}" index="34" key="Business_Place" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Remove Optional Partner Functions from Header" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_contracts_clr_partners" entitySet="Ets_Global_Update_Quotes" liveMode="true" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_T2_Reseller}" index="0" key="Clr_T2_Reseller" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_T2_Reseller"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Systems_Manager_Contact}" index="1" key="Clr_Systems_Manager_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Systems_Manager_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Systems_Manager_Backup_Contact}" index="2"
+											key="Clr_Systems_Manager_Backup_Contact" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Systems_Manager_Backup_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Software_Delivery_Contact}" index="3" key="Clr_Software_Delivery_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Software_Delivery_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Invoicing_Contact}" index="4" key="Clr_Invoicing_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Invoicing_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Reseller_Contact}" index="5" key="Clr_Reseller_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Reseller_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Backup_Delivery_Contact}" index="6" key="Clr_Backup_Delivery_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Backup_Delivery_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Bill_To_Contact}" index="7" key="Clr_Bill_To_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Bill_To_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Global_Operations}" index="8" key="Clr_Global_Operations"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Global_Operations"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_AOL_Contact}" index="9" key="Clr_AOL_Contact" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_AOL_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Install_Base_Sales_Rep}" index="10" key="Clr_Install_Base_Sales_Rep"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Install_Base_Sales_Rep"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Partner_Service_Delivery_Manager}" index="11"
+											key="Clr_Partner_Service_Delivery_Manager" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Partner_Service_Delivery_Manager"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Admin_Signer}" index="12" key="Clr_Admin_Signer" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Admin_Signer"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration index="13" key="Clr_Admin_Supervisor" visibleInAdvancedArea="true">
+										<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Admin_Supervisor"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Global_Deals_Specialist}" index="14" key="Clr_Global_Deals_Specialist"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Global_Deals_Specialist"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R1}" index="15" key="Clr_Response_Center_R1"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Response_Center_R1"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R2}" index="16" key="Clr_Response_Center_R2"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Response_Center_R2"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R3}" index="17" key="Clr_Response_Center_R3"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Response_Center_R3"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Agent_Number}" index="18" key="Clr_Agent_Number" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_c_Clr_Agent_Number"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC szanzaney SRE2524-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Asset Location" width="auto" visible="false">
+								<VBox>
+									<!--<VBox height="12px"/>
+								<HBox>
+									<Label width="100px" class="zcontract_db_globalupdatemargin" text="Global Edit:" labelFor="id_n_al"/>
+									<Input id="id_c_al" placeholder="Enter Current Asset Location" width="245px" showValueHelp="false"/>
+									<HBox width="15px"/>
+									<Input id="id_n_al" placeholder="Enter New Asset Location" width="205px" showValueHelp="false"/>
+									<HBox width="15px"/>
+									<Button text="Apply Values" press="onPressApply"/>
+								</HBox>-->
+									<Table id="id_zcontract_db_tbl_al" width="auto" noDataText="No data" mode="MultiSelect" showSeparators="All" growing="true"
+										growingThreshold="20" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{/}">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+												<ToolbarSpacer/><Button icon="sap-icon://add" text="Add Selected Contract(s)" press="onpressAddSelectedContracts_AL"/>
+												<Button icon="sap-icon://download" text="Import From CSV File" press="onDataImport"/>
+												<Button icon="sap-icon://excel-attachment" text="Export" press="onDataExportExcel"/>
+												<Button id="add" type="Transparent" icon="sap-icon://copy" text="Copy Row" press="onPressCopy"/>
+												<Button type="Transparent" icon="sap-icon://delete" text="Delete Row" press="onPressDelete"/>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Phone" demandPopin="false" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Contract" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Current Asset Location" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="New Asset Location" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{VBELN}" editable="false" enabled="true" tooltip="{contract}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{currentAssetLocation}" editable="true" enabled="true" tooltip="{currentAssetLocation}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{newAssetLocation}" editable="true" enabled="true" tooltip="{newAssetLocation}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Text" width="auto">
+								<VBox>
+									<Table id="id_zcontract_db_tbl_UPHT" width="auto" noDataText="No data" showSeparators="All" growing="true" growingThreshold="20"
+										mode="MultiSelect" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{viewData>/UpdateHeadeText}">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+												<ToolbarSpacer/><Button icon="sap-icon://add" text="Add New Row" press="onpressAddNewRow_upht"/>
+												<Button type="Transparent" icon="sap-icon://delete" text="Delete Row" press="onPressDelete_upht"/>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Phone" demandPopin="false" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Header Text" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="80px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Language" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Text" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="175px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<!--<Text text="Action" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>-->
+												</header>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<!--<ComboBox id="id_GU_header_text" selectedKey="{viewData>Object_Id}" width="auto" showSecondaryValues="true"-->
+															<ComboBox selectedKey="{viewData>Object_Id}" width="auto" showSecondaryValues="true"
+																items="{ path: 'viewData>/HeaderTextVH', templateShareable:false, sorter: { path: 'TDOBJECT' } }">
+																<core:ListItem key="{viewData>TDOBJECT} || {viewData>TDID}" text="{viewData>TDTEXT}" additionalText="{viewData>TDOBJECT} || {viewData>TDID}"/>
+															</ComboBox>
+															<!--<Input value="{HEADER_TEXT}" editable="false" enabled="true" tooltip="{HEADER_TEXT}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<!--<ComboBox id="id_GU_header_lang" selectedKey="{viewData>Lang}" width="auto" showSecondaryValues="true"-->
+															<ComboBox selectedKey="{viewData>Lang}" width="auto" showSecondaryValues="true"
+																items="{ path: 'viewData>/LanguageVH', templateShareable:false, sorter: { path: 'LANGUAGEISOCODE' } }">
+																<core:ListItem key="{viewData>LANGUAGEISOCODE}" text="{viewData>LANGUAGENAME}"/>
+															</ComboBox>
+															<!--<Input value="{LANGUAGE}" editable="true" enabled="true" tooltip="{LANGUAGE}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<TextArea value="{viewData>Text}" growing="true" growingMaxLines="2"/>
+															<!--<Input value="{viewData>Text}" editable="true" enabled="true" tooltip="{viewData>Text}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<RadioButtonGroup columns="3" width="100%">
+																<buttons>
+																	<RadioButton id="RB1-1" selected="{viewData>Append}" text="Append" groupName="Group1"/>
+																	<RadioButton id="RB1-2" selected="{viewData>Replace}" text="Replace" groupName="Group1"/>
+																	<RadioButton id="RB1-3" selected="{viewData>Clear}" text="Clear" groupName="Group1"/>
+																</buttons>
+															</RadioButtonGroup>
+														</layout:content>
+													</layout:HorizontalLayout>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Clear Selected Fields" width="auto">
+								<VBox>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_contracts_header_clear" entitySet="Ets_Global_Update_Contracts" liveMode="false"
+										showGoOnFB="false">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Cancellation_Reason}" index="0" key="Clr_Cancellation_Reason"
+												visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_canc_reasn"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="1" key="Clr_Cancellation_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_canc_date"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration index="2" key="Clr_Receipt_Cancel" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_reciept_canc"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>-->
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Group_Contract}" index="1" key="Clr_Group_Contract" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_grp_contrct"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Po_Accept_Date}" index="2" key="Clr_Po_Accept_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_po_accptnce_dt"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Po_End_Date}" index="3" key="Clr_Po_End_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_po_end_dt"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Reseller_Po}" index="4" key="Clr_Reseller_Po" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_resllr_po"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Cust_Grp2}" index="5" key="Clr_Cust_Grp2" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_cust_grp2"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Usage_Ind}" index="6" key="Clr_Usage_Ind" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_usage_ind"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Header_Txt}" index="7" key="Clr_Header_Txt" visibleInAdvancedArea="false">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_header_txt"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Cssa}" index="8" key="Clr_Cssa" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_cssa"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Clr_Third_Prt_Info}" index="9" key="Clr_Third_Prt_Info" visibleInAdvancedArea="false">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_c_remove_third_prt_info"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</VBox>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Item - Partner Function / Spares Planning Indicator / Rejection Code"
+								width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Update Item - Partner Function / Spares Planning Indicator / Rejection Code" level="H4"/>
+										<!--<Text text="Update Item - Partner Function / Third Party Info / Rejection Code"/>-->
+										<ToolbarSpacer/>
+										<Button text="Get Multivendor Products" press="onpressCRetrieve_MV"/>
+										<Button text="Get All Items" press="onpressCRetrieve"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<ui:Table id="id_zcontract_db_tbl_upf" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+										fixedColumnCount="4" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+										<ui:columns>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Contract_Num">
+												<Text wrapping="true" text="Contract"/>
+												<ui:template>
+													<Text wrapping="true" text="{Contract_Num}" class="zcontract_db_bold"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Item_Num">
+												<Text wrapping="true" text="Item"/>
+												<ui:template>
+													<Text wrapping="true" text="{Item_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Product_Id">
+												<Text wrapping="true" text="Product"/>
+												<ui:template>
+													<Text wrapping="true" text="{Product_Id}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Serial_Num">
+												<Text wrapping="true" text="Serial Number"/>
+												<ui:template>
+													<Text wrapping="true" text="{Serial_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Psp">
+												<Text wrapping="true" text="ZS PSP"/>
+												<ui:template>
+													<Input value="{New_Psp}" editable="{Psp_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Sub_psp">
+												<Text wrapping="true" text="YL Subcontractor PSP"/>
+												<ui:template>
+													<Input value="{New_Sub_psp}" editable="{New_Sub_psp_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Asset_Loc">
+												<Text wrapping="true" text="ZL Asset Location"/>
+												<ui:template>
+													<Input value="{New_Asset_Loc}" editable="{AL_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<!--//*******START OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_End_Cust">
+												<Text wrapping="true" text="ZC End Customer"/>
+												<ui:template>
+													<Input value="{New_End_Cust}" editable="{End_Cust_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_SW_Del_Cnt">
+												<Text wrapping="true" text="SD Software Delivery Contact"/>
+												<ui:template>
+													<Input value="{New_SW_Del_Cnt}" editable="{SW_Del_Cnt_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_HW_Del_Cnt">
+												<Text wrapping="true" text="CD Hardware Delivery Contact"/>
+												<ui:template>
+													<Input value="{New_HW_Del_Cnt}" editable="{HW_Del_Cnt_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<!--//*******END OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Thrd_Party">
+												<Text wrapping="true" text="Spares Planning Indicator"/>
+												<ui:template>
+													<!--MSA1 6/8/2021 INC0329303 change to select BOC-->
+													<!--<ComboBox showSecondaryValues="true" selectedKey="{New_Thrd_Party}" editable="{Third_Party_Edit}"-->
+													<!--	items="{ path: 'viewData>/ZTPINFOList', templateShareable:false, sorter: { path: 'Code' } }">-->
+													<!--	<core:ListItem key="{viewData>Code}" text="{viewData>Code}"/>-->
+													<!--</ComboBox>-->
+													<Select showSecondaryValues="true" selectedKey="{New_Thrd_Party}" enabled="{Third_Party_Edit}"
+														items="{ path: 'viewData>/ZTPINFOList', templateShareable:false, sorter: { path: 'Code' } }" forceSelection="false">
+														<items>
+															<core:Item key="{viewData>Code}" text="{viewData>Code}"/>
+														</items>
+													</Select>
+													<!--MSA1 6/8/2021 INC0329303 change to select EOC-->
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Rejection_Code">
+												<Text wrapping="true" text="Rejection Code"/>
+												<ui:template>
+													<!--MSA1 6/8/2021 INC0329303 change to select BOC-->
+													<!--<ComboBox showSecondaryValues="true" selectedKey="{Rejection_Code}" editable="{Rejection_Editable}"-->
+													<!--	items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }">-->
+													<!--	<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>-->
+													<!--</ComboBox>-->
+													<Select showSecondaryValues="true" selectedKey="{Rejection_Code}" enabled="{Rejection_Editable}"
+														items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }" forceSelection="false">
+														<items>
+															<core:Item key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>
+														</items>
+													</Select>
+													<!--MSA1 6/8/2021 INC0329303 change to select EOC-->
+												</ui:template>
+											</ui:Column>
+											<!--//*******START OF SRE2523 VSINGH********//-->
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_smc">
+												<Text wrapping="true" text="SMC"/>
+												<ui:template>
+													<!--MSA1 6/8/2021 INC0329303 change to select BOC-->
+													<!--<ComboBox showSecondaryValues="true" selectedKey="{New_smc}" editable="true"-->
+													<!--	items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }">-->
+													<!--	<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>-->
+													<!--</ComboBox>-->
+													<Select showSecondaryValues="true" selectedKey="{New_smc}" enabled="true"
+														items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }" forceSelection="false">
+														<items>
+															<core:Item key="{viewData>Code}" text="{viewData>Description}"/>
+														</items>
+													</Select>
+													<!--MSA1 6/8/2021 INC0329303 change to select EOC-->
+												</ui:template>
+											</ui:Column>
+											<!--//*******END OF SRE2523 VSINGH********//-->
+										</ui:columns>
+									</ui:Table>
+								</content>
+							</Panel>
+							<!--Defect 99557 ++VS-->
+							<Panel expandable="true" expanded="false" headerText="Cancel Invoice Documents" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Cancel Invoice Documents" level="H4"/>
+										<ToolbarSpacer/>
+										<Button text="Cancel Invoice" press="onCancelInvoice"/>
+										<Button text="Get All Invoice Documents" press="onPressInvoiceRetrieve"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<ui:Table id="id_zinvoice_db_tbl_upf" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+										fixedColumnCount="4" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+										<ui:columns>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Contract_num">
+												<Text wrapping="true" text="Contract"/>
+												<ui:template>
+													<Text wrapping="true" text="{Contract_num}" class="zcontract_db_bold"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Invoice_doc">
+												<Text wrapping="true" text="Invoice Document"/>
+												<ui:template>
+													<Text wrapping="true" text="{Invoice_doc}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Invoice_cat">
+												<Text wrapping="true" text="Invoice category"/>
+												<ui:template>
+													<Text wrapping="true" text="{Invoice_cat}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Net_value">
+												<Text wrapping="true" text="Net Value"/>
+												<ui:template>
+													<Text wrapping="true" text="{Net_value}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Currency">
+												<Text wrapping="true" text="Currency"/>
+												<ui:template>
+													<Text wrapping="true" text="{Currency}"/>
+												</ui:template>
+											</ui:Column>
+										</ui:columns>
+									</ui:Table>
+								</content>
+							</Panel>
+							<!--<Defect 99557 ++ VS END>-->
+							<!--SRE 2483 BOC ++VS -->
+							<Panel id="id_gu_billing_panel" expandable="true" expanded="false" headerText="Add SSN(s) - BILL_SCH_ADJ" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Add SSN(s) - BILL_SCH_ADJ"/>
+										<ToolbarSpacer/>
+										<!--<Button text="Default View" press="onPressDefaultView"/>-->
+										<Button text="Equal Billing" press="onPressEqualBilling" class="sapUiSmallMarginBeginEnd"/>
+										<Button text="Manual Billing – Excel Upload" press="onPressCustomerBilling"/>
+										<!--INC0162703 changed label Equal Billing – Excel Upload to Manual Billing – Excel Upload -->
+									</Toolbar>
+								</headerToolbar>
+								<!--table for Equal Billing-->
+								<ui:Table id="id_zcontract_db_tbl_equalBilling" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+									showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/eqalBillingItem}"
+									visible="{visibilityModelGU>/IsVisibleEqBilling}">
+									<ui:columns>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="VBELN">
+											<Text wrapping="true" text="Contract"/>
+											<ui:template>
+												<Input enabled="false" value="{viewData>VBELN}" change="onChange_SSN_AMT" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Start Date">
+											<Text wrapping="true" text="Start Date"/>
+											<ui:template>
+												<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="End Date">
+											<Text wrapping="true" text="End Date"/>
+											<ui:template>
+												<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Amount">
+											<Text wrapping="true" text="Item Net Value"/>
+											<ui:template>
+												<Input enabled="false" value="{viewData>AMOUNT}" change="onChange_SSN_AMT" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+									<ui:footer>
+										<Toolbar>
+											<content>
+												<Text text="Total:" class="zcontract_db_bold"/>
+												<Text text="{viewData>/TOTAL_SSN}" class="zcontract_db_bold"/>
+												<ToolbarSpacer/>
+												<Button text="Export Excel" press="onExportPress" type="Accept"/>
+											</content>
+										</Toolbar>
+									</ui:footer>
+								</ui:Table>
+								<!--table for User Defined Billing-->
+								<ui:Table id="id_zcontract_db_tbl_UserDefBilling" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+									showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/custBillingItem}"
+									visible="{visibilityModelGU>/IsVisibleUserDefBilling}">
+									<ui:columns>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="VBELN">
+											<Text wrapping="true" text="Contract"/>
+											<ui:template>
+												<Input enabled="false" value="{viewData>VBELN}" change="onChange_SSN_AMT" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Start Date">
+											<Text wrapping="true" text="Start Date"/>
+											<ui:template>
+												<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="End Date">
+											<Text wrapping="true" text="End Date"/>
+											<ui:template>
+												<DatePicker enabled="false" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="AMOUNT">
+											<Text wrapping="true" text="Billing Amount"/>
+											<ui:template>
+												<Input value="{viewData>AMOUNT}" change="onChange_SSN_AMT_UserDef" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Amount" visible="false">
+											<Text wrapping="true" text="Customer Requested Billing"/>
+											<ui:template>
+												<Input type="Number" value="{viewData>AMOUNT_USER}" change="onChange_SSN_AMT" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+										<!--<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true" filterProperty="">-->
+										<!--	<Text wrapping="true" text=""/>-->
+										<!--	<ui:template>-->
+										<!--		<HBox>-->
+										<!--			<Button icon="sap-icon://sys-add" type="Transparent" press="onPressAddSSN"></Button>-->
+										<!--			<Button icon="sap-icon://sys-minus" type="Transparent" press="onPressRemoveSSN" visible="{viewData>minus_visible}"></Button>-->
+										<!--		</HBox>-->
+										<!--	</ui:template>-->
+										<!--</ui:Column>-->
+									</ui:columns>
+									<ui:footer>
+										<Toolbar>
+											<content>
+												<Text text="Total:" class="zcontract_db_bold"/>
+												<Text text="{viewData>/TOTAL_SSN_UserDef}" class="zcontract_db_bold"/>
+												<ToolbarSpacer/>
+												<!--<Button text="Add SSN(s)" press="onPressAdjBillingUserDef" type="Accept"/>-->
+											</content>
+										</Toolbar>
+									</ui:footer>
+								</ui:Table>
+								<ui:Table id="id_zcontract_db_tbl_amend_bil_sch_adj" alternateRowColors="true" showNoData="true" selectionMode="None" fixedColumnCount="2"
+									showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}" rows="{viewData>/Add_SSN}"
+									visible="{visibilityModelGU>/IsVisibleDefBilling}">
+									<ui:columns>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Start Date">
+											<Text wrapping="true" text="Start Date"/>
+											<ui:template>
+												<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>START_DATE}" change="onChange_SSN_START_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="End Date">
+											<Text wrapping="true" text="End Date"/>
+											<ui:template>
+												<DatePicker displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" value="{viewData>END_DATE}" change="onChange_SSN_END_DATE"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+											filterProperty="Amount">
+											<Text wrapping="true" text="Item Net Value"/>
+											<ui:template>
+												<Input type="Number" value="{viewData>AMOUNT}" change="onChange_SSN_AMT" class="zcmd_right"/>
+											</ui:template>
+										</ui:Column>
+										<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true" filterProperty="">
+											<Text wrapping="true" text=""/>
+											<ui:template>
+												<HBox>
+													<Button icon="sap-icon://sys-add" type="Transparent" press="onPressAddSSN"></Button>
+													<Button icon="sap-icon://sys-minus" type="Transparent" press="onPressRemoveSSN" visible="{viewData>minus_visible}"></Button>
+												</HBox>
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+									<ui:footer>
+										<Toolbar>
+											<content>
+												<Text text="Total:" class="zcontract_db_bold"/>
+												<Text text="{viewData>/TOTAL_SSN}" class="zcontract_db_bold"/>
+												<ToolbarSpacer/>
+												<Button text="Add SSN(s)" press="onPress_BILL_SCH_ADJ" type="Accept"/>
+											</content>
+										</Toolbar>
+									</ui:footer>
+								</ui:Table>
+							</Panel>
+							<!--SRE 2483 EOC ++VS -->
+						</content>
+					</IconTabFilter>
+					<IconTabSeparator icon="" iconDensityAware="false"/>
+					<IconTabFilter id="id_gu_tb2" key="Tab_Quotes" text="Quotes" count="" design="Vertical" showAll="false" textDirection="Inherit"
+						enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Quotes For Update"/>
+										<ToolbarSpacer/>
+										<Button id="id_gu_q_list" icon="sap-icon://list" text="Show Selected Quotes (0)" press="onPressShowSelectedQuotes"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_quotes_main" entitySet="Ets_Global_Update_Quotes" liveMode="true" showGoOnFB="false"
+										filterChange="onSelectQuotes">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Quote}" index="0" key="Quote" id="id_inp_gu_quotes" visibleInAdvancedArea="true"/>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Import}" index="1" key="Import" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<Button icon="sap-icon://download" text="Import" press="onQuotesImport"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Fields" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_quotes_header" entitySet="Ets_Global_Update_Quotes" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.PO}" index="0" key="PO" visibleInAdvancedArea="true" filterType="single"
+											hasValueHelpDialog="false">
+											<!--BOC INC0281308 ++VSINGH -->
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_q_po" maxLength="35"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC INC0281308 restricting length to 35 char as per incident ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.PO_Acceptance_Date}" index="1" key="PO_Acceptance_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_q_po_acceptance_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="2" key="Group_Contract" id="id_inp_gu_q_group_contract" visibleInAdvancedArea="true"
+											filterType="single"/>-->
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="2" key="Payment_Terms" id="id_inp_gu_q_payment_terms" visibleInAdvancedArea="true"-->
+										<!--	filterType="single"/> LR1 Commented 4.13.9-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Billing_Cycle}" index="3" key="Billing_Cycle" id="id_inp_gu_q_billing_cycle"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<!--Removed Billing Plan as part of 111161-->
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="4" key="Billing_Plan_Type" id="id_inp_gu_q_billing_plan_type" visibleInAdvancedArea="true"
+											filterType="single"/>-->
+										<!--BOC INC0309257 DEVK9A0SM7  26 Apr 2021 ++VSINGH -->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Opportunity_ID}" index="5" key="Opportunity_ID" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_q_opp_id" maxLength="15"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC INC0309257 DEVK9A0SM7  26 Apr 2021  restricting length to 15 char as per incident ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.SMC}" index="6" key="SMC" id="id_inp_gu_q_smc" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Fully_Reject_Quote}" index="7" key="Fully_Reject_Quote"
+											id="id_inp_gu_q_fully_reject_quote" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList"
+											displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Web_Enabled}" index="8" key="Web_Enabled" id="id_inp_gu_q_web_enabled"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.GC}" index="9" key="GC" visibleInAdvancedArea="true" filterType="single"></smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="10" key="Remove_GC" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_q_remove_gc"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Remove_Rejection}" index="11" key="Remove_Rejection" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_q_remove_rejection"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Header_Text}" index="12" key="Header_Text" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<TextArea id="id_inp_gu_q_header_text" value="" growing="true" growingMaxLines="4"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="10" key="GC" visibleInAdvancedArea="true" filterType="single"/>-->
+										<!--BOC INC0309257 DEVK9A0SM7  26 Apr 2021 ++VSINGH -->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.CSSA_Number}" index="13" key="CSSA_Number" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_q_cssa_no" maxLength="10"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC INC0309257 DEVK9A0SM7  26 Apr 2021  restricting length to 15 char as per incident ++VSINGH-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.PO_End_Date}" index="14" key="PO_End_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_q_po_end_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Reseller_PO}" index="15" key="Reseller_PO" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Price_List_Type}" index="16" key="Price_List_Type" controlType="dropDownList"
+											displayBehaviour="descriptionOnly" visibleInAdvancedArea="true" filterType="single"/>
+										<!--BOC Commented Untill June Release-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Commercial_Code}" index="17" key="Commercial_Code" controlType="dropDownList"
+											displayBehaviour="descriptionOnly" visibleInAdvancedArea="true" filterType="single"/>
+										<!--EOC Commented Untill June Release-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Attachment_Flag}" index="18" key="Attachment_Flag" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_q_attachment_flag" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Invoice_Flag}" index="19" key="Invoice_Flag" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_q_invoice_flag" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Web_Ivc_Upld}" index="20" key="Web_Ivc_Upld" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_q_web_ivc_upld" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Sales_Doc_Description}" index="21" key="Sales_Doc_Description"
+											visibleInAdvancedArea="true" filterType="single" hasValueHelpDialog="false"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Usage_Indicator}" index="22" key="Usage_Indicator" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Purchase_Agrmnt_ID}" index="23" key="Purchase_Agrmnt_ID" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Cust_Grp2}" index="24" key="Cust_Grp2" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Cust_Grp3}" index="25" key="Cust_Grp3" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Cust_Grp4}" index="26" key="Cust_Grp4" filterType="single"
+											visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.MCID}" index="27" key="MCID" visibleInAdvancedArea="true" filterType="single"
+											hasValueHelpDialog="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.InAdvanceFlag}" index="28" key="InAdvanceFlag" visibleInAdvancedArea="true"
+											filterType="single">
+											<smartFilterBar:customControl>
+												<Select id="id_inp_gu_q_InAdvanceFlag" forceSelection="false" selectedKey="1">
+													<core:Item key="1" text=""/>
+													<core:Item key="2" text="Yes"/>
+													<core:Item key="3" text="No"/>
+												</Select>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--SRI3197 ++GSINGH Begin-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.QuoteValidTo}" index="30" key="QuoteValidTo" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_q_valid_to" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.chanel_Agrmnt_ID}" index="31" key="chanel_Agrmnt_ID" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_q_chanel_Agrmnt_ID" maxLength="20"/>
+												<!--liveChange="handleChangeNumeric"-->
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--SRI3197 ++GSINGH End-->
+										<!--2522 SVERMA BOC-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Net_Value_Upgrade_Perc}" index="29" key="Net_Value_Upgrade_Perc"
+											visibleInAdvancedArea="true" filterType="single" hasValueHelpDialog="false">
+											<smartFilterBar:customControl>
+												<Input id="id_inp_gu_q_Net_Value_Upgrade_Perc"/>
+												<!--liveChange="handleChangeNumeric"-->
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--2522 SVERMA EOC-->
+										<!--Start SRE2523 VSINGH-->
+										<smartFilterBar:ControlConfiguration index="30" key="Billing_Block" filterType="single" visibleInAdvancedArea="true"
+											controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration index="31" key="Remove_Billing_Block" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_q_Remove_Billing_Block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--End SRE2523 VSINGH-->
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PIBillRule}" index="32" key="PIBillRule" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PaymentDue}" index="33" key="PaymentDue" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.ExternalId}" index="34" key="ExternalId" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PaymentCurrency}" index="35" key="PaymentCurrency" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.AltTaxClassification}" index="36" key="AltTaxClassification" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.SupplyCode}" index="37" key="SupplyCode" filterType="single" controlType="dropDownList"
+											displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2524-->
+										<!--EOC szanzaney SRE2487_2-->
+										<!--	<smartFilterBar:ControlConfiguration label="{i18n>GU.BusinessPlace}" index="38" key="Business_Place" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>-->
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Partner Functions" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_quotes_partners" entitySet="Ets_Global_Update_Quotes" liveMode="true" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Bill_To}" index="0" key="Bill_To" id="id_inp_gu_q_bill_to"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Payer}" index="1" key="Payer" id="id_inp_gu_q_payer" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.T2_Reseller}" index="2" key="T2_Reseller" id="id_inp_gu_q_t2_reseller"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.End_Customer}" index="3" key="End_Customer" id="id_inp_gu_q_end_customer"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Entitled_Party}" index="4" key="Entitled_Party" id="id_inp_gu_q_entitled_party"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Asset_Location}" index="5" key="Asset_Location" id="id_inp_gu_q_asset_location"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.PSP_Partner}" index="6" key="PSP_Partner" id="id_inp_gu_q_psp_partner"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Systems_Manager_Contact}" index="7" key="Systems_Manager_Contact"
+											id="id_inp_gu_q_sys_manger_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Systems_Manager_Backup_Contact}" index="8" key="Systems_Manager_Backup_Contact"
+											id="id_inp_gu_q_sys_manager_backup_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Software_Delivery_Contact}" index="9" key="Software_Delivery_Contact"
+											id="id_inp_gu_q_software_delivery_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Invoicing_Contact}" index="10" key="Invoicing_Contact"
+											id="id_inp_gu_q_invoicing_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Sold_To_Contact}" index="11" key="Sold_To_Contact" id="id_inp_gu_q_sold_to_contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Reseller_Contact}" index="12" key="Reseller_Contact"
+											id="id_inp_gu_q_reseller_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Entitled_Party_Contact}" index="13" key="Entitled_Party_Contact"
+											id="id_inp_gu_q_entitled_party_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Delivery_Contact}" index="14" key="Delivery_Contact"
+											id="id_inp_gu_q_delivery_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Backup_Delivery_Contact}" index="15" key="Backup_Delivery_Contact"
+											id="id_inp_gu_q_backup_delivery_contact" visibleInAdvancedArea="true" filterType="single"/>
+										<!--BOI AKADAM29AUG2019+ Defect 80636-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Bill_To_Contact}" index="16" key="Bill_To_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Contract_Admin_Contact}" index="17" key="Contract_Admin_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Global_Operations}" index="18" key="Global_Operations" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.AOL_Contact}" index="19" key="AOL_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Install_Base_Sales_Rep}" index="20" key="Install_Base_Sales_Rep"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.HPE_Sales_Rep_Contact}" index="21" key="HPE_Sales_Rep_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="22" key="Partner_Service_Delivery_Manager" visibleInAdvancedArea="true" filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Global_Deals_Specialist}" index="23" key="Global_Deals_Specialist"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Response_Center_R1}" index="24" key="Response_Center_R1" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Response_Center_R2}" index="25" key="Response_Center_R2" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Response_Center_R3}" index="26" key="Response_Center_R3" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Admin_Signer}" index="27" key="Admin_Signer" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="28" key="Admin_Supervisor" visibleInAdvancedArea="true" filterType="single"/>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Partner_Service_Delivery_Manager}" index="29" key="Partner_Service_Delivery_Manager"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.General_Manager}" index="30" key="General_Manager" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Chief_Accountant}" index="31" key="Chief_Accountant" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Agent_Number}" index="32" key="Agent_Number" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2524-->
+										<!--EOC szanzaney SRE2487_2-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.BusinessPlace}" index="33" key="Business_Place" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Remove Optional Partner Functions from Header" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_quotes_clr_partners" entitySet="Ets_Global_Update_Quotes" liveMode="true" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_T2_Reseller}" index="0" key="Clr_T2_Reseller" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_T2_Reseller"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Systems_Manager_Contact}" index="1" key="Clr_Systems_Manager_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Systems_Manager_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Systems_Manager_Backup_Contact}" index="2"
+											key="Clr_Systems_Manager_Backup_Contact" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Systems_Manager_Backup_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Software_Delivery_Contact}" index="3" key="Clr_Software_Delivery_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Software_Delivery_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Invoicing_Contact}" index="4" key="Clr_Invoicing_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Invoicing_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Reseller_Contact}" index="5" key="Clr_Reseller_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Reseller_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Backup_Delivery_Contact}" index="6" key="Clr_Backup_Delivery_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Backup_Delivery_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Bill_To_Contact}" index="7" key="Clr_Bill_To_Contact"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Bill_To_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Global_Operations}" index="8" key="Clr_Global_Operations"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Global_Operations"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_AOL_Contact}" index="9" key="Clr_AOL_Contact" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_AOL_Contact"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Install_Base_Sales_Rep}" index="10" key="Clr_Install_Base_Sales_Rep"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Install_Base_Sales_Rep"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Partner_Service_Delivery_Manager}" index="11"
+											key="Clr_Partner_Service_Delivery_Manager" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Partner_Service_Delivery_Manager"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Admin_Signer}" index="12" key="Clr_Admin_Signer" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Admin_Signer"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="13" key="Clr_Admin_Supervisor" visibleInAdvancedArea="true">
+										<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Admin_Supervisor"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Global_Deals_Specialist}" index="14" key="Clr_Global_Deals_Specialist"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Global_Deals_Specialist"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R1}" index="15" key="Clr_Response_Center_R1"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Response_Center_R1"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R2}" index="16" key="Clr_Response_Center_R2"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Response_Center_R2"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Response_Center_R3}" index="17" key="Clr_Response_Center_R3"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Response_Center_R3"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Agent_Number}" index="18" key="Clr_Agent_Number" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_q_Clr_Agent_Number"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<!--EOC szanzaney SRE2524-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Text" width="auto">
+								<VBox>
+									<Table id="id_zcontract_db_tbl_UPHT_q" width="auto" noDataText="No data" showSeparators="All" growing="true" growingThreshold="20"
+										mode="MultiSelect" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{viewData>/UpdateHeadeText_q}">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+												<ToolbarSpacer/><Button icon="sap-icon://add" text="Add New Row" press="onpressAddNewRow_upht_q"/>
+												<Button type="Transparent" icon="sap-icon://delete" text="Delete Row" press="onPressDelete_upht_q"/>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Phone" demandPopin="false" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Header Text" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="80px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Language" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Text" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="175px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<!--<Text text="Action" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>-->
+												</header>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<!--<ComboBox id="id_GU_header_text" selectedKey="{viewData>Object_Id}" width="auto" showSecondaryValues="true"-->
+															<ComboBox selectedKey="{viewData>Object_Id}" width="auto" showSecondaryValues="true"
+																items="{ path: 'viewData>/HeaderTextVH', templateShareable:false, sorter: { path: 'TDOBJECT' } }">
+																<core:ListItem key="{viewData>TDOBJECT} || {viewData>TDID}" text="{viewData>TDTEXT}" additionalText="{viewData>TDOBJECT} || {viewData>TDID}"/>
+															</ComboBox>
+															<!--<Input value="{HEADER_TEXT}" editable="false" enabled="true" tooltip="{HEADER_TEXT}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<!--<ComboBox id="id_GU_header_lang" selectedKey="{viewData>Lang}" width="auto" showSecondaryValues="true"-->
+															<ComboBox selectedKey="{viewData>Lang}" width="auto" showSecondaryValues="true"
+																items="{ path: 'viewData>/LanguageVH', templateShareable:false, sorter: { path: 'LANGUAGEISOCODE' } }">
+																<core:ListItem key="{viewData>LANGUAGEISOCODE}" text="{viewData>LANGUAGENAME}"/>
+															</ComboBox>
+															<!--<Input value="{LANGUAGE}" editable="true" enabled="true" tooltip="{LANGUAGE}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<TextArea value="{viewData>Text}" growing="true" growingMaxLines="2"/>
+															<!--<Input value="{viewData>Text}" editable="true" enabled="true" tooltip="{viewData>Text}"></Input>-->
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<RadioButtonGroup columns="3" width="100%">
+																<buttons>
+																	<RadioButton id="RB1_q-1" selected="{viewData>Append}" text="Append" groupName="Group2"/>
+																	<RadioButton id="RB1_q-2" selected="{viewData>Replace}" text="Replace" groupName="Group2"/>
+																	<RadioButton id="RB1_q-3" selected="{viewData>Clear}" text="Clear" groupName="Group2"/>
+																</buttons>
+															</RadioButtonGroup>
+														</layout:content>
+													</layout:HorizontalLayout>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Clear Selected Fields" width="auto">
+								<VBox>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_quotes_header_clear" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Po_Accept_Date}" index="1" key="Clr_Po_Accept_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_remove_po_accptnce_dt"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Po_End_Date}" index="2" key="Clr_Po_End_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_remove_po_end_dt"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Reseller_Po}" index="3" key="Clr_Reseller_Po" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_remove_resllr_po"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Cssa}" index="4" key="Clr_Cssa" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_remove_cssa"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Group_Contract}" index="5" key="Clr_Group_Contract" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_remove_gc"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Cust_Grp2}" index="6" key="Clr_Cust_Grp2" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_Clr_Cust_Grp2"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Usage_Ind}" index="7" key="Clr_Usage_Ind" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_Clr_Usage_Ind"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<!-- Start of SRE2523 VSINGH-->
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Action}" index="8" key="Clr_Action" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_Clr_Action"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Action_Date}" index="9" key="Clr_Action_Date" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_Clr_Action_Date"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Q.Clr_Action_Rule}" index="10" key="Clr_Action_Rule" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox text="" selected="false" id="id_inp_gu_q_Clr_Action_Rule"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<!-- End of SRE2523 VSINGH-->
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</VBox>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Item - Partner Function" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Update Item - Partner Function" level="H4"/>
+										<!--<Text text="Update Item - Partner Function / Third Party Info / Rejection Code"/>-->
+										<ToolbarSpacer/>
+										<Button text="Get Multivendor Products" press="onpressQRetrieve_MV"/>
+										<Button text="Get All Items" press="onpressQRetrieve"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<ui:Table id="id_zcontract_db_q_tbl_upf" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+										fixedColumnCount="4" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+										<ui:columns>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="150px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Quote_Num">
+												<Text wrapping="true" text="Quote"/>
+												<ui:template>
+													<Text wrapping="true" text="{Quote_Num}" class="zcontract_db_bold"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="70px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Item_Num">
+												<Text wrapping="true" text="Item"/>
+												<ui:template>
+													<Text wrapping="true" text="{Item_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="150px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Product_Id">
+												<Text wrapping="true" text="Product"/>
+												<ui:template>
+													<Text wrapping="true" text="{Product_Id}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="150px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Serial_Num">
+												<Text wrapping="true" text="Serial Number"/>
+												<ui:template>
+													<Text wrapping="true" text="{Serial_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="150px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Sub_psp">
+												<Text wrapping="true" text="YL Subcontractor PSP"/>
+												<ui:template>
+													<Input value="{New_Sub_psp}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="150px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Asset_Loc">
+												<Text wrapping="true" text="ZL Asset Location"/>
+												<ui:template>
+													<Input value="{New_Asset_Loc}"/>
+												</ui:template>
+											</ui:Column>
+											<!--//*******START OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_End_Cust">
+												<Text wrapping="true" text="ZC End Customer"/>
+												<ui:template>
+													<Input value="{New_End_Cust}" editable="{End_Cust_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_SW_Del_Cnt">
+												<Text wrapping="true" text="SD Software Delivery Contact"/>
+												<ui:template>
+													<Input value="{New_SW_Del_Cnt}" editable="{SW_Del_Cnt_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_HW_Del_Cnt">
+												<Text wrapping="true" text="CD Hardware Delivery Contact"/>
+												<ui:template>
+													<Input value="{New_HW_Del_Cnt}" editable="{HW_Del_Cnt_Edit}"/>
+												</ui:template>
+											</ui:Column>
+											<!--//*******END OF SRR071D_3 Sprint 1.5 July Release CHANGES BY ARJUN*********//-->
+											<!--//*******START OF SRE2523 VSINGH*********//-->
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_smc">
+												<Text wrapping="true" text="SMC"/>
+												<ui:template>
+													<!--MSA1 6/8/2021 INC0329303 change to select BOC-->
+													<!--<ComboBox showSecondaryValues="true" selectedKey="{New_smc}" editable="true"-->
+													<!--	items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }">-->
+													<!--	<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>-->
+													<!--</ComboBox>-->
+													<Select showSecondaryValues="true" selectedKey="{New_smc}" enabled="true"
+														items="{ path: 'viewData>/SMCList', templateShareable:false, sorter: { path: 'Code' } }" forceSelection="false">
+														<items>
+															<core:Item key="{viewData>Code}" text="{viewData>Description}"/>
+														</items>
+													</Select>
+													<!--MSA1 6/8/2021 INC0329303 change to select EOC-->
+												</ui:template>
+											</ui:Column>
+											<!--//*******END OF SRE2523 VSINGH*********//-->
+										</ui:columns>
+									</ui:Table>
+								</content>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Asset Location" width="auto" visible="false">
+								<VBox>
+									<Table id="id_zcontract_db_tbl_AL_Quotes" width="auto" noDataText="No data" mode="MultiSelect" showSeparators="All" growing="true"
+										growingThreshold="20" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{/}">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+												<ToolbarSpacer/><Button icon="sap-icon://add" text="Add Selected Quote(s)" press="onpressAddSelectedQuotes_AL"/>
+												<Button icon="sap-icon://download" text="Import From CSV File" press="onDataImport_AL_Quotes"/>
+												<Button icon="sap-icon://excel-attachment" text="Export" press="onDataExportExcel_AL_Quotes"/>
+												<Button id="add_q" type="Transparent" icon="sap-icon://copy" text="Copy Row" press="onPressCopy_AL_Quotes"/>
+												<Button type="Transparent" icon="sap-icon://delete" text="Delete Row" press="onPressDelete_AL_Quotes"/>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Phone" demandPopin="false" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Quote" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="Current Asset Location" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+											<Column width="145px" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+												<header>
+													<Text text="New Asset Location" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												</header>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{VBELN}" editable="false" enabled="true" tooltip="{quote}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{currentAssetLocation}" editable="true" enabled="true" tooltip="{currentAssetLocation}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+													<layout:HorizontalLayout>
+														<layout:content>
+															<Input value="{newAssetLocation}" editable="true" enabled="true" tooltip="{newAssetLocation}"></Input>
+														</layout:content>
+													</layout:HorizontalLayout>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</Panel>
+						</content>
+					</IconTabFilter>
+					<IconTabSeparator icon="" iconDensityAware="false"/>
+					<IconTabFilter id="id_gu_tb3" key="Tab_Equipments" text="Equipments" count="" design="Vertical" showAll="false" textDirection="Inherit"
+						enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Equipments For Update"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_equipments_main" entitySet="Ets_Global_Update_Equipment" liveMode="false" showGoOnFB="true"
+										search="onPressExecuteEquipments">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Equipment_Number}" index="0" key="Equipment_Number" id="id_inp_gu_equipment_number"
+												visibleInAdvancedArea="true"/>
+											<!--</smartFilterBar:controlConfiguration>-->
+											<!--boi 2483 1.7-->
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Child_equip}" index="1" key="Child_equip" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox selected="false" id="id_child_eqp"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.Superior_equip}" index="2" key="Superior_equip" visibleInAdvancedArea="true">
+												<smartFilterBar:customControl>
+													<CheckBox selected="false" id="id_sup_eqp"/>
+												</smartFilterBar:customControl>
+											</smartFilterBar:ControlConfiguration>
+											<!--eoi 2483 1.7-->
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<!--<ui:Table id="id_gu_equip_table" alternateRowColors="true" showNoData="true"  selectionMode="None" fixedColumnCount="1"-->
+							<ui:Table id="id_gu_equip_table" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+								fixedColumnCount="3" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+								<ui:columns>
+									<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="Equipment_Number">
+										<Text wrapping="true" text="Equipment"/>
+										<ui:template>
+											<Text wrapping="true" text="{Equipment_Number}" class="zcontract_db_bold"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="Material">
+										<Text wrapping="true" text="Product"/>
+										<ui:template>
+											<Text wrapping="true" text="{Material}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="SerialNumber">
+										<Text wrapping="true" text="Serial Number"/>
+										<ui:template>
+											<Text wrapping="true" text="{SerialNumber}"/>
+										</ui:template>
+									</ui:Column>
+									<!--<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewEqpStatus">
+										<Text wrapping="true" text="Exclusion Status"/>
+										<ui:template>
+											<CheckBox selected="{NewEqpStatus}" editable="{EqpStatusEditable}" enabled="{EqpStatusEditable}"/>
+										</ui:template>
+									</ui:Column>-->
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewExclusionDate">
+										<Text wrapping="true" text="Exclusion Date"/>
+										<ui:template>
+											<DatePicker value="{NewExclusionDate}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChangeExclusionDate"
+												editable="{ExclDateEditable}" enabled="{ExclDateEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewValidFrom">
+										<Text wrapping="true" text="Valid From"/>
+										<ui:template>
+											<DatePicker value="{NewValidFrom}" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd" change="handleChangeValidFrom" editable="false"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewLLFL">
+										<Text wrapping="true" text="LLFL"/>
+										<ui:template>
+											<Input value="{NewLLFL}" editable="{LLFLEditable}" enabled="{LLFLEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewSuperordEquip">
+										<Text wrapping="true" text="Superior Equipment"/>
+										<ui:template>
+											<Input value="{NewSuperordEquip}" editable="{SuperordEquipEditable}" enabled="{SuperordEquipEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewSalesOrg">
+										<Text wrapping="true" text="Sales Org."/>
+										<ui:template>
+											<Input value="{NewSalesOrg}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewCompanyCode">
+										<Text wrapping="true" text="Company Code"/>
+										<ui:template>
+											<Input value="{NewCompanyCode}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewSalesOrder">
+										<Text wrapping="true" text="Sales Order"/>
+										<ui:template>
+											<Input value="{NewSalesOrder}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewIneligibilityCode">
+										<Text wrapping="true" text="Ineligibility Code"/>
+										<ui:template>
+											<!--<Input value="{NewIneligibilityCode}"/>-->
+											<!--MSA1 6/10/2021 INC0329303 change to select BOC-->
+											<!--<ComboBox selectedKey="{NewIneligibilityCode}" width="auto" showSecondaryValues="true"-->
+											<!--	items="{ path: 'viewData>/IC_VH', templateShareable:false, sorter: { path: 'Code' } }">-->
+											<!--	<core:ListItem key="{viewData>Code}" text="{viewData>Description}"/>-->
+											<!--</ComboBox>-->
+											<Select selectedKey="{NewIneligibilityCode}" width="auto" showSecondaryValues="true"
+												items="{ path: 'viewData>/IC_VH', templateShareable:false, sorter: { path: 'Code' } }" forceSelection="false">
+												<items>
+													<core:Item key="{viewData>Code}" text="{viewData>Description}"/>
+												</items>
+											</Select>
+											<!--MSA1 6/10/2021 INC0329303 change to select EOC-->
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewAssetLocation">
+										<Text wrapping="true" text="ZL Asset Location"/>
+										<ui:template>
+											<Input value="{NewAssetLocation}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewEntitledParty">
+										<Text wrapping="true" text="ZE Entitled Party"/>
+										<ui:template>
+											<Input value="{NewEntitledParty}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewPSP">
+										<Text wrapping="true" text="ZS PSP"/>
+										<ui:template>
+											<Input value="{NewPSP}"/>
+										</ui:template>
+									</ui:Column>
+								</ui:columns>
+							</ui:Table>
+						</content>
+					</IconTabFilter>
+					<IconTabSeparator icon="" iconDensityAware="false"/>
+					<IconTabFilter id="id_gu_tb4" key="Tab_FL" text="Functional Location" count="" design="Vertical" showAll="false" textDirection="Inherit"
+						enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Functional Locations For Update"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_fl_main" entitySet="Ets_Global_Update_FL" liveMode="false" showGoOnFB="true"
+										search="onPressExecuteFL">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.FL.TPLNR}" index="0" key="TPLNR" id="id_inp_gu_fl_number" visibleInAdvancedArea="true"/>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<ui:Table id="id_gu_fl_table" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+								fixedColumnCount="3" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+								<ui:columns>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="TPLNR">
+										<Text wrapping="true" text="Functional Location"/>
+										<ui:template>
+											<Text wrapping="true" text="{TPLNR}" class="zcontract_db_bold"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="TPLNR_FLTYP">
+										<Text wrapping="true" text="FL Type"/>
+										<ui:template>
+											<Text wrapping="true" text="{TPLNR_FLTYP}"/>
+										</ui:template>
+									</ui:Column>
+									<!--SOC szanzaney SRE2524-->
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="Language">
+										<Text wrapping="true" text="Language"/>
+										<ui:template>
+											<VBox>
+												<Input value="{Language}"/>
+												<Text text="Enter E for English"/>
+												<!--<Text text="Enter EN for English" visible="{= ${viewData>/LanguageLogon} === 'EN' ? true:false}"/>
+												<Text text="Enter EN for English or {viewData>/LanguageLogon} for local language"
+													visible="{= ${viewData>/LanguageLogon} === 'EN' ? false:true}"/>-->
+											</VBox>
+										</ui:template>
+									</ui:Column>
+									<!--EOC szanzaney SRE2524-->
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="TPLNR_DESC">
+										<Text wrapping="true" text="Description"/>
+										<ui:template>
+											<Input value="{NewTPLNR_DESC}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewEndCustomer">
+										<Text wrapping="true" text="ZC End Customer"/>
+										<ui:template>
+											<Input value="{NewEndCustomer}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewT2Reseller">
+										<Text wrapping="true" text="Z1 T2 Reseller"/>
+										<ui:template>
+											<Input value="{NewT2Reseller}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="NewSuperiorFLOC">
+										<Text wrapping="true" text="Superior FL"/>
+										<ui:template>
+											<Input value="{NewSuperiorFLOC}" editable="{NewSuperiorFLOCEditable}" enabled="{NewSuperiorFLOCEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="RenameFL">
+										<Text wrapping="true" text="Rename FL"/>
+										<ui:template>
+											<Input value="{RenameFL}" editable="{RenameEditable}" enabled="{RenameEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+										filterProperty="RenameTPLNR_DESC">
+										<Text wrapping="true" text="Rename FL Description"/>
+										<ui:template>
+											<Input value="{RenameTPLNR_DESC}" editable="{RenameEditable}" enabled="{RenameEditable}"/>
+										</ui:template>
+									</ui:Column>
+									<!--<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true">
+										<Text wrapping="true" text="Copy"/>
+										<ui:template>
+											<Button text="Create Copy"/>
+										</ui:template>
+									</ui:Column>-->
+								</ui:columns>
+							</ui:Table>
+						</content>
+					</IconTabFilter>
+					<IconTabSeparator icon="" iconDensityAware="false"/>
+					<IconTabFilter id="id_gu_zonc_tb1" key="Tab_ZONC" text="Service Orders (ZONC)" count="" design="Vertical" showAll="false"
+						textDirection="Inherit" enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Documents For Update"/>
+										<ToolbarSpacer/>
+										<Button id="id_gu_zonc_list" icon="sap-icon://list" text="Show Selected Documents (0)" press="onPressShowSelectedZONC"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_zonc_main" entitySet="Ets_Global_Update_ZONC" liveMode="false" showGoOnFB="false"
+										filterChange="onSelectZONC">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.ZONC.Document}" index="0" key="Document" id="id_inp_gu_zonc_document"
+												visibleInAdvancedArea="true"/>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Fields" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_zonc_header" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PO}" index="0" key="PO" id="id_inp_gu_zonc_po" visibleInAdvancedArea="true"
+											filterType="single" hasValueHelpDialog="false"/>
+										<!--Commented as per Defect 102827-->
+										<!--<smartFilterBar:ControlConfiguration label="{i18n>GU.}" index="1" key="Rejection_Code" id="id_inp_gu_zonc_po_rej_Code" visibleInAdvancedArea="true" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly"/>-->
+										<!--Commented as per Defect 102827-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.SMC}" index="8" key="SMC" id="id_inp_gu_zonc_smc" visibleInAdvancedArea="true"
+											filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Billing_Block}" index="12" key="Billing_Block" id="id_inp_gu_zonc_billing_block"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Delivery_Block}" index="13" key="Delivery_Block" id="id_inp_gu_zonc_delivery_block"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Remove_Billing_Block}" index="14" key="Remove_Billing_Block"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_zonc_remove_billing_block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Remove_Delivery_Block}" index="15" key="Remove_Delivery_Block"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_zonc_remove_delivery_block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Purchase_Agrmnt_ID}" index="24" key="Purchase_Agrmnt_ID"
+											id="id_inp_gu_zonc_purchase_agr" filterType="single" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.PO_End_Date}" index="25" key="PO_End_Date" visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<DatePicker id="id_inp_gu_zonc_po_end_date" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy" change="handleChange"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Reseller_PO}" index="26" key="Reseller_PO" id="id_inp_gu_zonc_reseller_po"
+											filterType="single" visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp2}" index="27" key="Cust_Grp2" id="id_inp_gu_zonc_cust_grp2"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp3}" index="28" key="Cust_Grp3" id="id_inp_gu_zonc_cust_grp3"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Cust_Grp4}" index="29" key="Cust_Grp4" id="id_inp_gu_zonc_cust_grp4"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.ZONC.HPEBusInd}" index="30" key="HPEBusInd" id="id_inp_gu_zonc_HPEBusInd"
+											filterType="single" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.ZONC.PaymentDue}" index="31" key="PaymentDue" id="id_inp_gu_zonc_PaymentDue"
+											filterType="single" visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2524-->
+										<!--EOC szanzaney SRE2487_2-->
+										<!--	<smartFilterBar:ControlConfiguration label="{i18n>GU.ZONC.BusinessPlace}" index="33" key="Business_Place" filterType="single"
+											controlType="dropDownList" displayBehaviour="descriptionOnly" visibleInAdvancedArea="true"/>-->
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Partner Functions" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_zonc_partners" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Bill_To}" index="0" key="Bill_To" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Payer}" index="1" key="Payer" visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.T2_Reseller}" index="2" key="T2_Reseller" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.End_Customer}" index="3" key="End_Customer" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Entitled_Party}" index="4" key="Entitled_Party" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Asset_Location}" index="5" key="Asset_Location" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Systems_Manager_Contact}" index="7" key="Systems_Manager_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Systems_Manager_Backup_Contact}" index="8" key="Systems_Manager_Backup_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Invoicing_Contact}" index="10" key="Invoicing_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Sold_To_Contact}" index="11" key="Sold_To_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Reseller_Contact}" index="12" key="Reseller_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Entitled_Party_Contact}" index="13" key="Entitled_Party_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Bill_To_Contact}" index="16" key="Bill_To_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Contract_Admin_Contact}" index="17" key="Contract_Admin_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Global_Operations}" index="18" key="Global_Operations" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.HPE_Sales_Rep_Contact}" index="21" key="HPE_Sales_Rep_Contact"
+											visibleInAdvancedArea="true" filterType="single"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Delivery_Contact}" index="22" key="Delivery_Contact" visibleInAdvancedArea="true"
+											filterType="single"/>
+										<!--SOC szanzaney SRE2524-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.General_Manager}" index="23" key="General_Manager" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Chief_Accountant}" index="24" key="Chief_Accountant" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Agent_Number}" index="25" key="Agent_Number" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2524-->
+										<!--EOC szanzaney SRE2487_2-->
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.BusinessPlace}" index="26" key="Business_Place" filterType="single"
+											visibleInAdvancedArea="true"/>
+										<!--EOC szanzaney SRE2487_2-->
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Item - Partner Function" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Update Item - Partner Function" level="H4"/>
+										<ToolbarSpacer/>
+										<Button text="Get All Items" press="onpressZONCRetrieve"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<ui:Table id="id_zcontract_db_zonc_tbl_upf" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+										fixedColumnCount="3" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+										<ui:columns>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Contract_Num">
+												<Text wrapping="true" text="Document"/>
+												<ui:template>
+													<Text wrapping="true" text="{Contract_Num}" class="zcontract_db_bold"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Item_Num">
+												<Text wrapping="true" text="Item"/>
+												<ui:template>
+													<Text wrapping="true" text="{Item_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Product_Id">
+												<Text wrapping="true" text="Product"/>
+												<ui:template>
+													<Text wrapping="true" text="{Product_Id}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="New_Asset_Loc">
+												<Text wrapping="true" text="ZL Asset Location"/>
+												<ui:template>
+													<Input value="{New_Asset_Loc}"/>
+												</ui:template>
+											</ui:Column>
+										</ui:columns>
+									</ui:Table>
+								</content>
+							</Panel>
+						</content>
+					</IconTabFilter>
+					<IconTabSeparator icon="" iconDensityAware="false"/>
+					<IconTabFilter id="id_gu_memos_tb1" key="Tab_CMR_DMR" text="CMR (ZCR1/ZRK2) / DMR (ZDR1)" count="" design="Vertical" showAll="false"
+						textDirection="Inherit" enabled="true" visible="true" iconDensityAware="false">
+						<content>
+							<Panel expandable="true" expanded="true" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Select Documents For Update"/>
+										<ToolbarSpacer/>
+										<Button id="id_gu_cmr_dmr_list" icon="sap-icon://list" text="Show Selected Documents (0)" press="onPressShowSelectedCMR_DMR"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<smartFilterBar:SmartFilterBar id="id_fb_gu_memos_main" entitySet="Ets_Global_Update_CMR_DMR" liveMode="false" showGoOnFB="false"
+										filterChange="onSelectCMR_DMR">
+										<smartFilterBar:controlConfiguration>
+											<smartFilterBar:ControlConfiguration label="{i18n>GU.CMR.Document}" index="0" key="Document" id="id_inp_gu_memos_contract_number"
+												visibleInAdvancedArea="true"/>
+										</smartFilterBar:controlConfiguration>
+									</smartFilterBar:SmartFilterBar>
+								</content>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Header Fields" width="auto">
+								<smartFilterBar:SmartFilterBar id="id_fb_gu_cmr_dmr_header" entitySet="Ets_Global_Update_Contracts" liveMode="false" showGoOnFB="false">
+									<smartFilterBar:controlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Rejection_Code}" index="1" key="Rejection_Code" id="id_inp_gu_cmr_dmr_rej_Code"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Billing_Block}" index="12" key="Billing_Block" id="id_inp_gu_cmr_dmr_billing_block"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Remove_Billing_Block}" index="14" key="Remove_Billing_Block"
+											visibleInAdvancedArea="true">
+											<smartFilterBar:customControl>
+												<CheckBox text="" selected="false" id="id_inp_gu_cmr_dmr_remove_billing_block"/>
+											</smartFilterBar:customControl>
+										</smartFilterBar:ControlConfiguration>
+										<smartFilterBar:ControlConfiguration label="{i18n>GU.Rejection_Code_Items}" index="35" key="Rejection_Code_Items"
+											visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+									</smartFilterBar:controlConfiguration>
+								</smartFilterBar:SmartFilterBar>
+							</Panel>
+							<Panel expandable="true" expanded="false" headerText="Update Item - Rejection Code" width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Title text="Update Item - Rejection Code" level="H4"/>
+										<!--<Text text="Update Item - Partner Function / Third Party Info / Rejection Code"/>-->
+										<ToolbarSpacer/>
+										<Button text="Get Items" press="onpressCMR_DMRRetrieve"/>
+									</Toolbar>
+								</headerToolbar>
+								<content>
+									<ui:Table id="id_zcontract_db_tbl_cmr_dmr" alternateRowColors="true" showNoData="true" selectionMode="MultiToggle" enableSelectAll="true"
+										fixedColumnCount="4" showColumnVisibilityMenu="true" enableCellFilter="{ui>/cellFilterOn}">
+										<ui:columns>
+											<ui:Column hAlign="Right" class="zc_contract_db_results_col" width="200px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Contract_Num">
+												<Text wrapping="true" text="Document"/>
+												<ui:template>
+													<Text wrapping="true" text="{Contract_Num}" class="zcontract_db_bold"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="100px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Item_Num">
+												<Text wrapping="true" text="Item"/>
+												<ui:template>
+													<Text wrapping="true" text="{Item_Num}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Product_Id">
+												<Text wrapping="true" text="Product"/>
+												<ui:template>
+													<Text wrapping="true" text="{Product_Id}"/>
+												</ui:template>
+											</ui:Column>
+											<ui:Column hAlign="Left" class="zc_contract_db_results_col" width="250px" autoResizable="true" showFilterMenuEntry="true"
+												filterProperty="Rejection_Code">
+												<Text wrapping="true" text="Rejection Code"/>
+												<ui:template>
+													<!--MSA1 6/10/2021 INC0329303 change to select BOC-->
+													<!--<ComboBox showSecondaryValues="true" selectedKey="{Rejection_Code}" editable="{Rejection_Editable}"-->
+													<!--	items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }">-->
+													<!--	<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>-->
+													<!--</ComboBox>-->
+													<Select showSecondaryValues="true" selectedKey="{Rejection_Code}" enabled="{Rejection_Editable}"
+														items="{ path: 'viewData>/RejectionCodesList', templateShareable:false, sorter: { path: 'BEZEI' } }" forceSelection="false">
+														<items>
+															<core:ListItem key="{viewData>ABGRU}" text="{viewData>BEZEI}"/>
+														</items>
+													</Select>
+													<!--MSA1 6/10/2021 INC0329303 change to select EOC-->
+												</ui:template>
+											</ui:Column>
+										</ui:columns>
+									</ui:Table>
+								</content>
+							</Panel>
+						</content>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+		<footer>
+			<Bar>
+				<contentLeft>
+					<Button id="id_cont_gu_eq_fl_excel" text="Export to Excel" icon="sap-icon://excel-attachment" tooltip="Export to Excel"
+						press="onExportToExcel"/>
+				</contentLeft>
+				<contentMiddle>
+					<Button id="id_cont_gu_eq_fl_col_width" text="Optimize Column Widths" icon="sap-icon://resize-horizontal" type="Accept"
+						press="onPressResizeHorizontal"/>
+					<Button id="id_cont_gu_eq_fl_personalize" text="Column Settings" icon="sap-icon://action-settings" type="Accept"
+						press="handlePressPersonalize"/>
+					<Button id="id_cont_gu_eq_fl_apply" text="Apply Values" icon="sap-icon://trend-up" type="Accept" press="handlePressApplyDialog"/>
+				</contentMiddle>
+				<contentRight>
+					<Button id="id_fl_create_copy" type="Accept" press="onPressCreateCopy" text="Create Copies" icon="sap-icon://copy" iconFirst="true"
+						width="auto" enabled="true" visible="false" iconDensityAware="false"/>
+					<Button id="id_zcontract_db_update" type="Accept" press="onPressGlobalUpdate" text="Update" iconFirst="true" width="auto" enabled="true"
+						visible="false" iconDensityAware="false"/>
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

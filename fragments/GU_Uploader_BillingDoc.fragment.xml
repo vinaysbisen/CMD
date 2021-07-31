@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" 
+	xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Dialog title="Upload Files" type="Message" icon="sap-icon://upload" resizable="true" draggable="true" class="sapUiSizeCompact">
+	<u:FileUploader
+			id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file" 
+			change="uploadFileGU_billingDoc"/> 
+			<!--uploadFileGU_billingDoc-->
+			<!--	<Button-->
+			<!--text="Upload File"-->
+			<!--press="handleUploadPress"/>-->
+		<!--<endButton>-->
+		<!--	<Button text="Save" width="10rem" press="_confirmApplianceInformation" class="cus_btn fullBtnPrim"/>-->
+		<!--</endButton>-->
+		<beginButton>
+			<Button text="Cancel" width="10rem" press="cancelUploadPress" class="cus_btn fullBtnSec cus_cacelBtnAppl appliancesapUiSmallMarginEnd"/>
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>

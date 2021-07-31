@@ -1,0 +1,286 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "ZSA_CONTRACT_DB.ZSA_CONTRACT_DB",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"ZSA_GW_CONTRACT_DB_SRV": {
+				"uri": "/sap/opu/odata/sap/ZSA_GW_CONTRACT_DB_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZSA_GW_CONTRACT_DB_SRV/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"services": {
+			"ShellUIService": {
+				"factoryName": "sap.ushell.ui5service.ShellUIService"
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.i18n.i18n"
+				}
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline"
+				},
+				"dataSource": "ZSA_GW_CONTRACT_DB_SRV",
+				"preload": true
+			},
+			"dateModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"preload": false
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "ZSA_CONTRACT_DB.ZSA_CONTRACT_DB.view",
+				"controlAggregation": "pages",
+				"controlId": "id_app_zcontract_db",
+				"clearControlAggregation": false,
+				"viewLevel": 0,
+				"bypassed": {
+					"target": []
+				}
+			},
+			"routes": [
+				{
+					"name": "home",
+					"pattern": "",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"home"
+					]
+				},
+				{
+					"name": "Results",
+					"pattern": "Results",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"Results"
+					]
+				},
+				{
+					"name": "ContractDisplay",
+					"pattern": "ContractDisplay/{Contract}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ContractDisplay"
+					]
+				},
+				{
+					"name": "GlobalUpdate",
+					"pattern": "GlobalUpdate",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"GlobalUpdate"
+					]
+				},
+				{
+					"name": "AmendContract",
+					"pattern": "AmendContract/{Contract}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"AmendContract"
+					]
+				},
+				{
+					"name": "MoveEquipmentToFLOC",
+					"pattern": "MoveEquipment/{Equipment}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"MoveEquipmentToFLOC"
+					]
+				},
+				{
+					"name": "QuoteDisplay",
+					"pattern": "QuoteDisplay/{Quote}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"QuoteDisplay"
+					]
+				},
+				{
+					"name": "SwapEquipments",
+					"pattern": "SwapEquipments",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"SwapEquipments"
+					]
+				},
+				{
+					"name": "EquipmentReport_Search",
+					"pattern": "EquipmentReport_Search",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"EquipmentReport_Search"
+					]
+				},
+				{
+					"name": "EquipmentReport_Results",
+					"pattern": "EquipmentReport_Results",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"EquipmentReport_Results"
+					]
+				},
+				{
+					"name": "Amend",
+					"pattern": "Amend/{TAB}/{OBJECT}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"GlobalUpdate"
+					]
+				},
+				{
+					"name": "",
+					"pattern": "Search/{Contracts}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"home"
+					]
+				}
+			],
+			"targets": {
+				"home": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": true,
+					"viewName": "Search",
+					"viewLevel": 1
+				},
+				"Results": {
+					"viewType": "XML",
+					"viewName": "Results"
+				},
+				"ContractDisplay": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ContractDisplay"
+				},
+				"GlobalUpdate": {
+					"viewType": "XML",
+					"viewName": "GlobalUpdate"
+				},
+				"AmendContract": {
+					"viewType": "XML",
+					"viewName": "AmendContract"
+				},
+				"MoveEquipmentToFLOC": {
+					"viewType": "XML",
+					"viewName": "MoveEquipmentToFLOC"
+				},
+				"QuoteDisplay": {
+					"viewType": "XML",
+					"viewName": "QuoteDisplay"
+				},
+				"SwapEquipments": {
+					"viewType": "XML",
+					"viewName": "SwapEquipments"
+				},
+				"EquipmentReport_Search": {
+					"viewType": "XML",
+					"viewName": "EquipmentReport_Search"
+				},
+				"EquipmentReport_Results": {
+					"viewType": "XML",
+					"viewName": "EquipmentReport_Results"
+				},
+				"Amend": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "GlobalUpdate"
+				}
+			}
+		}
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zsa_contract_db",
+		"_version": "1.1.0"
+	},
+	"sap.platform.hcp": {
+		"uri": "",
+		"_version": "1.1.0"
+	}
+}

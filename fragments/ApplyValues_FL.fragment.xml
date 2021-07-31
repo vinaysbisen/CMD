@@ -1,0 +1,22 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_fl_apply" entitySet="Ets_Modify_FLOC" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="EndCustomer" id="id_fb_gu_fl_apply_EndCustomer" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="1" key="T2Reseller" id="id_fb_gu_fl_apply_T2Reseller" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="2" key="SuperiorFLOC" id="id_fb_gu_fl_apply_SuperiorFLOC" visibleInAdvancedArea="true"
+						filterType="single"/>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_FL"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_FL"/>
+			<Button text="Close" press="AV_onClose_FL"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

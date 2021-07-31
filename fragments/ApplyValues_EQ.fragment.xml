@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:layout="sap.ui.layout" xmlns:ui="sap.ui.table" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table" class="sapUiSizeCompact"
+	displayBlock="true">
+	<Dialog title="Apply Values">
+		<content>
+			<smartFilterBar:SmartFilterBar id="id_fb_gu_eq_apply" entitySet="Ets_Modify_Equipment" liveMode="false" showGoOnFB="false">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration index="0" key="EqpStatus" visibleInAdvancedArea="true"
+						filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_eq_apply_EqpStatus" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="1" key="ExclusionDate" visibleInAdvancedArea="true" filterType="single">
+						<smartFilterBar:customControl>
+							<DatePicker id="id_fb_gu_eq_apply_ExclusionDate" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="2" key="ValidFrom" visibleInAdvancedArea="true" filterType="single">
+						<smartFilterBar:customControl>
+							<DatePicker id="id_fb_gu_eq_apply_ValidFrom" displayFormat="dd.MM.yyyy" valueFormat="yyyyMMdd"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="3" key="LLFL" id="id_fb_gu_eq_apply_LLFL" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="4" key="SuperordEquip" id="id_fb_gu_eq_apply_SuperordEquip" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="5" key="SalesOrg" id="id_fb_gu_eq_apply_SalesOrg" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="6" key="CompanyCode" id="id_fb_gu_eq_apply_CompanyCode" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="7" key="SalesOrder" id="id_fb_gu_eq_apply_SalesOrder" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="8" key="IneligibilityCode" visibleInAdvancedArea="true" filterType="single" controlType="dropDownList" displayBehaviour="descriptionOnly"/>
+					<smartFilterBar:ControlConfiguration index="9" key="AssetLocation" id="id_fb_gu_eq_apply_AssetLocation" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="10" key="EntitledParty" id="id_fb_gu_eq_apply_EntitledParty" visibleInAdvancedArea="true"
+						filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="11" key="PSP" id="id_fb_gu_eq_apply_PSP" visibleInAdvancedArea="true" filterType="single"/>
+					<smartFilterBar:ControlConfiguration index="12" key="Clear_PSP" visibleInAdvancedArea="true"
+						filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_eq_Clear_PSP" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="13" key="Clear_IC" visibleInAdvancedArea="true"
+						filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_eq_Clear_IC" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration index="14" key="Clear_Sup_Eqp" visibleInAdvancedArea="true"
+						filterType="single">
+						<smartFilterBar:customControl>
+							<CheckBox id="id_fb_gu_eq_Clear_Sup_Eqp" selected="false"/>
+						</smartFilterBar:customControl>
+					</smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+			</smartFilterBar:SmartFilterBar>
+		</content>
+		<buttons>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_EQ"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_EQ"/>
+			<Button text="Close" press="AV_onClose_EQ"/>
+		</buttons>
+		<!--<beginButton>
+			<Button text="Apply To Selected" press="AV_onApplyToSelected_EQ"/>
+			<Button text="Apply To All" press="AV_onApplyToAll_EQ"/>
+		</beginButton>
+		<endButton>
+			<Button text="Close" press="AV_onClose_EQ"/>
+		</endButton>-->
+	</Dialog>
+</core:FragmentDefinition>
